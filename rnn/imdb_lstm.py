@@ -89,9 +89,16 @@ model.summary()
 print('Train...')
 model.fit(x_train, y_train,
           batch_size=batch_size,
-          epochs=15,
+          epochs=1,
+          # epochs=15,
           validation_data=(x_test, y_test))
 score, acc = model.evaluate(x_test, y_test,
                             batch_size=batch_size)
+
 print('Test score:', score)
 print('Test accuracy:', acc)
+
+y_pred = model.predict(x_test, batch_size=batch_size)
+
+print('Test Pred ', y_pred.shape, y_pred[:10])
+

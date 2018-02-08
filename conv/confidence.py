@@ -16,9 +16,9 @@ def get_conf_sel_list(prediction, threshold, conf_type):
     sort_pred = np.sort(prediction, axis=1)
     conf_list = sort_pred[:,-1] - sort_pred[:, -2]
   else:#conf_type="entropy"
-    conf_list = np.asarray([entropy(pred) for pred in prediction])
+    conf_list = np.asarray([1-(entropy(pred)/2.4) for pred in prediction])
 
-  conf_sel_list = conf_list > threshold
+  conf_sel_list = conf_list >= threshold
   return conf_sel_list
 
 
@@ -38,7 +38,7 @@ def get_prob_based_confidence(prediction, true_values, \
   
   # print(pred_max[:10], pred_arg_max[:10], true_arg_max[:10])
   # print(accuracy, total_pred)
-  return (accuracy, total_pred)
+  return (accuracy, total_pred, conf_sel_list)
 
 def get_for_all_confidence(prediction, true_values, conf_type):
   # print(prediction.shape, true_values.shape)
@@ -46,7 +46,8 @@ def get_for_all_confidence(prediction, true_values, conf_type):
   total_pred_list = []
   conf_threshold = np.asarray(range(10))*0.1
   for conf in conf_threshold:#[0.6]:#
-    (accuracy, total_pred) = get_prob_based_confidence(prediction, \
+    (accuracy, total_pred, conf_sel_list) = \
+    	get_prob_based_confidence(prediction, \
       true_values, conf, conf_type)
     accuracy_list.append(accuracy)
     total_pred_list.append(total_pred)
@@ -57,8 +58,10 @@ def plot_confidence(conf_threshold, accuracy_list, total_pred_list,
   fig, ax = plt.subplots()
   width = 0.03 
   plot_total_pred = ax.bar(conf_threshold, total_pred_list,\
-   width, color='r')
+   width, color='r', label="Num Predictions")
   plot_accuracy = ax.bar(conf_threshold+width, accuracy_list,\
-   width, color='y')
+   width, color='y', label="Num Correct Pred")
+  plt.legend(loc=1, borderaxespad=0.)
+
   fig.savefig(filename)
   return

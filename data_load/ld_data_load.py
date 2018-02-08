@@ -24,7 +24,8 @@ def save_data(x):
 
     # return
 def return_saved():
-    return np.load(DUMP_FILE)['x']
+    # print(np.load(DUMP_FILE).keys())
+    return np.load(DUMP_FILE)['arr_0']
     
     # # Saving the objects:
     # with open(DUMP_FILE, 'r') as f:  # Python 3: open(..., 'wb')
@@ -42,7 +43,7 @@ def get_data(is_stored, num_data):
         rand_designs = return_saved()
         print(rand_designs.shape)
         # rand_designs[rand_designs<0.5] = -1
-        return rand_designs[:NUM_DATA]
+        return rand_designs[:num_data]
 
 def split_vector(d):
     num_vector = d.shape[0]

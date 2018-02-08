@@ -1,0 +1,13 @@
+
+- why embedded layer for LSTM?
+- seq2seq learning: https://blog.keras.io/a-ten-minute-introduction-to-sequence-to-sequence-learning-in-keras.html
+- Predicting binary sequences: https://stats.stackexchange.com/questions/299354/predicting-sequence-of-integers-binary-values
+- binary sequence prediction lstm?
+- https://keras.io/layers/recurrent/ - RNN interface
+- loss function for LSTM keras?
+
+
+- https://trello.com/b/rbpEfMld/data-science - courses
+
+
+- https://machinelearningmastery.com/encoder-decoder-models-text-summarization-keras/

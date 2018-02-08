@@ -102,6 +102,7 @@ def get_conv_net_v2(input_shape, num_classes, num_extra_conv_layers):
 	              optimizer=opt,
 	              metrics=['accuracy'])
 
+	model.summary()
 	return model
 
 # saved_model_v1
@@ -111,7 +112,7 @@ def get_conv_net_small(input_shape, num_classes, num_extra_conv_layers):
 	model.add(Conv2D(32, (3, 3), padding='same',
 	                 input_shape=input_shape))
 	model.add(Activation('relu'))
-	model.add(Conv2D(32, (3, 3)))
+	model.add(Conv2D(32, (3, 3), padding='same'))
 	model.add(Activation('relu'))
 	model.add(MaxPooling2D(pool_size=(2, 2)))
 	model.add(Dropout(0.25))
@@ -119,7 +120,7 @@ def get_conv_net_small(input_shape, num_classes, num_extra_conv_layers):
 	for i in range(num_extra_conv_layers):
 		model.add(Conv2D(64, (3, 3), padding='same'))
 		model.add(Activation('relu'))
-		model.add(Conv2D(64, (3, 3)))
+		model.add(Conv2D(64, (3, 3), padding='same'))
 		model.add(Activation('relu'))
 		model.add(MaxPooling2D(pool_size=(2, 2)))
 		model.add(Dropout(0.25))

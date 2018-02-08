@@ -9,6 +9,17 @@ List of things to try:
 # Use small input values and check the output
 
 
+As of 25th Jan:
+- 1D conv, RNN and partially learn and then add regulariser
+- https://github.com/maxhodak/keras-molecules
+- https://github.com/HIPS/molecule-autoencoder
+- LP solver - Linear programming solver
+- ILP - Integer Linear Programming solver
+
+Multi Objective Bayesian Optimisation:
+- multi objective bayesian optimization python
+- http://esa.github.io/pygmo/
+- http://platypus.readthedocs.io/en/latest/
 
 References:
 

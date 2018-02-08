@@ -21,22 +21,36 @@ import confidence as cf
 # - https://github.com/ysh329/deep-learning-model-convertor
 #   - https://github.com/Microsoft/MMdnn
 
-save_dir = "../../data/conv/saved_model_v2/"
-# save_dir = "./saved_models/"
+# save_dir = "../../data/conv/saved_model_v1/"
+# save_dir = "../../data/conv/saved_model_v2/"
+# save_dir = "../../data/conv/saved_model_v3/"
+
+save_dir = "./saved_models/"
 batch_size = 16
 
 
 
 for resize_factor in [0,1,2]:#[0,1,2]:
+  # x_train, y_train, x_test, y_test = \
+  #   gd.get_cifar10_data(resize_factor)
+
   x_train, y_train, x_test, y_test = \
-    gd.get_cifar10_data(resize_factor)
+    gd.get_cifar10_data(0)
 
   weight_path = os.path.join(save_dir, \
     "keras_cifar10_weight_"+str(resize_factor)+".h5")
+  json_path = os.path.join(save_dir, \
+    "keras_cifar10_model_"+str(resize_factor)+".json")
+  
+  predict_path = os.path.join(save_dir, \
+    "keras_cifar10_predcit_"+str(resize_factor)+".npz")
 
   # with tf.device("/cpu:0"):
   # load the weights and model from .h5
   model = load_model(weight_path)
+
+  with open(json_path, "w") as text_file:
+    text_file.write(model.to_json())
 
   # This will do preprocessing and realtime data augmentation:
   datagen = ImageDataGenerator(
@@ -67,6 +81,7 @@ for resize_factor in [0,1,2]:#[0,1,2]:
   #                                       steps=x_test.shape[0] // batch_size)
 
   predict_gen = model.predict(x_test)
+  np.savez(predict_path, predict_gen, y_test)
 
   conf_threshold, accuracy_list, total_pred_list = \
     cf.get_for_all_confidence(predict_gen, y_test, "max_prob")

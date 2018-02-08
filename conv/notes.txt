@@ -1,0 +1,39 @@
+# https://github.com/floydhub/dl-docker
+# https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-from-a-package
+
+
+# https://github.com/szagoruyko/wide-residual-networks
+# 	- Wide Residual Networks: https://arxiv.org/abs/1605.07146
+# Visualising neural networks:
+#	- http://cs231n.github.io/understanding-cnn/
+
+https://arxiv.org/pdf/1409.4842.pdf - GoogLeNet Inception Architecture
+
+http://academictorrents.com/browse.php?search=imagenet# - Image net dataset
+
+- https://github.com/tzutalin/ImageNet_Utils - Download utilities
+
+
+
+- https://github.com/szagoruyko/wide-residual-networks
+	- https://arxiv.org/pdf/1605.07146.pdf
+- https://github.com/geifmany/cifar-vgg
+- https://arxiv.org/pdf/1512.03385.pdf - Deep residual networks
+
+CapsuleNet:
+- https://www.youtube.com/watch?v=pPN8d0E3900
+- https://arxiv.org/abs/1710.09829 - dynamic routing between capsules
+
+Wide Residual Network: https://arxiv.org/pdf/1605.07146.pdf
+- https://github.com/szagoruyko/wide-residual-networks
+
+ResNet:
+- https://github.com/szagoruyko/wide-residual-networks
+
+Inception V4: https://arxiv.org/abs/1602.07261
+
+
+
+- Artificial General Intelligence: https://agi.mit.edu/?wppb_cpm_redirect=yes
+- file:///Users/kannappanjayakodinitthilan/Downloads/lecture_2018_01_22.pdf
+- Pathnets: https://arxiv.org/pdf/1701.08734.pdf
