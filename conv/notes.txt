@@ -33,6 +33,11 @@ ResNet:
 Inception V4: https://arxiv.org/abs/1602.07261
 
 
+BatchNormalisation:
+- https://gab41.lab41.org/batch-normalization-what-the-hey-d480039a9e3b
+- https://arxiv.org/pdf/1502.03167.pdf
+
+
 
 - Artificial General Intelligence: https://agi.mit.edu/?wppb_cpm_redirect=yes
 - file:///Users/kannappanjayakodinitthilan/Downloads/lecture_2018_01_22.pdf

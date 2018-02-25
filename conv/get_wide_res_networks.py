@@ -3,6 +3,8 @@ from keras.layers import Input, Add, Activation, Dropout, Flatten, Dense
 from keras.layers.convolutional import Convolution2D, MaxPooling2D, AveragePooling2D
 from keras.layers.normalization import BatchNormalization
 from keras import backend as K
+from keras.models import Sequential
+
 
 
 def initial_conv(input):
@@ -96,7 +98,8 @@ def conv3_block(input, k=1, dropout=0.0):
     m = Add()([init, x])
     return m
 
-def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, dropout=0.0, verbose=1):
+def create_wide_residual_network(input_dim, num_extra_conv_layers,
+    nb_classes=100, wgt_fname=None, N=2, k=1, dropout=0.0, verbose=1):
     """
     Creates a Wide Residual Network with specified parameters
     :param input: Input Keras object
@@ -135,34 +138,63 @@ def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, dropout=0.
     x = BatchNormalization(axis=channel_axis, momentum=0.1, epsilon=1e-5, gamma_initializer='uniform')(x)
     x = Activation('relu')(x)
 
-    x = expand_conv(x, 64, k, strides=(2, 2))
+    if(num_extra_conv_layers != 1):
+        avg_dim = 8
+        x = expand_conv(x, 64, k, strides=(2, 2))
 
-    for i in range(N - 1):
-        x = conv3_block(x, k, dropout)
-        nb_conv += 2
+        for i in range(N - 1 - num_reduce):
+            x = conv3_block(x, k, dropout)
+            nb_conv += 2
+                
+            x = BatchNormalization(axis=channel_axis, momentum=0.1, epsilon=1e-5, gamma_initializer='uniform')(x)
+            x = Activation('relu')(x)
+    else:
+        avg_dim = 8
+
+    x = AveragePooling2D((avg_dim, avg_dim))(x)
+
+    modelA = Model(ip, x)
+
+    # If a already trained model is present
+    # copy weights from one model to another
+    if(wgt_fname):
+        modelA.load_weights(wgt_fname, by_name=True)
         
-    x = BatchNormalization(axis=channel_axis, momentum=0.1, epsilon=1e-5, gamma_initializer='uniform')(x)
-    x = Activation('relu')(x)
-    
-    x = AveragePooling2D((8, 8))(x)
-    x = Flatten()(x)
+        for layer in modelA.layers:
+            layer.trainable = False
 
-    x = Dense(nb_classes, activation='softmax')(x)
-
-    model = Model(ip, x)
-
+    modelB = Sequential()
+    modelB.add(modelA)
+    modelB.add(Flatten())
+    modelB.add(Dense(nb_classes, activation='softmax'))
     if verbose: print("Wide Residual Network-%d-%d created." % (nb_conv, k))
-    return model
+    modelB.summary()
+    return modelB
 
 if __name__ == "__main__":
-    from keras.utils import plot_model
-    from keras.layers import Input
-    from keras.models import Model
+    size_1 = (32, 32, 3)
 
-    init = (32, 32, 3)
+    # wrn_28_10 = create_wide_residual_network(init, nb_classes=10, N=2, k=2, dropout=0.0)
 
-    wrn_28_10 = create_wide_residual_network(init, nb_classes=10, N=2, k=2, dropout=0.0)
+    # wrn_28_10.summary()
 
-    wrn_28_10.summary()
+    # model1 = create_wide_residual_network(
+    #     init, 
+    #     0,
+    #     nb_classes=10, 
+    #     wgt_fname="../../data/conv/saved_model_wrn_v0/keras_cifar10_weight_0.h5",
+    #     N=4, k=8, dropout=0.0)
+    model1 = create_wide_residual_network(
+        size_1, 
+        1,
+        nb_classes=10, 
+        wgt_fname="../../data/conv/saved_model_wrn_v0/keras_cifar10_weight_0.h5",
+        N=4, k=8, dropout=0.0)
+    model2 = create_wide_residual_network(
+        size_1, 
+        2,
+        nb_classes=10, 
+        wgt_fname="../../data/conv/saved_model_wrn_v0/keras_cifar10_weight_0.h5",
+        N=4, k=8, dropout=0.0)
 
     # plot_model(wrn_28_10, "WRN-16-2.png", show_shapes=True, show_layer_names=True)

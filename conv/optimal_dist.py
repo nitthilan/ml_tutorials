@@ -16,7 +16,11 @@ import confidence as cf
 
 # https://github.com/fmfn/BayesianOptimization
 # https://en.wikipedia.org/wiki/Multi-objective_optimization
-save_dir = "../../data/conv/saved_model_v2/"
+# save_dir = "../../data/conv/saved_model_v3/"
+save_dir = "../../data/conv/saved_model_v4/"
+
+
+# save_dir = "../../data/conv/saved_model_vgg_v2/"
 # save_dir = "./saved_models/"
 
 predict_gen_list = []
@@ -42,6 +46,7 @@ def get_accuracy(ctype):
 				predict_gen_list[idx], \
 				y_test_list[idx], \
 	  			0.0, ctype)
+		# print(accuracy, total_pred)
 		accuracy_values[idx] = accuracy*1.0/total_pred
 		# Min and max accuaracy
 		if(min_acc > accuracy_values[idx]):
@@ -62,10 +67,18 @@ def find_optimal_param(c1, c2, ctype, ld):
 		# 0:0.7, 1:0.8, 2:1.0 # Inverse energy values
 		# Normalised EDP values
 		# 1       2.158958048     3.290754026
-		0:(3.3+2.16+1), 1:(2.16+1), 2:1
+		# The below assumes that you rerun the full network every time
+		# 0:(3.3+2.16+1), 1:(2.16+1), 2:1
+		# The below assume we reuse the previous network values
+		# 0: 3.3, 1: 2.16, 2: 1
+		# Values calculated power values of v3 and CPU times of v4
+		# 0: 2.30103, 1: 1.67777, 2: 1.0
+		# Values Calculated using actual values:
+		# 0.120009807, 0.4436911581, 0.8579234621
+		0: 7.15, 1:3.7, 2:1.0
 	}
 	min_energy = 1
-	max_energy = (3.3+2.16+1)
+	max_energy = (7.15+3.7+1.0) #(3.3+2.16+1)
 	ctype = int(ctype)
 	accuracy_values, min_acc, max_acc = get_accuracy(ctype)
 
@@ -127,25 +140,29 @@ def find_optimal_param(c1, c2, ctype, ld):
 	return ld*total_acc_nor + (1-ld)*(energy_spent_nor)
 
 def run_for_different_ld():
-	for ld in [0.1, 0.3, 0.5, 0.7, 0.9]:
+	for ld in [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95]:
 		print("Weightage ", (1-ld), ld)
 		bo = BayesianOptimization(find_optimal_param,
 		        {'c1': (0,1), 'c2': (0,1), 'ctype':(0,0), 'ld':(ld,ld)})
 
-		bo.maximize(init_points=5, n_iter=50, kappa=2)
+		bo.maximize(init_points=5, n_iter=200, kappa=2)
+		# bo.maximize(init_points=1, n_iter=2, kappa=2)
 
 		print("Final Result ", ld, bo.res['max']['max_params'], bo.res['max']['max_val'])
+		c1 = bo.res['max']['max_params']['c1']
+		c2 = bo.res['max']['max_params']['c2']
+		find_optimal_param(c1=c1,c2=c2,ctype=0,ld=ld)
 
-# run_for_different_ld()
-# find_optimal_param(0.28101793310634904, 0.010056458101672883, 0.1, 0.0)
-# find_optimal_param(0.05520390770863703, 0.45518450776638741,  0.3, 0.0)
-# find_optimal_param(0.55293875497577882, 0.7558172255037553,   0.5, 0.0)
-# find_optimal_param(0.74269193905685094, 0.92457624696084395,  0.7, 0.0)
-# find_optimal_param(0.88383360708729608, 0.97397470209835324,  0.9, 0.0)
+run_for_different_ld()
+# find_optimal_param(0.054468, 0.151952, 0.1, 0.0)
+# find_optimal_param(0.710078, 0.706680, 0.3, 0.0)
+# find_optimal_param(0.778345, 0.828118, 0.5, 0.0)
+# find_optimal_param(0.786781, 0.864189, 0.7, 0.0)
+# find_optimal_param(0.787741, 0.948649, 0.9, 0.0)
 
-find_optimal_param(1, 1,  0.9, 0.0)
-find_optimal_param(0, 1,  0.9, 0.0)
-find_optimal_param(0, 0,  0.9, 0.0)
+# find_optimal_param(1, 1,  1.0, 0.0)
+# find_optimal_param(0, 1,  1.0, 0.0)
+# find_optimal_param(0, 0,  1.0, 0.0)
 
 
 # 0.1, {'c2': 0.010056458101672883, 'c1': 0.28101793310634904, 'ld': 0.10000000000000001, 'ctype': 0.0}, 0.90000000000000002)

@@ -11,31 +11,37 @@ import tensorflow as tf
 import confidence as cf
 
 
-
-
-# One option for model conversion is:
-# - Convert from keras to pytorch and then from pytorch to caffe
-#   - Since there seems to be no direct conversion possibility
-#     - https://github.com/Microsoft/MMdnn/blob/master/mmdnn/conversion/caffe/README.md
-# Tools available:
-# - https://github.com/ysh329/deep-learning-model-convertor
-#   - https://github.com/Microsoft/MMdnn
-
 # save_dir = "../../data/conv/saved_model_v1/"
 # save_dir = "../../data/conv/saved_model_v2/"
-# save_dir = "../../data/conv/saved_model_v3/"
+save_dir = "../../data/conv/saved_model_v3/"
+# save_dir = "../../data/conv/saved_model_v4/"
 
-save_dir = "./saved_models/"
+# The model expects input to be scaled:
+# It is trained using transfer learning
+save_dir = "../../data/conv/saved_model_vgg_v2"
+# save_dir = "../../data/conv/saved_model_wrn_v0/"
+
+# save_dir = "./saved_models/"
 batch_size = 16
+num_classes = 10
 
 
+# Time for V4:
+# 49us/step, 63us/step, 73us/step
+# 13020.6899927, 21845.7980992, 29961.0913622
+# 1, 1.67777, 2.30103
+# V4 in CPU:
+# 3ms/step, 7ms/step, 7ms/step
+ 
 
-for resize_factor in [0,1,2]:#[0,1,2]:
-  # x_train, y_train, x_test, y_test = \
-  #   gd.get_cifar10_data(resize_factor)
 
+for resize_factor in [0,1,2,3]:
   x_train, y_train, x_test, y_test = \
-    gd.get_cifar10_data(0)
+    gd.get_cifar_data(0, num_classes)
+
+  # x_train, y_train, x_test, y_test = \
+  #   gd.get_cifar_data(0, num_classes)
+  x_train, x_test = gd.scale_image(x_train, x_test)
 
   weight_path = os.path.join(save_dir, \
     "keras_cifar10_weight_"+str(resize_factor)+".h5")
@@ -45,9 +51,11 @@ for resize_factor in [0,1,2]:#[0,1,2]:
   predict_path = os.path.join(save_dir, \
     "keras_cifar10_predcit_"+str(resize_factor)+".npz")
 
-  # with tf.device("/cpu:0"):
+  with tf.device("/gpu:0"):
   # load the weights and model from .h5
-  model = load_model(weight_path)
+    model = load_model(weight_path)
+  print(weight_path)
+  model.summary()
 
   with open(json_path, "w") as text_file:
     text_file.write(model.to_json())
@@ -81,6 +89,8 @@ for resize_factor in [0,1,2]:#[0,1,2]:
   #                                       steps=x_test.shape[0] // batch_size)
 
   predict_gen = model.predict(x_test)
+  evaluation = model.evaluate(x_test, y_test)
+  print("Evaluation Test Set ", evaluation)
   np.savez(predict_path, predict_gen, y_test)
 
   conf_threshold, accuracy_list, total_pred_list = \

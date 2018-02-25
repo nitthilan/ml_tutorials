@@ -9,6 +9,7 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.utils import plot_model
 
 from keras import backend as K
+import tensorflow as tf
 
 batch_size = 100
 nb_epoch = 100
@@ -37,7 +38,8 @@ init_shape = (3, 32, 32) if K.image_dim_ordering() == 'th' else (32, 32, 3)
 # For WRN-16-8 put N = 2, k = 8
 # For WRN-28-10 put N = 4, k = 10
 # For WRN-40-4 put N = 6, k = 4
-model = wrn.create_wide_residual_network(init_shape, nb_classes=10, N=4, k=8, dropout=0.0)
+with tf.device('/gpu:0'):
+	model = wrn.create_wide_residual_network(init_shape, nb_classes=10, N=4, k=8, dropout=0.0)
 
 model.summary()
 #plot_model(model, "WRN-28-8.png", show_shapes=False)

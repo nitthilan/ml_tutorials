@@ -1,7 +1,7 @@
 
 from __future__ import print_function
 import keras
-from keras.datasets import cifar10
+from keras.datasets import cifar10, cifar100
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
@@ -38,9 +38,12 @@ def dump_image_folder(x_train, folder_path):
 
 	return
 
-def get_cifar10_data(resize_factor):
+def get_cifar_data(resize_factor, num_classes):
 	# The data, shuffled and split between train and test sets:
-	(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+	if(num_classes == 10):
+		(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+	else:
+		(x_train, y_train), (x_test, y_test) = cifar100.load_data()
 	num_classes = int(np.max(y_train)+1)
 
 	if(resize_factor):
@@ -62,6 +65,36 @@ def get_cifar10_data(resize_factor):
 	x_train /= 255
 	x_test /= 255
 	return x_train, y_train, x_test, y_test
+
+def get_reduced_class_data(total_class_types, \
+	selec_class_list):
+	if(total_class_types == 10):
+		(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+	else:
+		(x_train, y_train), (x_test, y_test) = cifar100.load_data()
+
+	x_train = x_train.astype('float32')
+	x_test = x_test.astype('float32')
+	x_train /= 255
+	x_test /= 255
+
+	tr_te_list = []
+	for x, y in zip([x_train, x_test],[y_train, y_test]):
+		y = np.squeeze(y)
+		conc_list_x = []
+		conc_list_y = []
+		for idx, elem in enumerate(selec_class_list):
+			conc_list_x.append(x[np.where(y==elem)])
+			conc_list_y.append(idx*np.ones(conc_list_x[-1].shape[0]))
+		x = np.concatenate(conc_list_x,axis=0)
+		y = np.concatenate(conc_list_y,axis=0)
+		y = np.expand_dims(y, axis=1)
+		y = keras.utils.to_categorical(y, len(selec_class_list))
+		print(x.shape, y.shape)
+		print(y[:10], y[-10:])
+		tr_te_list.append((x,y))
+
+	return tr_te_list[0], tr_te_list[1]
 
 def scale_image(x_train, x_test):
 	mean = np.mean(x_train,axis=(0,1,2,3))
