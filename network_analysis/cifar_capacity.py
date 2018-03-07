@@ -24,21 +24,22 @@ import data_load.get_cifar10 as gc
 # print(np.bincount(y_test))
 # print(np.bincount(y_train))
 
-def get_conv_net_small(input_shape, num_classes, num_extra_conv_layers):
+def get_conv_net_small(input_shape, num_classes, num_extra_conv_layers,
+	num_filters):
 	model = Sequential()
 
-	model.add(Conv2D(32, (3, 3), padding='same',
+	model.add(Conv2D(num_filters, (3, 3), padding='same',
 	                 input_shape=input_shape))
 	model.add(Activation('relu'))
-	model.add(Conv2D(32, (3, 3), padding='same'))
+	model.add(Conv2D(num_filters, (3, 3), padding='same'))
 	model.add(Activation('relu'))
 	model.add(MaxPooling2D(pool_size=(2, 2)))
 	model.add(Dropout(0.25))
 
 	for i in range(num_extra_conv_layers):
-		model.add(Conv2D(64, (3, 3), padding='same'))
+		model.add(Conv2D(num_filters*2*(i+1), (3, 3), padding='same'))
 		model.add(Activation('relu'))
-		model.add(Conv2D(64, (3, 3), padding='same'))
+		model.add(Conv2D(num_filters*2*(i+1), (3, 3), padding='same'))
 		model.add(Activation('relu'))
 		model.add(MaxPooling2D(pool_size=(2, 2)))
 		model.add(Dropout(0.25))
@@ -65,10 +66,10 @@ def get_conv_net_small(input_shape, num_classes, num_extra_conv_layers):
 
 	return model
 
-model = get_conv_net_small(x_train.shape[1:], 2, 0)
+model = get_conv_net_small(x_train.shape[1:], 2, 0, 16)
 
 batch_size = 128
-epochs = 500
+epochs = 1000
 print('Not using data augmentation.')
 model.fit(x_train, y_train,
         batch_size=batch_size,

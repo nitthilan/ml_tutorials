@@ -61,7 +61,7 @@ if not os.path.isdir(save_dir):
 # Assume the top network has already been trained
 # Now for the smaller networks we pop up some conv layers
 # Retrain the weights to classifiy the images
-for resize_factor in [2]:
+for resize_factor in [0]:
   # Do not resize input and check the accuracy
   # x_train, y_train, x_test, y_test = \
   #   gd.get_cifar_data(0, num_classes)

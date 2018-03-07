@@ -226,21 +226,21 @@ def get_conv_net_v1(x_shape, num_classes,
         model.add(Activation('relu'))
         model.add(BatchNormalization())
 
-        model.add(MaxPooling2D(pool_size=(2, 2)))
+        # model.add(MaxPooling2D(pool_size=(2, 2)))
 
-        model.add(Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
-        model.add(Activation('relu'))
-        model.add(BatchNormalization())
-        model.add(Dropout(0.4))
+        # model.add(Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+        # model.add(Activation('relu'))
+        # model.add(BatchNormalization())
+        # model.add(Dropout(0.4))
 
-        model.add(Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
-        model.add(Activation('relu'))
-        model.add(BatchNormalization())
-        model.add(Dropout(0.4))
+        # model.add(Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+        # model.add(Activation('relu'))
+        # model.add(BatchNormalization())
+        # model.add(Dropout(0.4))
 
-        model.add(Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
-        model.add(Activation('relu'))
-        model.add(BatchNormalization())
+        # model.add(Conv2D(512, (3, 3), padding='same',kernel_regularizer=regularizers.l2(weight_decay)))
+        # model.add(Activation('relu'))
+        # model.add(BatchNormalization())
     
     # model.add(Dropout(0.5))
 
@@ -248,7 +248,7 @@ def get_conv_net_v1(x_shape, num_classes,
     top_model = Sequential()
     
     if(num_extra_conv_layers == 2):
-        top_model.add(MaxPooling2D(input_shape=model.output_shape[1:],pool_size=(2, 2)))
+        top_model.add(MaxPooling2D(input_shape=model.output_shape[1:],pool_size=(4, 4)))
     elif(num_extra_conv_layers == 1):
         top_model.add(MaxPooling2D(input_shape=model.output_shape[1:],pool_size=(4, 4)))
     else:

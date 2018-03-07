@@ -21,7 +21,7 @@ save_dir = "../../data/conv/saved_model_v3/"
 save_dir = "../../data/conv/saved_model_vgg_v2"
 # save_dir = "../../data/conv/saved_model_wrn_v0/"
 
-# save_dir = "./saved_models/"
+save_dir = "./saved_models/"
 batch_size = 16
 num_classes = 10
 
@@ -35,7 +35,7 @@ num_classes = 10
  
 
 
-for resize_factor in [0,1,2,3]:
+for resize_factor in [0]:#,1,2,3]:
   x_train, y_train, x_test, y_test = \
     gd.get_cifar_data(0, num_classes)
 
@@ -114,3 +114,23 @@ for resize_factor in [0,1,2,3]:
   #                                                           predicted_label))
   #     if predict_index == 20:
   #         break
+
+# VGG Performance
+# Model Accuracy = 0.93
+# ('Evaluation ', [0.47837119290828706, 0.93469999999999998])
+# 10000/10000 [==============================] - 3s 344us/step
+# ('Evaluation Test Set ', [0.47737391915321348, 0.93410000000000004])
+# Model Accuracy = 0.86
+# ('Evaluation ', [0.70741001362800593, 0.8619])
+# 10000/10000 [==============================] - 2s 182us/step
+# ('Evaluation Test Set ', [0.70363716936111453, 0.86509999999999998])
+# ../../data/conv/saved_model_vgg_v2/keras_cifar10_weight_2.h5
+# Model Accuracy = 0.74
+# ('Evaluation ', [0.98500162572860717, 0.73870000000000002])
+# 10000/10000 [==============================] - 2s 152us/step
+# ('Evaluation Test Set ', [0.96811740074157715, 0.74450000000000005])
+# ../../data/conv/saved_model_vgg_v2/keras_cifar10_weight_3.h5
+# Model Accuracy = 0.53
+# ('Evaluation ', [1.5076920444488526, 0.53390000000000004])
+# 10000/10000 [==============================] - 1s 118us/step
+# ('Evaluation Test Set ', [1.4143426961898804, 0.56859999999999999])
