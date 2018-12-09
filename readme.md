@@ -3,6 +3,10 @@ Machine Learning Tutorials:
 Horizontal Filter Training:
 ==========================
 
+Paper Reference:
+----------------
+- [Trading-off Accuracy and Energy of Deep Inference on Embedded Systems: A Co-Design Approach](https://www.researchgate.net/publication/326486676_Trading-off_Accuracy_and_Energy_of_Deep_Inference_on_Embedded_Systems_A_Co-Design_Approach)
+
 Procedure:
 ----------
 - Base path: conv/hort_filt_split/
