@@ -1,8 +1,11 @@
+Machine Learning Tutorials:
+==========================
 Horizontal Filter Training:
 ==========================
 
 Procedure:
 ----------
+- Base path: conv/hort_filt_split/
 - Train base network (resize_factor = 0)
 	- python3 training.py <network> <data_type>
 	- network = conv, vgg, wrn
@@ -27,3 +30,6 @@ Procedure:
 		- save_dir - path for all the trained networks
 		- energy_values - energy values of the network measured offline for each network
 		- bayes_args - choose two or three threholds based on 3/4 networks
+
+Vertical Filter Training:
+=========================
