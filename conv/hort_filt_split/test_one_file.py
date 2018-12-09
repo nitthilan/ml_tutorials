@@ -4,7 +4,7 @@ from keras.models import load_model
 from keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 
-import get_data as gd
+# import get_data as gd
 import tensorflow as tf
 
 import confidence as cf

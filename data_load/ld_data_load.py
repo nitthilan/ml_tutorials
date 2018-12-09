@@ -10,7 +10,7 @@ ld = ld16.LinkDistribution()
 # import bayesian_helpers as bh
 
 # DUMP_FILE = "design_data_latent.pickle"
-DUMP_FILE = "../../data/link_distribution/design_100000.npz"
+DUMP_FILE = "../../data/ml_tutorials/autoencoder/link_distribution_100000.npz"
 
 
 def save_data(x):

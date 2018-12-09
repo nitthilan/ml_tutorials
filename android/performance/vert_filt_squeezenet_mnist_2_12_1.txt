@@ -1,0 +1,195 @@
+aryan@dana340-gpu:~/Code/tensorflow$ adb shell taskset f0 /data/local/tmp/benchmark_model \
+>   --graph=/data/local/tmp/vert_filt_squeezenet_mnist_2_12_1.tflite \
+>   --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/vert_filt_squeezenet_mnist_2_12_1.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/vert_filt_squeezenet_mnist_2_12_1.tflite
+resolved reporter
+Initialized session in 12.759ms
+Running benchmark for 1 iterations 
+count=1 curr=4750
+
+Running benchmark for 50 iterations 
+count=50 first=4320 curr=3387 min=3375 max=4320 avg=3468.92 std=138
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	       DEPTHWISE_CONV_2D	    0.000	    0.660	    0.644	 18.626%	 18.626%	     0.000	        1	[relu_conv1/Relu]
+	             MAX_POOL_2D	    0.644	    0.089	    0.087	  2.530%	 21.156%	     0.000	        1	[pool1/MaxPool]
+	                 CONV_2D	    0.732	    0.043	    0.039	  1.142%	 22.298%	     0.000	        1	[fire2/relu_squeeze1x1/Relu]
+	                 CONV_2D	    0.772	    0.047	    0.040	  1.163%	 23.460%	     0.000	        1	[fire2/relu_expand1x1/Relu]
+	                 CONV_2D	    0.812	    0.256	    0.243	  7.017%	 30.478%	     0.000	        1	[fire2/relu_expand3x3/Relu]
+	           CONCATENATION	    1.055	    0.012	    0.012	  0.340%	 30.818%	     0.000	        1	[fire2/concat/concat]
+	                 CONV_2D	    1.067	    0.067	    0.065	  1.879%	 32.697%	     0.000	        1	[fire3/relu_squeeze1x1/Relu]
+	                 CONV_2D	    1.132	    0.042	    0.038	  1.112%	 33.809%	     0.000	        1	[fire3/relu_expand1x1/Relu]
+	                 CONV_2D	    1.171	    0.260	    0.246	  7.105%	 40.914%	     0.000	        1	[fire3/relu_expand3x3/Relu]
+	           CONCATENATION	    1.417	    0.011	    0.010	  0.297%	 41.212%	     0.000	        1	[fire3/concat/concat]
+	             MAX_POOL_2D	    1.427	    0.028	    0.028	  0.810%	 42.022%	     0.000	        1	[pool3/MaxPool]
+	                 CONV_2D	    1.456	    0.037	    0.030	  0.874%	 42.897%	     0.000	        1	[fire4/relu_squeeze1x1/Relu]
+	                 CONV_2D	    1.486	    0.036	    0.031	  0.902%	 43.798%	     0.000	        1	[fire4/relu_expand1x1/Relu]
+	                 CONV_2D	    1.518	    0.242	    0.228	  6.590%	 50.389%	     0.000	        1	[fire4/relu_expand3x3/Relu]
+	           CONCATENATION	    1.746	    0.004	    0.004	  0.119%	 50.507%	     0.000	        1	[fire4/concat/concat]
+	                 CONV_2D	    1.750	    0.062	    0.055	  1.602%	 52.110%	     0.000	        1	[fire5/relu_squeeze1x1/Relu]
+	                 CONV_2D	    1.806	    0.035	    0.032	  0.914%	 53.024%	     0.000	        1	[fire5/relu_expand1x1/Relu]
+	                 CONV_2D	    1.838	    0.246	    0.229	  6.625%	 59.649%	     0.000	        1	[fire5/relu_expand3x3/Relu]
+	           CONCATENATION	    2.067	    0.005	    0.004	  0.124%	 59.772%	     0.000	        1	[fire5/concat/concat]
+	             MAX_POOL_2D	    2.071	    0.008	    0.009	  0.257%	 60.029%	     0.000	        1	[pool5/MaxPool]
+	                 CONV_2D	    2.081	    0.038	    0.029	  0.825%	 60.854%	     0.000	        1	[fire6/relu_squeeze1x1/Relu]
+	                 CONV_2D	    2.109	    0.031	    0.022	  0.646%	 61.500%	     0.000	        1	[fire6/relu_expand1x1/Relu]
+	                 CONV_2D	    2.132	    0.206	    0.160	  4.633%	 66.133%	     0.000	        1	[fire6/relu_expand3x3/Relu]
+	           CONCATENATION	    2.293	    0.002	    0.002	  0.053%	 66.185%	     0.000	        1	[fire6/concat/concat]
+	                 CONV_2D	    2.295	    0.045	    0.035	  1.016%	 67.201%	     0.000	        1	[fire7/relu_squeeze1x1/Relu]
+	                 CONV_2D	    2.330	    0.030	    0.022	  0.646%	 67.847%	     0.000	        1	[fire7/relu_expand1x1/Relu]
+	                 CONV_2D	    2.353	    0.217	    0.170	  4.923%	 72.770%	     0.000	        1	[fire7/relu_expand3x3/Relu]
+	           CONCATENATION	    2.523	    0.002	    0.002	  0.064%	 72.834%	     0.000	        1	[fire7/concat/concat]
+	                 CONV_2D	    2.526	    0.055	    0.043	  1.245%	 74.079%	     0.000	        1	[fire8/relu_squeeze1x1/Relu]
+	                 CONV_2D	    2.569	    0.043	    0.033	  0.955%	 75.034%	     0.000	        1	[fire8/relu_expand1x1/Relu]
+	                 CONV_2D	    2.602	    0.476	    0.353	 10.215%	 85.250%	     0.000	        1	[fire8/relu_expand3x3/Relu]
+	           CONCATENATION	    2.956	    0.004	    0.003	  0.092%	 85.342%	     0.000	        1	[fire8/concat/concat]
+	                 CONV_2D	    2.959	    0.110	    0.076	  2.204%	 87.546%	     0.000	        1	[fire9/relu_squeeze1x1/Relu]
+	                 CONV_2D	    3.036	    0.044	    0.033	  0.960%	 88.506%	     0.000	        1	[fire9/relu_expand1x1/Relu]
+	                 CONV_2D	    3.069	    0.779	    0.374	 10.817%	 99.323%	     0.000	        1	[fire9/relu_expand3x3/Relu]
+	           CONCATENATION	    3.444	    0.005	    0.003	  0.083%	 99.406%	     0.000	        1	[fire9/concat/concat]
+	                 CONV_2D	    3.447	    0.021	    0.015	  0.425%	 99.832%	     0.000	        1	[relu_conv10/Relu]
+	                    MEAN	    3.462	    0.005	    0.004	  0.114%	 99.946%	     0.000	        1	[global_average_pooling2d_1/Mean]
+	                 SOFTMAX	    3.466	    0.003	    0.002	  0.054%	100.000%	     0.000	        1	[loss/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	       DEPTHWISE_CONV_2D	    0.000	    0.660	    0.644	 18.626%	 18.626%	     0.000	        1	[relu_conv1/Relu]
+	                 CONV_2D	    3.069	    0.779	    0.374	 10.817%	 29.443%	     0.000	        1	[fire9/relu_expand3x3/Relu]
+	                 CONV_2D	    2.602	    0.476	    0.353	 10.215%	 39.659%	     0.000	        1	[fire8/relu_expand3x3/Relu]
+	                 CONV_2D	    1.171	    0.260	    0.246	  7.105%	 46.764%	     0.000	        1	[fire3/relu_expand3x3/Relu]
+	                 CONV_2D	    0.812	    0.256	    0.243	  7.017%	 53.782%	     0.000	        1	[fire2/relu_expand3x3/Relu]
+	                 CONV_2D	    1.838	    0.246	    0.229	  6.625%	 60.406%	     0.000	        1	[fire5/relu_expand3x3/Relu]
+	                 CONV_2D	    1.518	    0.242	    0.228	  6.590%	 66.997%	     0.000	        1	[fire4/relu_expand3x3/Relu]
+	                 CONV_2D	    2.353	    0.217	    0.170	  4.923%	 71.920%	     0.000	        1	[fire7/relu_expand3x3/Relu]
+	                 CONV_2D	    2.132	    0.206	    0.160	  4.633%	 76.552%	     0.000	        1	[fire6/relu_expand3x3/Relu]
+	             MAX_POOL_2D	    0.644	    0.089	    0.087	  2.530%	 79.082%	     0.000	        1	[pool1/MaxPool]
+
+Number of nodes executed: 39
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       25	     2.632	    76.534%	    76.534%	     0.000	       25
+	       DEPTHWISE_CONV_2D	        1	     0.643	    18.697%	    95.231%	     0.000	        1
+	             MAX_POOL_2D	        3	     0.123	     3.577%	    98.808%	     0.000	        3
+	           CONCATENATION	        8	     0.037	     1.076%	    99.884%	     0.000	        8
+	                    MEAN	        1	     0.003	     0.087%	    99.971%	     0.000	        1
+	                 SOFTMAX	        1	     0.001	     0.029%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=4306 curr=3374 min=3359 max=4306 avg=3455.94 std=138
+Memory (bytes): count=0
+39 nodes observed
+
+
+Average inference timings in us: Warmup: 4750, Init: 12759, no stats: 3468.92
+aryan@dana340-gpu:~/Code/tensorflow$ 
+
+
+
+
+
+
+
+aryan@dana340-gpu:~/Code/tensorflow$ adb shell taskset f0 /data/local/tmp/benchmark_model   --graph=/data/local/tmp/vert_filt_squeezenet_mnist_2_12_1.tflite   --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/vert_filt_squeezenet_mnist_2_12_1.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/vert_filt_squeezenet_mnist_2_12_1.tflite
+resolved reporter
+Initialized session in 12.498ms
+Running benchmark for 1 iterations 
+count=1 curr=4783
+
+Running benchmark for 50 iterations 
+count=50 first=3978 curr=3417 min=3342 max=4133 avg=3482.2 std=137
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	       DEPTHWISE_CONV_2D	    0.000	    0.667	    0.646	 18.622%	 18.622%	     0.000	        1	[relu_conv1/Relu]
+	             MAX_POOL_2D	    0.646	    0.090	    0.087	  2.504%	 21.126%	     0.000	        1	[pool1/MaxPool]
+	                 CONV_2D	    0.734	    0.042	    0.038	  1.103%	 22.230%	     0.000	        1	[fire2/relu_squeeze1x1/Relu]
+	                 CONV_2D	    0.772	    0.046	    0.044	  1.269%	 23.499%	     0.000	        1	[fire2/relu_expand1x1/Relu]
+	                 CONV_2D	    0.817	    0.257	    0.245	  7.067%	 30.566%	     0.000	        1	[fire2/relu_expand3x3/Relu]
+	           CONCATENATION	    1.062	    0.014	    0.010	  0.295%	 30.860%	     0.000	        1	[fire2/concat/concat]
+	                 CONV_2D	    1.073	    0.071	    0.065	  1.884%	 32.744%	     0.000	        1	[fire3/relu_squeeze1x1/Relu]
+	                 CONV_2D	    1.138	    0.041	    0.039	  1.114%	 33.858%	     0.000	        1	[fire3/relu_expand1x1/Relu]
+	                 CONV_2D	    1.177	    0.249	    0.246	  7.077%	 40.935%	     0.000	        1	[fire3/relu_expand3x3/Relu]
+	           CONCATENATION	    1.423	    0.009	    0.009	  0.249%	 41.184%	     0.000	        1	[fire3/concat/concat]
+	             MAX_POOL_2D	    1.432	    0.028	    0.029	  0.827%	 42.011%	     0.000	        1	[pool3/MaxPool]
+	                 CONV_2D	    1.461	    0.033	    0.031	  0.880%	 42.891%	     0.000	        1	[fire4/relu_squeeze1x1/Relu]
+	                 CONV_2D	    1.492	    0.036	    0.031	  0.901%	 43.792%	     0.000	        1	[fire4/relu_expand1x1/Relu]
+	                 CONV_2D	    1.523	    0.252	    0.224	  6.466%	 50.258%	     0.000	        1	[fire4/relu_expand3x3/Relu]
+	           CONCATENATION	    1.748	    0.004	    0.004	  0.110%	 50.368%	     0.000	        1	[fire4/concat/concat]
+	                 CONV_2D	    1.752	    0.060	    0.056	  1.605%	 51.973%	     0.000	        1	[fire5/relu_squeeze1x1/Relu]
+	                 CONV_2D	    1.808	    0.034	    0.032	  0.917%	 52.889%	     0.000	        1	[fire5/relu_expand1x1/Relu]
+	                 CONV_2D	    1.840	    0.245	    0.225	  6.477%	 59.366%	     0.000	        1	[fire5/relu_expand3x3/Relu]
+	           CONCATENATION	    2.065	    0.004	    0.004	  0.114%	 59.479%	     0.000	        1	[fire5/concat/concat]
+	             MAX_POOL_2D	    2.069	    0.009	    0.009	  0.252%	 59.731%	     0.000	        1	[pool5/MaxPool]
+	                 CONV_2D	    2.078	    0.040	    0.029	  0.838%	 60.569%	     0.000	        1	[fire6/relu_squeeze1x1/Relu]
+	                 CONV_2D	    2.107	    0.031	    0.023	  0.658%	 61.228%	     0.000	        1	[fire6/relu_expand1x1/Relu]
+	                 CONV_2D	    2.131	    0.202	    0.169	  4.879%	 66.107%	     0.000	        1	[fire6/relu_expand3x3/Relu]
+	           CONCATENATION	    2.300	    0.003	    0.002	  0.063%	 66.169%	     0.000	        1	[fire6/concat/concat]
+	                 CONV_2D	    2.303	    0.043	    0.038	  1.097%	 67.266%	     0.000	        1	[fire7/relu_squeeze1x1/Relu]
+	                 CONV_2D	    2.341	    0.029	    0.023	  0.655%	 67.922%	     0.000	        1	[fire7/relu_expand1x1/Relu]
+	                 CONV_2D	    2.364	    0.207	    0.168	  4.842%	 72.764%	     0.000	        1	[fire7/relu_expand3x3/Relu]
+	           CONCATENATION	    2.532	    0.004	    0.002	  0.069%	 72.832%	     0.000	        1	[fire7/concat/concat]
+	                 CONV_2D	    2.535	    0.047	    0.044	  1.254%	 74.087%	     0.000	        1	[fire8/relu_squeeze1x1/Relu]
+	                 CONV_2D	    2.579	    0.042	    0.034	  0.975%	 75.062%	     0.000	        1	[fire8/relu_expand1x1/Relu]
+	                 CONV_2D	    2.613	    0.451	    0.360	 10.366%	 85.428%	     0.000	        1	[fire8/relu_expand3x3/Relu]
+	           CONCATENATION	    2.973	    0.004	    0.003	  0.095%	 85.523%	     0.000	        1	[fire8/concat/concat]
+	                 CONV_2D	    2.977	    0.096	    0.078	  2.239%	 87.762%	     0.000	        1	[fire9/relu_squeeze1x1/Relu]
+	                 CONV_2D	    3.054	    0.045	    0.033	  0.941%	 88.703%	     0.000	        1	[fire9/relu_expand1x1/Relu]
+	                 CONV_2D	    3.087	    0.494	    0.369	 10.645%	 99.349%	     0.000	        1	[fire9/relu_expand3x3/Relu]
+	           CONCATENATION	    3.457	    0.004	    0.003	  0.077%	 99.425%	     0.000	        1	[fire9/concat/concat]
+	                 CONV_2D	    3.460	    0.021	    0.015	  0.423%	 99.848%	     0.000	        1	[relu_conv10/Relu]
+	                    MEAN	    3.475	    0.006	    0.004	  0.104%	 99.953%	     0.000	        1	[global_average_pooling2d_1/Mean]
+	                 SOFTMAX	    3.479	    0.002	    0.002	  0.047%	100.000%	     0.000	        1	[loss/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	       DEPTHWISE_CONV_2D	    0.000	    0.667	    0.646	 18.622%	 18.622%	     0.000	        1	[relu_conv1/Relu]
+	                 CONV_2D	    3.087	    0.494	    0.369	 10.645%	 29.268%	     0.000	        1	[fire9/relu_expand3x3/Relu]
+	                 CONV_2D	    2.613	    0.451	    0.360	 10.366%	 39.634%	     0.000	        1	[fire8/relu_expand3x3/Relu]
+	                 CONV_2D	    1.177	    0.249	    0.246	  7.077%	 46.711%	     0.000	        1	[fire3/relu_expand3x3/Relu]
+	                 CONV_2D	    0.817	    0.257	    0.245	  7.067%	 53.778%	     0.000	        1	[fire2/relu_expand3x3/Relu]
+	                 CONV_2D	    1.840	    0.245	    0.225	  6.477%	 60.254%	     0.000	        1	[fire5/relu_expand3x3/Relu]
+	                 CONV_2D	    1.523	    0.252	    0.224	  6.466%	 66.720%	     0.000	        1	[fire4/relu_expand3x3/Relu]
+	                 CONV_2D	    2.131	    0.202	    0.169	  4.879%	 71.599%	     0.000	        1	[fire6/relu_expand3x3/Relu]
+	                 CONV_2D	    2.364	    0.207	    0.168	  4.842%	 76.441%	     0.000	        1	[fire7/relu_expand3x3/Relu]
+	             MAX_POOL_2D	    0.646	    0.090	    0.087	  2.504%	 78.945%	     0.000	        1	[pool1/MaxPool]
+
+Number of nodes executed: 39
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       25	     2.645	    76.667%	    76.667%	     0.000	       25
+	       DEPTHWISE_CONV_2D	        1	     0.646	    18.725%	    95.391%	     0.000	        1
+	             MAX_POOL_2D	        3	     0.122	     3.536%	    98.928%	     0.000	        3
+	           CONCATENATION	        8	     0.033	     0.957%	    99.884%	     0.000	        8
+	                    MEAN	        1	     0.003	     0.087%	    99.971%	     0.000	        1
+	                 SOFTMAX	        1	     0.001	     0.029%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=3962 curr=3408 min=3329 max=4117 avg=3469.7 std=136
+Memory (bytes): count=0
+39 nodes observed
+
+
+Average inference timings in us: Warmup: 4783, Init: 12498, no stats: 3482.2
+aryan@dana340-gpu:~/Code/tensorflow$ 

@@ -2,7 +2,7 @@
 import numpy as np
 import random
 
-DUMP_FILE = "../../data/tsv_distribution/design_100000.npz"
+DUMP_FILE = "../../data/ml_tutorials/autoencoder/tsv_distribution_100000.npz"
 
 def RGen(nVL, budget):
 
@@ -75,7 +75,7 @@ def RGenAlternative(budget, numDesigns):
 
 if __name__=="__main__":
 	NUM_DATA = 100000
-	data = get_data(True, 19, NUM_DATA)
+	data = get_data(False, 19, NUM_DATA)
 	print(data.shape)
 	print(data.shape)
 	print(data[0])

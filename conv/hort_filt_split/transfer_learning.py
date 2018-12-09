@@ -21,11 +21,22 @@ from keras.utils import multi_gpu_model
 
 from keras import backend as K
 
+import sys, os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+import data_load.get_keras_data as gkd
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 config = tf.ConfigProto(allow_soft_placement = True)
 config.gpu_options.allow_growth=True
 sess = tf.Session(config=config)
 K.set_session(sess)
 
+from keras.models import load_model
+
+# List of experiments done:
+# Train nets independently with different values
+# Train only the last layer reusing the top layers without resizing
+# Train only the last layer with resizing of the input
 
 
 import os
@@ -34,46 +45,83 @@ import numpy as np
 
 
 import gen_conv_net as gcn
-import get_data as gd
-import get_vgg16_cifar10 as gvc
+# import get_data as gd
+# import get_vgg16_cifar10 as gvc
 import get_wide_res_networks as gwrn
+
+network = sys.argv[1] #vgg, wrn, conv
+data_set = sys.argv[2] #mnist, cifar10, cifar100
 
 
 batch_size = 128 #32
-num_classes = 10 # 10 for cifar10 # 100 for cifar100
+# num_classes = 100 # 10 for cifar10 # 100 for cifar100
 epochs = 200
 data_augmentation = True
 num_predictions = 20
-save_dir = os.path.join(os.getcwd(), 'saved_models_1')
-model_name = 'keras_cifar10_trained_model.h5'
+save_dir = os.path.join(os.getcwd(), 'saved_models')
+# model_name = 'keras_cifar10_trained_model.h5'
+
+weight_path = "../../data/ml_tutorial/conv/cifar10_conv_v0/keras_cifar10_weight_0.h5"
 
 
 # Save model and weights
 if not os.path.isdir(save_dir):
-    os.makedirs(save_dir)
+  os.makedirs(save_dir)
 
-for resize_factor in [0]:#,1,2]:
+# Assume the top network has already been trained
+# Now for the smaller networks we pop up some conv layers
+# Retrain the weights to classifiy the images
+for resize_factor in [0]:#[1,2,3]:
   # Do not resize input and check the accuracy
-  x_train, y_train, x_test, y_test = \
-    gd.get_cifar_data(0, num_classes)
   # x_train, y_train, x_test, y_test = \
-  #   gd.get_cifar10_data(resize_factor)
-
-  x_train, x_test = gd.scale_image(x_train, x_test)
+  #   gd.get_cifar_data(0, num_classes)
+  # x_train, y_train, x_test, y_test = \
+  #   gd.get_cifar_data(0, num_classes)
+  x_train, y_train, x_test, y_test = \
+    gkd.get_data(data_set)
+  # x_train, x_test = gkd.scale_image(x_train, x_test)
+  x_train /= 255
+  x_test /= 255
+  num_classes = int(y_train.shape[1])
 
   print(x_train.shape, y_train.shape, \
     x_test.shape, y_test.shape)
 
+  with tf.device('/gpu:0'):
+    model = load_model(weight_path)
+    model.summary()
+    evaluation = model.evaluate(x_test, y_test)
+    print("Evaluation Test Set ", evaluation)
+
+
   # with tf.device('/cpu:0'):
   with tf.device('/gpu:0'):
-    # model = gvc.get_conv_net(x_train.shape[1:], \
-    #   num_classes, 2-resize_factor)
     # model = gwrn.create_wide_residual_network(x_train.shape[1:], 
     #   2-resize_factor,
-    #   nb_classes=num_classes, N=4, k=8, dropout=0.3)
+    #   nb_classes=num_classes, 
+    #   wgt_fname="./saved_models/keras_cifar10_weight_0.h5",
+    #   N=4, k=8, dropout=0.0)
+
+    # model = gvc.get_conv_net(x_train.shape[1:], \
+    #   num_classes, 2-resize_factor,
+    #   wgt_fname="../../data/conv/saved_model_vgg_v0/keras_cifar10_weight_0.h5")
+    
+    # model = gvc.get_conv_net_v1(x_train.shape[1:], \
+    #   num_classes, 2-resize_factor,
+    #   wgt_fname="../../data/conv/saved_model_vgg_v0/keras_cifar10_weight_0.h5")
+
+    # model = gvc.get_conv_net_cifar100(x_train.shape[1:], \
+    #   num_classes, 3-resize_factor,
+    #   wgt_fname="../../data/conv/cifar100_vgg_v2/cifar100vgg_v1.h5")
+
+    # model = gcn.get_conv_net(x_train.shape[1:], \
+    #   num_classes, 2-resize_factor, 
+    #   wgt_fname="../../data/conv/mnist_conv_v0/keras_mnist_weight_0.h5")
+
 
     model = gcn.get_conv_net(x_train.shape[1:], \
-      num_classes, 2-resize_factor)
+      num_classes, 2-resize_factor,
+      wgt_fname=weight_path)
 
   # parallel_model = multi_gpu_model(model, gpus=4)
   parallel_model = model
@@ -140,7 +188,7 @@ for resize_factor in [0]:#,1,2]:
       # parallel_model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
       # for epoch in range(1,epochs):
-      #   if epoch%25==0 and epoch>0:
+      #   if epoch%10==0 and epoch>0:
       #     lrf/=2
       #     sgd = optimizers.SGD(lr=lrf, decay=lr_decay, momentum=0.9, nesterov=True)
       #     parallel_model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])

@@ -10,6 +10,20 @@ mpl.use('Agg')
 import matplotlib.pyplot as plt
 import random as rd
 
+import sys, os
+from keras import backend as K
+import tensorflow as tf
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+config = tf.ConfigProto(allow_soft_placement = True)
+config.gpu_options.allow_growth=True
+sess = tf.Session(config=config)
+K.set_session(sess)
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import data_load.ld_data_load as lddl
+
 
 def get_model(input_dim, encoding_dim):
 	# this is our input placeholder
@@ -61,12 +75,12 @@ def get_k_ones(N, D, K):
 N =   1000000
 N_TR = 900000
 num_ones = 4
-input_dim = 10
+input_dim = 15
 # this is the size of our encoded representations
 encoding_dim = 7  # 32 floats -> compression of factor 24.5, assuming the input is 784 floats
 
 num_ones_num_valid_encoding = []
-for num_ones in [2]:#,3,4,5,6]:
+for num_ones in [2]:#[2,3,4,5,6]:
 	num_valid_encodings = []
 
 
@@ -75,15 +89,17 @@ for num_ones in [2]:#,3,4,5,6]:
 	x_test = x_all[N_TR:]
 	for encoding_dim in [4]:#[2,3,4,5,6,7,8,9,10]:
 		print("AutoEncoding ", num_ones, encoding_dim)
-		autoencoder, encoder, decoder = \
-			get_model(input_dim, encoding_dim)
+
+		with tf.device('/gpu:1'):
+			autoencoder, encoder, decoder = \
+				get_model(input_dim, encoding_dim)
 
 
-		autoencoder.fit(x_train, x_train,
-		                epochs=50,
-		                batch_size=256,
-		                shuffle=True,
-		                validation_data=(x_test, x_test))
+			autoencoder.fit(x_train, x_train,
+			                epochs=50 ,
+			                batch_size=256,
+			                shuffle=True,
+			                validation_data=(x_test, x_test))
 
 		# encode and decode some digits
 		# note that we take them from the *test* set
@@ -106,6 +122,11 @@ for num_ones in [2]:#,3,4,5,6]:
 		# print(num_equal[:n])
 		print("validation", np.sum(num_equal))
 		num_valid_encodings.append(np.sum(num_equal))
+
+		print("Encoded ", encoded_imgs[:10])
+		print("X test ", x_test[:10])
+		print("output ", output[:10])
+		print("decoded ", decoded_imgs[:10])
 
 		n_validate = 100000
 		min_val = np.min(encoded_imgs, axis=0)

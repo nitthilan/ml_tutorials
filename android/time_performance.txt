@@ -1,0 +1,180 @@
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/SqueezeNet_mnist_false_1.tflite /data/local/tmp
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_squeezenet_mnist_2_12_1.tflite /data/local/tmp
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_squeezenet_mnist_3.tflite /data/local/tmp
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/SqueezeNet_mnist_false_1.tflite \
+  --num_threads=1
+count=50 first=4644 curr=4282 min=4277 max=4644 avg=4377.64 std=74
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/vert_filt_squeezenet_mnist_2_12_1.tflite \
+  --num_threads=1
+count=50 first=3840 curr=3391 min=3342 max=3840 avg=3456.28 std=102
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/vert_filt_squeezenet_mnist_3.tflite \
+  --num_threads=1
+count=50 first=3183 curr=2676 min=2628 max=3183 avg=2716.7 std=96
+
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/conv_cifar10_false_4.tflite /data/local/tmp
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_conv_cifar10_2.tflite /data/local/tmp
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_conv_cifar10_3.tflite /data/local/tmp
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/conv_cifar10_false_4.tflite \
+  --num_threads=1
+count=50 first=36336 curr=36716 min=36274 max=37305 avg=36854.4 std=271
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/vert_filt_conv_cifar10_2.tflite \
+  --num_threads=1
+count=50 first=11103 curr=10845 min=10706 max=11265 avg=10926.7 std=107
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/vert_filt_conv_cifar10_3.tflite \
+  --num_threads=1
+count=50 first=21768 curr=22391 min=21586 max=22781 avg=22168.3 std=324
+
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/vgg_cifar10_false_4.tflite /data/local/tmp
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_vgg16_cifar10_2.tflite /data/local/tmp
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_vgg16_cifar10_3.tflite /data/local/tmp
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/vgg_cifar10_false_4.tflite \
+  --num_threads=1
+count=50 first=85114 curr=85071 min=83244 max=86216 avg=85210.2 std=549
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/vert_filt_vgg16_cifar10_2.tflite \
+  --num_threads=1
+count=50 first=35529 curr=35227 min=34265 max=36018 avg=35087.6 std=436
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/vert_filt_vgg16_cifar10_3.tflite \
+  --num_threads=1
+count=50 first=48104 curr=48180 min=47765 max=49073 avg=48287.9 std=299
+
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/conv_mnist_false_4.tflite /data/local/tmp
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_conv_mnist_2.tflite /data/local/tmp
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_conv_mnist_3.tflite /data/local/tmp
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/conv_mnist_false_4.tflite \
+  --num_threads=1
+count=50 first=37509 curr=37448 min=37400 max=38167 avg=37807.3 std=173
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/vert_filt_conv_mnist_2.tflite \
+  --num_threads=1
+count=50 first=10825 curr=10768 min=10518 max=10871 avg=10681.9 std=81
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/vert_filt_conv_mnist_3.tflite \
+  --num_threads=1
+count=50 first=22834 curr=22833 min=22396 max=23028 avg=22733.9 std=153
+
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/SqueezeNet_cifar10_false_1.tflite /data/local/tmp
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_squeezenet_cifar10_2.tflite /data/local/tmp
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_squeezenet_cifar10_3.tflite /data/local/tmp
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/SqueezeNet_cifar10_false_1.tflite \
+  --num_threads=1
+count=50 first=4129 curr=3800 min=3754 max=4129 avg=3884.82 std=92
+count=50 first=4180 curr=4039 min=3808 max=4472 avg=3962.88 std=120
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/vert_filt_squeezenet_cifar10_2.tflite \
+  --num_threads=1
+count=50 first=4012 curr=3478 min=3409 max=4288 avg=3524.78 std=148
+count=50 first=3874 curr=3739 min=3443 max=4151 avg=3635.48 std=130
+
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/vert_filt_squeezenet_cifar10_3.tflite \
+  --num_threads=1
+count=50 first=3113 curr=2685 min=2631 max=3113 avg=2751.58 std=87
+count=50 first=3002 curr=2792 min=2693 max=3168 avg=2820.04 std=107
+
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/MobileNet_for_mobile_cifar10_false_20112018_chk4.tflite /data/local/tmp
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/MobileNet_for_mobile_cifar10_false_20112018_chk4.tflite \
+  --num_threads=1
+Timings (microseconds): count=50 first=7599 curr=7941 min=7599 max=7975 avg=7860.96 std=76
+Timings (microseconds): count=50 first=7325 curr=7407 min=7265 max=7552 avg=7391.2 std=66
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/MobileNet_for_mobile_cifar10_false_20112018_chk3.tflite /data/local/tmp
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/MobileNet_for_mobile_cifar10_false_20112018_chk3.tflite \
+  --num_threads=1
+
+Timings (microseconds): count=50 first=5182 curr=4875 min=4618 max=5182 avg=4797.24 std=94
+Timings (microseconds): count=50 first=5182 curr=4875 min=4618 max=5182 avg=4797.24 std=94
+
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/MobileNet_for_mobile_cifar10_false_20112018_chk2.tflite /data/local/tmp
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/MobileNet_for_mobile_cifar10_false_20112018_chk2.tflite \
+  --num_threads=1
+Timings (microseconds): count=50 first=2872 curr=2526 min=2304 max=2954 avg=2436.38 std=132
+Timings (microseconds): count=50 first=2933 curr=2240 min=2200 max=2967 avg=2304.2 std=157
+
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/MobileNet_for_mobile_cifar10_false_20112018_chk2.5.tflite /data/local/tmp
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/MobileNet_for_mobile_cifar10_false_20112018_chk2.5.tflite \
+  --num_threads=1
+
+Timings (microseconds): count=50 first=3950 curr=3236 min=3198 max=3950 avg=3330.58 std=120
+Timings (microseconds): count=50 first=3994 curr=3397 min=3258 max=3994 avg=3390.42 std=107
+
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/MobileNet_for_mobile_cifar10_false_20112018_chk3.5.tflite /data/local/tmp
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/MobileNet_for_mobile_cifar10_false_20112018_chk3.5.tflite \
+  --num_threads=1
+Timings (microseconds): count=50 first=6061 curr=6051 min=6015 max=6246 avg=6127.18 std=61
+Timings (microseconds): count=50 first=6316 curr=6391 min=6131 max=6444 avg=6319.58 std=69
+
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/MobileNet_for_mobile_mnist_false_20112018_chk2.tflite /data/local/tmp
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/MobileNet_for_mobile_mnist_false_20112018_chk2.tflite \
+  --num_threads=1
+Timings (microseconds): count=50 first=2689 curr=2348 min=2283 max=2689 avg=2380.86 std=63
+Timings (microseconds): count=50 first=2928 curr=2387 min=2277 max=2928 avg=2396.7 std=106
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/MobileNet_for_mobile_mnist_false_20112018_chk3.tflite /data/local/tmp
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/MobileNet_for_mobile_mnist_false_20112018_chk3.tflite \
+  --num_threads=1
+Timings (microseconds): count=50 first=5668 curr=4484 min=4385 max=5668 avg=4514.4 std=180
+Timings (microseconds): count=50 first=5180 curr=4826 min=4552 max=5180 avg=4708.28 std=109
+
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/MobileNet_for_mobile_mnist_false_20112018_chk4.tflite /data/local/tmp
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/MobileNet_for_mobile_mnist_false_20112018_chk4.tflite \
+  --num_threads=1
+Timings (microseconds): count=50 first=7802 curr=7537 min=7369 max=7802 avg=7538.9 std=96
+Timings (microseconds): count=50 first=7711 curr=7497 min=7364 max=7711 avg=7521.32 std=74
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/MobileNet_for_mobile_mnist_false_20112018_chk3.5.tflite /data/local/tmp
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/MobileNet_for_mobile_mnist_false_20112018_chk3.5.tflite \
+  --num_threads=1
+Timings (microseconds): count=50 first=6262 curr=6217 min=5997 max=6262 avg=6119.74 std=58
+Timings (microseconds): count=50 first=6154 curr=6060 min=6022 max=6425 avg=6293.4 std=88
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/MobileNet_for_mobile_mnist_false_20112018_chk2.5.tflite /data/local/tmp
+adb shell taskset f0 /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/MobileNet_for_mobile_mnist_false_20112018_chk2.5.tflite \
+  --num_threads=1
+Timings (microseconds): count=50 first=3998 curr=3231 min=3187 max=3998 avg=3267.24 std=112
+Timings (microseconds): count=50 first=4079 curr=3544 min=3216 max=4079 avg=3358 std=125
+

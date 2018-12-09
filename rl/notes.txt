@@ -1,0 +1,3 @@
+https://selfdrivingcars.mit.edu/deeptraffic/
+https://www.battlecode.org/#/
+https://blog.openai.com/retro-contest/

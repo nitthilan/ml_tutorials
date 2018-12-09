@@ -1,12 +1,11 @@
 from __future__ import print_function
 import keras
-from keras.datasets import cifar10
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras.models import load_model
-
+from keras.regularizers import l2
 
 def get_conv_net(input_shape, num_classes, 
 	num_extra_conv_layers, wgt_fname=None):
@@ -46,6 +45,11 @@ def get_conv_net(input_shape, num_classes,
 
 	    # top_model.load_weights(wgt_fname, by_name=True)
 
+	# if(num_extra_conv_layers == 1):
+	# 	model.add(MaxPooling2D(input_shape=model.output_shape[1:],pool_size=(4, 4)))
+	# elif(num_extra_conv_layers == 0):
+	# 	model.add(MaxPooling2D(input_shape=model.output_shape[1:],pool_size=(8, 8)))
+
 	if(num_extra_conv_layers == 1):
 		model.add(MaxPooling2D(input_shape=model.output_shape[1:],pool_size=(2, 2)))
 	elif(num_extra_conv_layers == 0):
@@ -53,7 +57,73 @@ def get_conv_net(input_shape, num_classes,
 
 
 	model.add(Flatten())
-	model.add(Dense(512))
+	# model.add(Dense(512))
+	# if(num_extra_conv_layers == 0):
+	# 	model.add(Dense(16))
+	# else:
+	# 	model.add(Dense(32))
+	
+	model.add(Dense(16, kernel_regularizer=l2(0.01))) #- Reduces the error to small values
+	model.add(Activation('relu'))
+	model.add(Dropout(0.5))
+	model.add(Dense(num_classes))
+	model.add(Activation('softmax'))
+
+	# initiate RMSprop optimizer
+	opt = keras.optimizers.rmsprop(lr=0.0001, decay=1e-6)
+
+	# Let's train the model using RMSprop
+	model.compile(loss='categorical_crossentropy',
+	              optimizer=opt,
+	              metrics=['accuracy'])
+	model.summary()
+
+	return model
+
+def get_conv_vert_net(input_shape, num_classes, 
+	num_extra_conv_layers, num_ver_filter, 
+	wgt_fname=None, use_bias=True):
+
+	F1 = int(num_ver_filter*16)
+
+	model = Sequential()
+
+	model.add(Conv2D(F1, (3, 3), padding='same',
+	                 input_shape=input_shape,
+	                 use_bias=use_bias))
+	model.add(Activation('relu'))
+	model.add(Conv2D(F1, (3, 3), padding='same',
+		use_bias=use_bias))
+	model.add(Activation('relu'))
+	
+	model.add(MaxPooling2D(pool_size=(2, 2)))
+	model.add(Dropout(0.25))
+
+	for i in range(num_extra_conv_layers):
+		model.add(Conv2D((i+2)*F1, (3, 3), padding='same',
+			use_bias=use_bias))
+		model.add(Activation('relu'))
+		model.add(Conv2D((i+2)*F1, (3, 3), padding='same',
+			use_bias=use_bias))
+		model.add(Activation('relu'))
+
+		model.add(MaxPooling2D(pool_size=(2, 2)))
+		model.add(Dropout(0.25))
+
+	if(num_extra_conv_layers == 1):
+		model.add(MaxPooling2D(input_shape=model.output_shape[1:],pool_size=(2, 2)))
+	elif(num_extra_conv_layers == 0):
+		model.add(MaxPooling2D(input_shape=model.output_shape[1:],pool_size=(4, 4)))
+
+
+	model.add(Flatten())
+	# model.add(Dense(512))
+	# if(num_extra_conv_layers == 0):
+	# 	model.add(Dense(16))
+	# else:
+	# 	model.add(Dense(32))
+	
+	model.add(Dense(48, kernel_regularizer=l2(0.01))) #- Reduces the error to small values
 	model.add(Activation('relu'))
 	model.add(Dropout(0.5))
 	model.add(Dense(num_classes))

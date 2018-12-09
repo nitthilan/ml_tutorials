@@ -1,0 +1,179 @@
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/conv$ adb shell taskset f0 /data/local/tmp/benchmark_model \
+>   --graph=/data/local/tmp/MobileNet_for_mobile_cifar10_false_20112018_chk4.tflite \
+>   --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/MobileNet_for_mobile_cifar10_false_20112018_chk4.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/MobileNet_for_mobile_cifar10_false_20112018_chk4.tflite
+resolved reporter
+Initialized session in 12.469ms
+Running benchmark for 1 iterations 
+count=1 curr=10284
+
+Running benchmark for 50 iterations 
+count=50 first=7372 curr=7395 min=7267 max=7513 avg=7411.2 std=62
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]  [mem KB]	[times called]	[Name]
+	                     PAD	    0.000	    0.023	    0.022	  0.293%	  0.293%     0.000	        1	[conv1_pad/Pad]
+	                 CONV_2D	    0.022	    0.103	    0.104	  1.405%	  1.699%     0.000	        1	[conv1_relu/Relu]
+	       DEPTHWISE_CONV_2D	    0.126	    0.077	    0.079	  1.063%	  2.762%     0.000	        1	[conv_dw_1_relu/Relu]
+	                 CONV_2D	    0.205	    0.164	    0.162	  2.198%	  4.959%     0.000	        1	[conv_pw_1_relu/Relu]
+	                     PAD	    0.368	    0.011	    0.014	  0.184%	  5.143%     0.000	        1	[conv_pad_2/Pad]
+	       DEPTHWISE_CONV_2D	    0.382	    0.053	    0.056	  0.757%	  5.900%     0.000	        1	[conv_dw_2_relu/Relu]
+	                 CONV_2D	    0.439	    0.147	    0.157	  2.118%	  8.019%     0.000	        1	[conv_pw_2_relu/Relu]
+	       DEPTHWISE_CONV_2D	    0.596	    0.058	    0.060	  0.814%	  8.833%     0.000	        1	[conv_dw_3_relu/Relu]
+	                 CONV_2D	    0.656	    0.291	    0.295	  3.986%	 12.819%     0.000	        1	[conv_pw_3_relu/Relu]
+	                     PAD	    0.951	    0.006	    0.006	  0.087%	 12.906%     0.000	        1	[conv_pad_4/Pad]
+	       DEPTHWISE_CONV_2D	    0.958	    0.021	    0.020	  0.269%	 13.175%     0.000	        1	[conv_dw_4_relu/Relu]
+	                 CONV_2D	    0.978	    0.187	    0.190	  2.575%	 15.750%     0.000	        1	[conv_pw_4_relu/Relu]
+	       DEPTHWISE_CONV_2D	    1.169	    0.027	    0.027	  0.367%	 16.117%     0.000	        1	[conv_dw_5_relu/Relu]
+	                 CONV_2D	    1.196	    0.413	    0.423	  5.720%	 21.837%     0.000	        1	[conv_pw_5_relu/Relu]
+	                     PAD	    1.620	    0.006	    0.005	  0.074%	 21.911%     0.000	        1	[conv_pad_6/Pad]
+	       DEPTHWISE_CONV_2D	    1.625	    0.012	    0.012	  0.162%	 22.073%     0.000	        1	[conv_dw_6_relu/Relu]
+	                 CONV_2D	    1.638	    0.414	    0.432	  5.838%	 27.911%     0.000	        1	[conv_pw_6_relu/Relu]
+	       DEPTHWISE_CONV_2D	    2.071	    0.011	    0.012	  0.156%	 28.067%     0.000	        1	[conv_dw_7_relu/Relu]
+	                 CONV_2D	    2.082	    0.779	    0.792	 10.708%	 38.775%     0.000	        1	[conv_pw_7_relu/Relu]
+	       DEPTHWISE_CONV_2D	    2.875	    0.013	    0.015	  0.208%	 38.983%     0.000	        1	[conv_dw_8_relu/Relu]
+	                 CONV_2D	    2.890	    0.829	    0.733	  9.916%	 48.899%     0.000	        1	[conv_pw_8_relu/Relu]
+	       DEPTHWISE_CONV_2D	    3.624	    0.015	    0.014	  0.183%	 49.082%     0.000	        1	[conv_dw_9_relu/Relu]
+	                 CONV_2D	    3.638	    0.784	    0.822	 11.113%	 60.194%     0.000	        1	[conv_pw_9_relu/Relu]
+	       DEPTHWISE_CONV_2D	    4.460	    0.013	    0.013	  0.173%	 60.367%     0.000	        1	[conv_dw_10_relu/Relu]
+	                 CONV_2D	    4.473	    0.733	    0.754	 10.192%	 70.559%     0.000	        1	[conv_pw_10_relu/Relu]
+	       DEPTHWISE_CONV_2D	    5.228	    0.013	    0.013	  0.180%	 70.739%     0.000	        1	[conv_dw_11_relu/Relu]
+	                 CONV_2D	    5.241	    0.749	    0.772	 10.443%	 81.182%     0.000	        1	[conv_pw_11_relu/Relu]
+	                     PAD	    6.014	    0.010	    0.008	  0.111%	 81.293%     0.000	        1	[conv_pad_12/Pad]
+	       DEPTHWISE_CONV_2D	    6.023	    0.008	    0.009	  0.122%	 81.415%     0.000	        1	[conv_dw_12_relu/Relu]
+	                 CONV_2D	    6.032	    0.636	    0.625	  8.450%	 89.865%     0.000	        1	[conv_pw_12_relu/Relu]
+	       DEPTHWISE_CONV_2D	    6.657	    0.006	    0.006	  0.084%	 89.949%     0.000	        1	[conv_dw_13_relu/Relu]
+	                 CONV_2D	    6.664	    0.695	    0.698	  9.434%	 99.383%     0.000	        1	[conv_pw_13_relu/Relu]
+	                    MEAN	    7.363	    0.033	    0.034	  0.461%	 99.844%     0.000	        1	[global_average_pooling2d_1/Mean]
+	                 RESHAPE	    7.397	    0.003	    0.001	  0.018%	 99.862%     0.000	        1	[reshape_1/Reshape]
+	                 CONV_2D	    7.399	    0.010	    0.010	  0.130%	 99.992%     0.000	        1	[conv_preds/BiasAdd]
+	                 RESHAPE	    7.409	    0.000	    0.001	  0.008%	100.000%     0.000	        1	[reshape_2/Reshape]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]  [mem KB]	[times called]	[Name]
+	                 CONV_2D	    3.638	    0.784	    0.822	 11.113%	 11.113%     0.000	        1	[conv_pw_9_relu/Relu]
+	                 CONV_2D	    2.082	    0.779	    0.792	 10.708%	 21.821%     0.000	        1	[conv_pw_7_relu/Relu]
+	                 CONV_2D	    5.241	    0.749	    0.772	 10.443%	 32.264%     0.000	        1	[conv_pw_11_relu/Relu]
+	                 CONV_2D	    4.473	    0.733	    0.754	 10.192%	 42.456%     0.000	        1	[conv_pw_10_relu/Relu]
+	                 CONV_2D	    2.890	    0.829	    0.733	  9.916%	 52.372%     0.000	        1	[conv_pw_8_relu/Relu]
+	                 CONV_2D	    6.664	    0.695	    0.698	  9.434%	 61.807%     0.000	        1	[conv_pw_13_relu/Relu]
+	                 CONV_2D	    6.032	    0.636	    0.625	  8.450%	 70.256%     0.000	        1	[conv_pw_12_relu/Relu]
+	                 CONV_2D	    1.638	    0.414	    0.432	  5.838%	 76.094%     0.000	        1	[conv_pw_6_relu/Relu]
+	                 CONV_2D	    1.196	    0.413	    0.423	  5.720%	 81.814%     0.000	        1	[conv_pw_5_relu/Relu]
+	                 CONV_2D	    0.656	    0.291	    0.295	  3.986%	 85.800%     0.000	        1	[conv_pw_3_relu/Relu]
+
+Number of nodes executed: 36
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       15	     6.958	    94.346%	    94.346%	     0.000	       15
+	       DEPTHWISE_CONV_2D	       13	     0.329	     4.461%	    98.807%	     0.000	       13
+	                     PAD	        5	     0.053	     0.719%	    99.525%	     0.000	        5
+	                    MEAN	        1	     0.034	     0.461%	    99.986%	     0.000	        1
+	                 RESHAPE	        2	     0.001	     0.014%	   100.000%	     0.000	        2
+
+Timings (microseconds): count=50 first=7353 curr=7382 min=7240 max=7494 avg=7393.58 std=62
+Memory (bytes): count=0
+36 nodes observed
+
+
+Average inference timings in us: Warmup: 10284, Init: 12469, no stats: 7411.2
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/conv$ adb shell taskset f0 /data/local/tmp/benchmark_model   --graph=/data/local/tmp/MobileNet_for_mobile_cifar10_false_20112018_chk4.tflite   --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/MobileNet_for_mobile_cifar10_false_20112018_chk4.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/MobileNet_for_mobile_cifar10_false_20112018_chk4.tflite
+resolved reporter
+Initialized session in 13.122ms
+Running benchmark for 1 iterations 
+count=1 curr=11462
+
+Running benchmark for 50 iterations 
+count=50 first=7624 curr=7848 min=7565 max=7956 avg=7842.18 std=76
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]  [mem KB]	[times called]	[Name]
+	                     PAD	    0.000	    0.022	    0.024	  0.310%	  0.310%     0.000	        1	[conv1_pad/Pad]
+	                 CONV_2D	    0.025	    0.110	    0.106	  1.352%	  1.662%     0.000	        1	[conv1_relu/Relu]
+	       DEPTHWISE_CONV_2D	    0.131	    0.080	    0.079	  1.013%	  2.675%     0.000	        1	[conv_dw_1_relu/Relu]
+	                 CONV_2D	    0.210	    0.162	    0.166	  2.117%	  4.791%     0.000	        1	[conv_pw_1_relu/Relu]
+	                     PAD	    0.376	    0.013	    0.014	  0.178%	  4.969%     0.000	        1	[conv_pad_2/Pad]
+	       DEPTHWISE_CONV_2D	    0.390	    0.062	    0.056	  0.716%	  5.685%     0.000	        1	[conv_dw_2_relu/Relu]
+	                 CONV_2D	    0.447	    0.159	    0.161	  2.051%	  7.736%     0.000	        1	[conv_pw_2_relu/Relu]
+	       DEPTHWISE_CONV_2D	    0.608	    0.061	    0.061	  0.785%	  8.521%     0.000	        1	[conv_dw_3_relu/Relu]
+	                 CONV_2D	    0.669	    0.298	    0.302	  3.865%	 12.386%     0.000	        1	[conv_pw_3_relu/Relu]
+	                     PAD	    0.972	    0.006	    0.006	  0.079%	 12.466%     0.000	        1	[conv_pad_4/Pad]
+	       DEPTHWISE_CONV_2D	    0.979	    0.022	    0.021	  0.266%	 12.732%     0.000	        1	[conv_dw_4_relu/Relu]
+	                 CONV_2D	    1.000	    0.194	    0.196	  2.503%	 15.235%     0.000	        1	[conv_pw_4_relu/Relu]
+	       DEPTHWISE_CONV_2D	    1.196	    0.028	    0.029	  0.375%	 15.610%     0.000	        1	[conv_dw_5_relu/Relu]
+	                 CONV_2D	    1.226	    0.428	    0.455	  5.821%	 21.431%     0.000	        1	[conv_pw_5_relu/Relu]
+	                     PAD	    1.682	    0.005	    0.005	  0.070%	 21.501%     0.000	        1	[conv_pad_6/Pad]
+	       DEPTHWISE_CONV_2D	    1.688	    0.011	    0.012	  0.157%	 21.658%     0.000	        1	[conv_dw_6_relu/Relu]
+	                 CONV_2D	    1.701	    0.449	    0.475	  6.076%	 27.735%     0.000	        1	[conv_pw_6_relu/Relu]
+	       DEPTHWISE_CONV_2D	    2.176	    0.012	    0.012	  0.156%	 27.891%     0.000	        1	[conv_dw_7_relu/Relu]
+	                 CONV_2D	    2.189	    0.829	    0.849	 10.847%	 38.738%     0.000	        1	[conv_pw_7_relu/Relu]
+	       DEPTHWISE_CONV_2D	    3.038	    0.013	    0.013	  0.169%	 38.907%     0.000	        1	[conv_dw_8_relu/Relu]
+	                 CONV_2D	    3.052	    0.761	    0.797	 10.185%	 49.092%     0.000	        1	[conv_pw_8_relu/Relu]
+	       DEPTHWISE_CONV_2D	    3.850	    0.014	    0.014	  0.173%	 49.265%     0.000	        1	[conv_dw_9_relu/Relu]
+	                 CONV_2D	    3.864	    0.847	    0.883	 11.282%	 60.547%     0.000	        1	[conv_pw_9_relu/Relu]
+	       DEPTHWISE_CONV_2D	    4.747	    0.013	    0.013	  0.167%	 60.714%     0.000	        1	[conv_dw_10_relu/Relu]
+	                 CONV_2D	    4.760	    0.771	    0.817	 10.441%	 71.155%     0.000	        1	[conv_pw_10_relu/Relu]
+	       DEPTHWISE_CONV_2D	    5.578	    0.013	    0.014	  0.184%	 71.339%     0.000	        1	[conv_dw_11_relu/Relu]
+	                 CONV_2D	    5.593	    0.789	    0.833	 10.642%	 81.981%     0.000	        1	[conv_pw_11_relu/Relu]
+	                     PAD	    6.426	    0.007	    0.008	  0.101%	 82.082%     0.000	        1	[conv_pad_12/Pad]
+	       DEPTHWISE_CONV_2D	    6.434	    0.009	    0.009	  0.117%	 82.199%     0.000	        1	[conv_dw_12_relu/Relu]
+	                 CONV_2D	    6.444	    0.618	    0.625	  7.989%	 90.188%     0.000	        1	[conv_pw_12_relu/Relu]
+	       DEPTHWISE_CONV_2D	    7.069	    0.007	    0.006	  0.083%	 90.271%     0.000	        1	[conv_dw_13_relu/Relu]
+	                 CONV_2D	    7.076	    0.747	    0.714	  9.125%	 99.396%     0.000	        1	[conv_pw_13_relu/Relu]
+	                    MEAN	    7.791	    0.035	    0.035	  0.446%	 99.842%     0.000	        1	[global_average_pooling2d_1/Mean]
+	                 RESHAPE	    7.827	    0.002	    0.002	  0.019%	 99.861%     0.000	        1	[reshape_1/Reshape]
+	                 CONV_2D	    7.829	    0.010	    0.010	  0.130%	 99.991%     0.000	        1	[conv_preds/BiasAdd]
+	                 RESHAPE	    7.839	    0.000	    0.001	  0.009%	100.000%     0.000	        1	[reshape_2/Reshape]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]  [mem KB]	[times called]	[Name]
+	                 CONV_2D	    3.864	    0.847	    0.883	 11.282%	 11.282%     0.000	        1	[conv_pw_9_relu/Relu]
+	                 CONV_2D	    2.189	    0.829	    0.849	 10.847%	 22.129%     0.000	        1	[conv_pw_7_relu/Relu]
+	                 CONV_2D	    5.593	    0.789	    0.833	 10.642%	 32.771%     0.000	        1	[conv_pw_11_relu/Relu]
+	                 CONV_2D	    4.760	    0.771	    0.817	 10.441%	 43.212%     0.000	        1	[conv_pw_10_relu/Relu]
+	                 CONV_2D	    3.052	    0.761	    0.797	 10.185%	 53.397%     0.000	        1	[conv_pw_8_relu/Relu]
+	                 CONV_2D	    7.076	    0.747	    0.714	  9.125%	 62.522%     0.000	        1	[conv_pw_13_relu/Relu]
+	                 CONV_2D	    6.444	    0.618	    0.625	  7.989%	 70.511%     0.000	        1	[conv_pw_12_relu/Relu]
+	                 CONV_2D	    1.701	    0.449	    0.475	  6.076%	 76.587%     0.000	        1	[conv_pw_6_relu/Relu]
+	                 CONV_2D	    1.226	    0.428	    0.455	  5.821%	 82.408%     0.000	        1	[conv_pw_5_relu/Relu]
+	                 CONV_2D	    0.669	    0.298	    0.302	  3.865%	 86.273%     0.000	        1	[conv_pw_3_relu/Relu]
+
+Number of nodes executed: 36
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       15	     7.379	    94.530%	    94.530%	     0.000	       15
+	       DEPTHWISE_CONV_2D	       13	     0.337	     4.317%	    98.847%	     0.000	       13
+	                     PAD	        5	     0.055	     0.705%	    99.552%	     0.000	        5
+	                    MEAN	        1	     0.034	     0.436%	    99.987%	     0.000	        1
+	                 RESHAPE	        2	     0.001	     0.013%	   100.000%	     0.000	        2
+
+Timings (microseconds): count=50 first=7607 curr=7824 min=7548 max=7938 avg=7823.96 std=75
+Memory (bytes): count=0
+36 nodes observed
+
+
+Average inference timings in us: Warmup: 11462, Init: 13122, no stats: 7842.18
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/conv$

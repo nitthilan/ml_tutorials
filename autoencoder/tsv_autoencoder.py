@@ -21,9 +21,11 @@ def get_model(input_dim, encoding_dim):
 	# this is our input placeholder
 	input_img = Input(shape=(input_dim,))
 	# "encoded" is the encoded representation of the input
-	encoded = Dense(encoding_dim, activation='relu')(input_img)
+	enc1 = Dense(200, activation='relu')(input_img)
+	encoded = Dense(encoding_dim, activation='relu')(enc1)
 	# "decoded" is the lossy reconstruction of the input
-	decoded = Dense(input_dim, activation='sigmoid')(encoded)
+	dec1 = Dense(200, activation='relu')(encoded)
+	decoded = Dense(input_dim, activation='sigmoid')(dec1)
 
 	# this model maps an input to its reconstruction
 	autoencoder = Model(input_img, decoded)
@@ -35,7 +37,7 @@ def get_model(input_dim, encoding_dim):
 	# create a placeholder for an encoded (32-dimensional) input
 	encoded_input = Input(shape=(encoding_dim,))
 	# retrieve the last layer of the autoencoder model
-	decoder_layer = autoencoder.layers[-1]
+	decoder_layer = autoencoder.layers[-2]
 	# create the decoder model
 	decoder = Model(encoded_input, decoder_layer(encoded_input))
 
@@ -79,9 +81,13 @@ for num_ones in [19]:#,3,4,5,6]:
 
 	# x_all = get_k_ones(N, input_dim, num_ones)
 	x_all = tdl.get_data(True, 19, N)
+
+	# print(x_all[1001])
+	# print(x_all[1002])
+	# print(x_all[1003])
 	x_train = x_all[:N_TR]
 	x_test = x_all[N_TR:]
-	for encoding_dim in [10, 50, 100, 200, 300]:#[2,3,4,5,6,7,8,9,10]:
+	for encoding_dim in [50]:#[10, 20, 100, 200, 300]: #[2,3,4,5,6,7,8,9,10]:
 		print("AutoEncoding ", num_ones, encoding_dim, x_test.shape)
 		autoencoder, encoder, decoder = \
 			get_model(input_dim, encoding_dim)
@@ -95,20 +101,22 @@ for num_ones in [19]:#,3,4,5,6]:
 
 		# encode and decode some digits
 		# note that we take them from the *test* set
-		encoded_imgs = encoder.predict(x_test)
-		print(encoded_imgs, x_test.shape)
+		encoded_imgs = encoder.predict(x_all)
+		# print(encoded_imgs, x_all.shape)
 		print(encoded_imgs.shape)
 		decoded_imgs = decoder.predict(encoded_imgs)
-
+		print(np.min(encoded_imgs, axis=0), \
+			np.max(encoded_imgs, axis=0))
 
 		n = 10  # how many digits we will display
 		# print(encoded_imgs[:n])
-		print(np.min(encoded_imgs, axis=0), \
-			np.max(encoded_imgs, axis=0))
 		# print(decoded_imgs[:n])
 		output = np.copy(decoded_imgs)
-		output[decoded_imgs<0.5] = 0
-		output[decoded_imgs>0.5] = 1
+		output[decoded_imgs<0.5] = 0.0
+		output[decoded_imgs>0.5] = 1.0
+		print(x_all[1001])
+		print(encoded_imgs[1001])
+		print(output[1001])
 		# print(output[:n])
 		output_sum = np.sum(output, axis=1)
 		# print(output_sum[:n])
@@ -117,23 +125,23 @@ for num_ones in [19]:#,3,4,5,6]:
 		print("validation", np.sum(num_equal))
 		num_valid_encodings.append(np.sum(num_equal))
 
-		n_validate = 100000
-		min_val = np.min(encoded_imgs, axis=0)
-		max_val = np.max(encoded_imgs, axis=0)
-		rand_val = np.random.uniform(0,1,size=(n_validate, encoding_dim))
-		latent_val = np.multiply(rand_val, max_val)
-		print(rand_val[0], latent_val[0], max_val)
-		print(latent_val.shape)
-		decoded_imgs = decoder.predict(latent_val)
-		output = np.copy(decoded_imgs)
-		output[decoded_imgs<0.5] = 0
-		output[decoded_imgs>0.5] = 1
-		# print(output[:n])
-		output_sum = np.sum(output, axis=1)
-		# print(output_sum[:n])
-		num_equal = (output_sum == num_ones)
-		print(np.sum(num_equal), n_validate)
-		print(output[:10])
+		# n_validate = 100000
+		# min_val = np.min(encoded_imgs, axis=0)
+		# max_val = np.max(encoded_imgs, axis=0)
+		# rand_val = np.random.uniform(0,1,size=(n_validate, encoding_dim))
+		# latent_val = np.multiply(rand_val, max_val)
+		# print(rand_val[0], latent_val[0], max_val)
+		# print(latent_val.shape)
+		# decoded_imgs = decoder.predict(latent_val)
+		# output = np.copy(decoded_imgs)
+		# output[decoded_imgs<0.5] = 0
+		# output[decoded_imgs>0.5] = 1
+		# # print(output[:n])
+		# output_sum = np.sum(output, axis=1)
+		# # print(output_sum[:n])
+		# num_equal = (output_sum == num_ones)
+		# print(np.sum(num_equal), n_validate)
+		# print(output[:10])
 	# print(num_ones, num_valid_encodings)
 	num_ones_num_valid_encoding.append(num_valid_encodings)
 

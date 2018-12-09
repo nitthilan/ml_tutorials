@@ -14,6 +14,12 @@ http://academictorrents.com/browse.php?search=imagenet# - Image net dataset
 - https://github.com/tzutalin/ImageNet_Utils - Download utilities
 
 
+Multi input multi output:
+- https://github.com/keras-team/keras/blob/master/keras/losses.py
+- https://keras.io/getting-started/functional-api-guide/#multi-input-and-multi-output-models
+- concatenate output and use custom output
+
+
 
 - https://github.com/szagoruyko/wide-residual-networks
 	- https://arxiv.org/pdf/1605.07146.pdf

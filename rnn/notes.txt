@@ -11,3 +11,9 @@
 
 
 - https://machinelearningmastery.com/encoder-decoder-models-text-summarization-keras/
+
+
+- https://arxiv.org/pdf/1511.06349v2.pdf - LSTM VAE
+- http://mogren.one/publications/2016/c-rnn-gan/mogren2016crnngan.pdf - C-RNN-GAN: Continuous recurrent neural networks with adversarial training
+
+- https://github.com/vishnubob/python-midi

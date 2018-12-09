@@ -19,6 +19,14 @@ def get_conf_sel_list(prediction, threshold, conf_type):
     conf_list = np.asarray([1-(entropy(pred)/2.4) for pred in prediction])
 
   conf_sel_list = conf_list >= threshold
+
+  # print("Conf Type ", conf_type)
+  # conf_sel_list_1 = conf_list < threshold
+  # output_val = prediction[conf_sel_list_1]
+  # print("Confidence ", conf_list.shape, conf_sel_list.shape, threshold)
+  # print("Conf list ", prediction[conf_sel_list_1].shape)
+  # print("Conf list 1", conf_list[conf_sel_list_1])
+  # print("Finding negative value ", output_val[0])
   return conf_sel_list
 
 

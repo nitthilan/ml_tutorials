@@ -1,7 +1,7 @@
 
 from __future__ import print_function
 import keras
-from keras.datasets import cifar10, cifar100
+from keras.datasets import cifar10, cifar100, mnist
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
@@ -37,6 +37,45 @@ def dump_image_folder(x_train, folder_path):
 		im.save(filename)
 
 	return
+
+
+def get_mean_std(dataname):
+	if(dataname == "mnist"):
+		(x_train, y_train), (x_test, y_test) = mnist.load_data()
+	elif(dataname == "cifar10"):
+		(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+	else:
+		(x_train, y_train), (x_test, y_test) = cifar100.load_data()
+	mean = np.mean(x_train)
+	std = np.std(x_train)
+	return mean, std
+
+def get_data(dataname):
+	if(dataname == "mnist"):
+		(x_train, y_train), (x_test, y_test) = mnist.load_data()
+	elif(dataname == "cifar10"):
+		(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+	else:
+		(x_train, y_train), (x_test, y_test) = cifar100.load_data()
+	num_classes = int(np.max(y_train)+1)
+
+	y_train = keras.utils.to_categorical(y_train, num_classes)
+	y_test = keras.utils.to_categorical(y_test, num_classes)
+
+	x_train = x_train.astype('float32')
+	x_test = x_test.astype('float32')
+	# x_train = (x_train - mean)/std
+	# x_test = (x_test - mean)/std
+	if(dataname=="mnist"):
+		x_train_zeros = np.zeros((60000, 32, 32, 1))
+		x_test_zeros = np.zeros((10000, 32, 32, 1))
+
+		x_train_zeros[:,2:30, 2:30, 0] = x_train
+		x_test_zeros[:,2:30, 2:30, 0] = x_test
+		x_train = x_train_zeros
+		x_test = x_test_zeros
+
+	return x_train, y_train, x_test, y_test
 
 def get_cifar_data(resize_factor, num_classes):
 	# The data, shuffled and split between train and test sets:
@@ -97,8 +136,8 @@ def get_reduced_class_data(total_class_types, \
 	return tr_te_list[0], tr_te_list[1]
 
 def scale_image(x_train, x_test):
-	mean = np.mean(x_train,axis=(0,1,2,3))
-	std = np.std(x_train, axis=(0, 1, 2, 3))
+	mean = np.mean(x_train)
+	std = np.std(x_train)
 	x_train = (x_train-mean)/(std+1e-7)
 	x_test = (x_test-mean)/(std+1e-7)
 
@@ -123,4 +162,7 @@ if __name__ == '__main__':
 	# dump_images(1, "../../data/conv/resize_16/")
 	# dump_images(2, "../../data/conv/resize_08/")
 	# dump_images(1, "../../data/conv/resize_16_rgb")
-	dump_images(1, "../../data/conv/resize_16_0312")
+	# dump_images(1, "../../data/conv/resize_16_0312")
+	print(get_mean_std("cifar10"))
+	print (get_mean_std("cifar100"))
+	print (get_mean_std("mnist"))

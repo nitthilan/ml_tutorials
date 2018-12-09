@@ -1,0 +1,99 @@
+Commands Used:
+python3 keras_to_tensorflow.py --input_model=/mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/conv_cifar10_false_4.h5 --output_model=/mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/conv_cifar10_false_4.pb
+
+python3 keras_to_tensorflow.py --input_model=/mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/SqueezeNet_cifar10_false_1.h5 --output_model=/mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/SqueezeNet_cifar10_false_1.pb
+
+
+python3 keras_to_tensorflow.py --input_model=/mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_squeezenet_cifar10_2.h5 --output_model=/mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_squeezenet_cifar10_2.pb
+
+python3 keras_to_tensorflow.py --input_model=/mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_squeezenet_cifar10_3.h5 --output_model=/mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_squeezenet_cifar10_3.pb
+
+
+
+bazel-bin/tensorflow/tools/benchmark/benchmark_model \
+  --graph=/mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/SqueezeNet_cifar10_false_1.pb \
+  --input_layer="input_1:0" \
+  --input_layer_shape="128,48,48,3" \
+  --input_layer_type="float" \
+  --output_layer="global_average_pooling2d_1/Mean:0"
+
+bazel-bin/tensorflow/tools/benchmark/benchmark_model \
+  --graph=/mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_squeezenet_cifar10_2.pb \
+  --input_layer="input_1:0" \
+  --input_layer_shape="128,48,48,3" \
+  --input_layer_type="float" \
+  --output_layer="global_average_pooling2d_1/Mean:0"
+
+bazel-bin/tensorflow/tools/benchmark/benchmark_model \
+  --graph=/mnt/additional/nitthilan/ml_tutorials/conv/saved_models_bkup/vert_filt_squeezenet_cifar10_3.pb \
+  --input_layer="input_1:0" \
+  --input_layer_shape="128,48,48,3" \
+  --input_layer_type="float" \
+  --output_layer="global_average_pooling2d_1/Mean:0"
+
+convert from pb to tflite:
+
+toco --input_file=/mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/SqueezeNet_cifar10_false_1.pb \
+--input_format=TENSORFLOW_GRAPHDEF \
+--output_format=TFLITE \
+--output_file= /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/SqueezeNet_cifar10_false_1.tflite \
+--inference_type=FLOAT \
+--input_type=FLOAT \
+--input_arrays="input_1:0" \
+--output_arrays="global_average_pooling2d_1/Mean:0" \
+--input_shapes=1,48,48,3
+
+toco does not work. Use tflite converter:
+toco --input_file=~/Downloads/squeezenet_2018_04_27/nasnet_mobile.pb \
+--input_format=TENSORFLOW_GRAPHDEF \
+--output_format=TFLITE \
+--output_file= ~/Downloads/squeezenet_2018_04_27/nasnet_mobile.tflite \
+--inference_type=FLOAT \
+--input_type=FLOAT \
+--input_arrays="input:0" \
+--output_arrays="final_layer/predictions:0" \
+--input_shapes=1,224,224,3
+
+Use the keras_to_tflite.py to tflite to keras. You will get the following error KeyError: 'weighted_metrics'
+https://stackoverflow.com/questions/52753846/error-in-load-a-model-saved-by-callbakcs-modelcheckpoint-in-keras
+- /home/nitthilan/.local/lib/python3.6/site-packages/tensorflow/python/keras/engine/saving.py - Edit this file and comment all mention of weighted_metrics
+- /home/aryan/Code/nitthilan/converter.py
+----------------
+import tensorflow as tf
+from keras.models import load_model
+
+input_config = '/mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/SqueezeNet_cifar10_false_1.h5'
+output_config = '/mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/SqueezeNet_cifar10_false_1.tflite'
+
+
+load_model_squeezenet = load_model(input_config)
+
+print(load_model_squeezenet)
+print("ALL THE LOAD MODELS")
+
+converter = tf.contrib.lite.TocoConverter.from_keras_model_file(input_config)
+tflite_model = converter.convert()
+open(output_config, "wb").write(tflite_model)
+----------------
+
+bazel build -c opt   --config=android_arm   --cxxopt='--std=c++11'   tensorflow/contrib/lite/tools/benchmark:benchmark_model
+
+adb push bazel-bin/tensorflow/contrib/lite/tools/benchmark/benchmark_model /data/local/tmp
+
+adb shell chmod +x /data/local/tmp/benchmark_model
+
+adb push /mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/SqueezeNet_cifar10_false_1.tflite /data/local/tmp
+
+adb shell /data/local/tmp/benchmark_model \
+  --graph=/data/local/tmp/SqueezeNet_cifar10_false_1.tflite \
+  --num_threads=4
+
+Enable Profiling:
+bazel build -c opt \
+  --config=android_arm \
+  --cxxopt='--std=c++11' \
+  --copt=-DTFLITE_PROFILING_ENABLED \
+  tensorflow/contrib/lite/tools/benchmark:benchmark_model
+adb push bazel-bin/tensorflow/contrib/lite/tools/benchmark/benchmark_model /data/local/tmp
+
+

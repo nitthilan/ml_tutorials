@@ -1,0 +1,131 @@
+aryan@dana340-gpu:~/Code/tensorflow$ adb shell taskset f0 /data/local/tmp/benchmark_model \
+>   --graph=/data/local/tmp/vert_filt_conv_mnist_3.tflite \
+>   --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/vert_filt_conv_mnist_3.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/vert_filt_conv_mnist_3.tflite
+resolved reporter
+Initialized session in 14.608ms
+Running benchmark for 1 iterations 
+count=1 curr=22765
+
+Running benchmark for 50 iterations 
+count=50 first=21468 curr=22867 min=21468 max=23204 avg=22641.8 std=461
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	       DEPTHWISE_CONV_2D	    0.000	    1.020	    1.041	  4.599%	  4.599%	     0.000	        1	[activation_1/Relu]
+	                 CONV_2D	    1.041	    6.278	    6.903	 30.504%	 35.103%	     0.000	        1	[activation_2/Relu]
+	             MAX_POOL_2D	    7.946	    0.101	    0.109	  0.481%	 35.584%	     0.000	        1	[max_pooling2d_1/MaxPool]
+	                 CONV_2D	    8.055	    2.987	    3.091	 13.659%	 49.243%	     0.000	        1	[activation_3/Relu]
+	                 CONV_2D	   11.148	    5.605	    5.876	 25.966%	 75.209%	     0.000	        1	[activation_4/Relu]
+	             MAX_POOL_2D	   17.025	    0.039	    0.043	  0.188%	 75.397%	     0.000	        1	[max_pooling2d_2/MaxPool]
+	                 CONV_2D	   17.068	    2.246	    2.235	  9.877%	 85.274%	     0.000	        1	[activation_5/Relu]
+	                 CONV_2D	   19.305	    3.130	    3.266	 14.432%	 99.706%	     0.000	        1	[activation_6/Relu]
+	             MAX_POOL_2D	   22.572	    0.017	    0.017	  0.077%	 99.783%	     0.000	        1	[max_pooling2d_3/MaxPool]
+	         FULLY_CONNECTED	   22.589	    0.035	    0.044	  0.194%	 99.977%	     0.000	        1	[activation_7/Relu]
+	         FULLY_CONNECTED	   22.634	    0.001	    0.002	  0.007%	 99.983%	     0.000	        1	[dense_2/BiasAdd]
+	                 SOFTMAX	   22.636	    0.002	    0.004	  0.017%	100.000%	     0.000	        1	[activation_8/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	    1.041	    6.278	    6.903	 30.504%	 30.504%	     0.000	        1	[activation_2/Relu]
+	                 CONV_2D	   11.148	    5.605	    5.876	 25.966%	 56.470%	     0.000	        1	[activation_4/Relu]
+	                 CONV_2D	   19.305	    3.130	    3.266	 14.432%	 70.902%	     0.000	        1	[activation_6/Relu]
+	                 CONV_2D	    8.055	    2.987	    3.091	 13.659%	 84.560%	     0.000	        1	[activation_3/Relu]
+	                 CONV_2D	   17.068	    2.246	    2.235	  9.877%	 94.437%	     0.000	        1	[activation_5/Relu]
+	       DEPTHWISE_CONV_2D	    0.000	    1.020	    1.041	  4.599%	 99.036%	     0.000	        1	[activation_1/Relu]
+	             MAX_POOL_2D	    7.946	    0.101	    0.109	  0.481%	 99.518%	     0.000	        1	[max_pooling2d_1/MaxPool]
+	         FULLY_CONNECTED	   22.589	    0.035	    0.044	  0.194%	 99.711%	     0.000	        1	[activation_7/Relu]
+	             MAX_POOL_2D	   17.025	    0.039	    0.043	  0.188%	 99.900%	     0.000	        1	[max_pooling2d_2/MaxPool]
+	             MAX_POOL_2D	   22.572	    0.017	    0.017	  0.077%	 99.977%	     0.000	        1	[max_pooling2d_3/MaxPool]
+
+Number of nodes executed: 12
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	        5	    21.370	    94.457%	    94.457%	     0.000	        5
+	       DEPTHWISE_CONV_2D	        1	     1.040	     4.597%	    99.054%	     0.000	        1
+	             MAX_POOL_2D	        3	     0.167	     0.738%	    99.792%	     0.000	        3
+	         FULLY_CONNECTED	        2	     0.044	     0.194%	    99.987%	     0.000	        2
+	                 SOFTMAX	        1	     0.003	     0.013%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=21461 curr=22854 min=21461 max=23194 avg=22630.2 std=460
+Memory (bytes): count=0
+12 nodes observed
+
+
+Average inference timings in us: Warmup: 22765, Init: 14608, no stats: 22641.8
+aryan@dana340-gpu:~/Code/tensorflow$ adb shell taskset f0 /data/local/tmp/benchmark_model   --graph=/data/local/tmp/vert_filt_conv_mnist_3.tflite   --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/vert_filt_conv_mnist_3.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/vert_filt_conv_mnist_3.tflite
+resolved reporter
+Initialized session in 18.895ms
+Running benchmark for 1 iterations 
+count=1 curr=22886
+
+Running benchmark for 50 iterations 
+count=50 first=21279 curr=23379 min=21279 max=23379 avg=22903.1 std=435
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	       DEPTHWISE_CONV_2D	    0.000	    1.020	    1.038	  4.536%	  4.536%	     0.000	        1	[activation_1/Relu]
+	                 CONV_2D	    1.039	    6.155	    6.992	 30.544%	 35.080%	     0.000	        1	[activation_2/Relu]
+	             MAX_POOL_2D	    8.033	    0.100	    0.112	  0.488%	 35.568%	     0.000	        1	[max_pooling2d_1/MaxPool]
+	                 CONV_2D	    8.145	    3.028	    3.153	 13.774%	 49.341%	     0.000	        1	[activation_3/Relu]
+	                 CONV_2D	   11.299	    5.554	    5.943	 25.962%	 75.303%	     0.000	        1	[activation_4/Relu]
+	             MAX_POOL_2D	   17.244	    0.040	    0.044	  0.191%	 75.494%	     0.000	        1	[max_pooling2d_2/MaxPool]
+	                 CONV_2D	   17.288	    2.178	    2.256	  9.857%	 85.350%	     0.000	        1	[activation_5/Relu]
+	                 CONV_2D	   19.545	    3.140	    3.283	 14.341%	 99.692%	     0.000	        1	[activation_6/Relu]
+	             MAX_POOL_2D	   22.829	    0.017	    0.018	  0.079%	 99.770%	     0.000	        1	[max_pooling2d_3/MaxPool]
+	         FULLY_CONNECTED	   22.847	    0.035	    0.047	  0.206%	 99.976%	     0.000	        1	[activation_7/Relu]
+	         FULLY_CONNECTED	   22.895	    0.001	    0.001	  0.006%	 99.982%	     0.000	        1	[dense_2/BiasAdd]
+	                 SOFTMAX	   22.897	    0.002	    0.004	  0.018%	100.000%	     0.000	        1	[activation_8/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	    1.039	    6.155	    6.992	 30.544%	 30.544%	     0.000	        1	[activation_2/Relu]
+	                 CONV_2D	   11.299	    5.554	    5.943	 25.962%	 56.506%	     0.000	        1	[activation_4/Relu]
+	                 CONV_2D	   19.545	    3.140	    3.283	 14.341%	 70.848%	     0.000	        1	[activation_6/Relu]
+	                 CONV_2D	    8.145	    3.028	    3.153	 13.774%	 84.621%	     0.000	        1	[activation_3/Relu]
+	                 CONV_2D	   17.288	    2.178	    2.256	  9.857%	 94.478%	     0.000	        1	[activation_5/Relu]
+	       DEPTHWISE_CONV_2D	    0.000	    1.020	    1.038	  4.536%	 99.013%	     0.000	        1	[activation_1/Relu]
+	             MAX_POOL_2D	    8.033	    0.100	    0.112	  0.488%	 99.501%	     0.000	        1	[max_pooling2d_1/MaxPool]
+	         FULLY_CONNECTED	   22.847	    0.035	    0.047	  0.206%	 99.707%	     0.000	        1	[activation_7/Relu]
+	             MAX_POOL_2D	   17.244	    0.040	    0.044	  0.191%	 99.898%	     0.000	        1	[max_pooling2d_2/MaxPool]
+	             MAX_POOL_2D	   22.829	    0.017	    0.018	  0.079%	 99.976%	     0.000	        1	[max_pooling2d_3/MaxPool]
+
+Number of nodes executed: 12
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	        5	    21.627	    94.486%	    94.486%	     0.000	        5
+	       DEPTHWISE_CONV_2D	        1	     1.038	     4.535%	    99.021%	     0.000	        1
+	             MAX_POOL_2D	        3	     0.172	     0.751%	    99.773%	     0.000	        3
+	         FULLY_CONNECTED	        2	     0.048	     0.210%	    99.983%	     0.000	        2
+	                 SOFTMAX	        1	     0.004	     0.017%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=21270 curr=23369 min=21270 max=23369 avg=22892.1 std=434
+Memory (bytes): count=0
+12 nodes observed
+
+
+Average inference timings in us: Warmup: 22886, Init: 18895, no stats: 22903.1
+aryan@dana340-gpu:~/Code/tensorflow$ 
