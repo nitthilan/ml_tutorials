@@ -3,10 +3,16 @@ import os
 import numpy as np
 import csv
 
-import get_all_imagenet as gai
+# import get_all_imagenet as gai
 import time
 from keras.utils import to_categorical
 from keras import optimizers
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+import data_load.get_keras_data as gkd
+import conv.networks.get_all_imagenet as gai
 
 
 base_folder = "/mnt/additional/nitthilan/data/ml_tutorial/imagenet/"
@@ -104,8 +110,8 @@ def run_inference(val_file="full_val.npz"):
 	# 	get_val_true_pred_info(os.path.join(base_folder, val_true_pred_file_info_path))
 	# print("Pred Data size ", val_true_pred_list.shape)
 
-	train_true_cat = to_categorical(train_true)
-	val_true_cat = to_categorical(val_true)
+	train_true_cat = to_categorical(train_true, num_classes=1000)
+	val_true_cat = to_categorical(val_true, num_classes=1000)
 	print("To category ", np.argmax(train_true_cat, axis=1))
 
 	print("True Train ", train_true)
@@ -116,53 +122,61 @@ def run_inference(val_file="full_val.npz"):
 
 	# model_name = 
 	for model_name in ["MobileNet"]: #, "MobileNetV2", "VGG19", "ResNet50"]:
-		model = gai.get_all_nets(model_name, include_top=False)
+		model = gai.get_all_nets(model_name, include_top=True)
 		train_data_preproc = gai.preprocess_image(model_name, np.copy(train_data))
 		val_data_preproc = gai.preprocess_image(model_name, np.copy(val_data))
 
-		# pred_output = model.predict(val_images_np)
-		# score = model.evaluate(train_data_preproc , train_true_cat, 
-		# 	batch_size=32, verbose=1)
-		# print("Score ", model_name, val_file, score)
-		# score = model.evaluate(val_data_preproc , val_true_cat, 
-		# 	batch_size=32, verbose=1)
-		# print("Score ", model_name, val_file, score)
-		# pred_value = model.predict(train_data_preproc, batch_size=1, verbose=1)
-		# print("Pred value ", np.argmax(pred_value, axis=1))
-		# print(train_true)
+		opt = optimizers.rmsprop(lr=0.0001, decay=1e-6)
+
+		# Let's train the model using RMSprop
+		model.compile(loss='categorical_crossentropy',
+		      optimizer=opt,
+		      metrics=['accuracy'])
+		model.summary()
+
+		# pred_output = model.predict(val_data)
+		score = model.evaluate(train_data_preproc , train_true_cat, 
+			batch_size=32, verbose=1)
+		print("Score ", model_name, val_file, score)
+		score = model.evaluate(val_data_preproc , val_true_cat, 
+			batch_size=32, verbose=1)
+		print("Score ", model_name, val_file, score)
+		pred_value = model.predict(train_data_preproc, batch_size=1, verbose=1)
+		print("Pred value ", np.argmax(pred_value, axis=1))
+		print(train_true)
 		weight_list = model.get_weights()
 
-		for mask in [1, 2, 3]:
-			weight_list_copy = np.copy(weight_list)#copy.deepcopy(weight_list)
-			weight_list_copy = get_mask_weights(weight_list_copy, mask)
-			model.set_weights(weight_list_copy)
-			model =	gai.add_classifier(model, num_output)
+		# for mask in [1, 2, 3]:
+		# 	weight_list_copy = np.copy(weight_list)#copy.deepcopy(weight_list)
+		# 	weight_list_copy = get_mask_weights(weight_list_copy, mask)
+		# 	model.set_weights(weight_list_copy)
+		# 	model =	gai.add_classifier(model, num_output)
 			
-			# pred_output = model.predict(val_images_np)
-			# score = model.evaluate(val_images_np_1 , val_true_pred_list_1, 
-			# 	batch_size=1, verbose=1)
-			# print("Score ", model_name, val_file, mask, score)
-			batch_size = 32
-			epochs = 100
+		# 	# pred_output = model.predict(val_images_np)
+		# 	# score = model.evaluate(val_images_np_1 , val_true_pred_list_1, 
+		# 	# 	batch_size=1, verbose=1)
+		# 	# print("Score ", model_name, val_file, mask, score)
+		# 	batch_size = 32
+		# 	epochs = 100
 
-			# for layer in model.layers[:-3]:
-			# 	layer.trainable = False
-			# for layer in model.layers[-3:]:
-			# 	layer.trainable = True
-			opt = optimizers.rmsprop(lr=0.0001, decay=1e-6)
+		# 	# for layer in model.layers[:-3]:
+		# 	# 	layer.trainable = False
+		# 	# for layer in model.layers[-3:]:
+		# 	# 	layer.trainable = True
+		# 	opt = optimizers.rmsprop(lr=0.0001, decay=1e-6)
 
-			# Let's train the model using RMSprop
-			model.compile(loss='categorical_crossentropy',
-			      optimizer=opt,
-			      metrics=['accuracy'])
-			model.summary()
+		# 	# Let's train the model using RMSprop
+		# 	model.compile(loss='categorical_crossentropy',
+		# 	      optimizer=opt,
+		# 	      metrics=['accuracy'])
+		# 	model.summary()
 
-			# pred_value = model.predict(val_images_np, batch_size=1, verbose=1)
-			# print("Pred value ", np.argmax(pred_value, axis=1))
-			history = model.fit(train_data_preproc, train_true_cat,
-                batch_size=batch_size,
-                epochs=epochs,
-                validation_data=(val_data_preproc, val_true_cat),
-                shuffle=True)
+		# 	# pred_value = model.predict(val_images_np, batch_size=1, verbose=1)
+		# 	# print("Pred value ", np.argmax(pred_value, axis=1))
+		# 	history = model.fit(train_data_preproc, train_true_cat,
+  #               batch_size=batch_size,
+  #               epochs=epochs,
+  #               validation_data=(val_data_preproc, val_true_cat),
+  #               shuffle=True)
 
 run_inference()

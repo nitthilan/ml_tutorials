@@ -1,0 +1,504 @@
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ adb shell taskset f0 /data/local/tmp/benchmark_model --graph=/data/local/tmp/VGG190.5.tflite --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG190.5.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG190.5.tflite
+resolved reporter
+Initialized session in 77.399ms
+Running benchmark for 1 iterations 
+count=1 curr=313683
+
+Running benchmark for 50 iterations 
+count=50 first=37406 curr=22698 min=22562 max=37406 avg=23190.5 std=2333
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   31.910	   19.356	 83.495%	 83.495%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   19.358	    3.653	    2.549	 10.994%	 94.489%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   21.908	    1.782	    1.244	  5.368%	 99.857%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   23.155	    0.049	    0.033	  0.143%	100.000%	     0.000	        1[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   31.910	   19.356	 83.495%	 83.495%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   19.358	    3.653	    2.549	 10.994%	 94.489%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   21.908	    1.782	    1.244	  5.368%	 99.857%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   23.155	    0.049	    0.033	  0.143%	100.000%	     0.000	        1[predictions/Softmax]
+
+Number of nodes executed: 4
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        3	    23.148	    99.858%	    99.858%	     0.000	        3
+	                 SOFTMAX	        1	     0.033	     0.142%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=37394 curr=22690 min=22554 max=37394 avg=23182.5 std=2332
+Memory (bytes): count=0
+4 nodes observed
+
+
+Average inference timings in us: Warmup: 313683, Init: 77399, no stats: 23190.5
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ adb shell taskset f0 /data/local/tmp/benchmark_model --graph=/data/local/tmp/VGG190.5.tflite --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG190.5.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG190.5.tflite
+resolved reporter
+Initialized session in 8.254ms
+Running benchmark for 1 iterations 
+count=1 curr=62100
+
+Running benchmark for 50 iterations 
+count=50 first=22777 curr=22764 min=22675 max=22901 avg=22771.4 std=51
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   19.022	   18.983	 83.396%	 83.396%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   18.985	    2.490	    2.515	 11.051%	 94.446%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   21.502	    1.223	    1.231	  5.409%	 99.855%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   22.735	    0.033	    0.033	  0.145%	100.000%	     0.000	        1[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   19.022	   18.983	 83.396%	 83.396%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   18.985	    2.490	    2.515	 11.051%	 94.446%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   21.502	    1.223	    1.231	  5.409%	 99.855%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   22.735	    0.033	    0.033	  0.145%	100.000%	     0.000	        1[predictions/Softmax]
+
+Number of nodes executed: 4
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        3	    22.729	    99.855%	    99.855%	     0.000	        3
+	                 SOFTMAX	        1	     0.033	     0.145%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=22768 curr=22756 min=22666 max=22894 avg=22763 std=51
+Memory (bytes): count=0
+4 nodes observed
+
+
+Average inference timings in us: Warmup: 62100, Init: 8254, no stats: 22771.4
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ 
+
+
+
+
+
+
+
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ adb shell taskset f0 /data/local/tmp/benchmark_model --graph=/data/local/tmp/VGG190.75.tflite --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG190.75.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG190.75.tflite
+resolved reporter
+Initialized session in 22.981ms
+Running benchmark for 1 iterations 
+count=1 curr=827193
+
+Running benchmark for 50 iterations 
+count=50 first=67568 curr=50887 min=50705 max=67568 avg=51235.5 std=2350
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   58.713	   43.232	 84.392%	 84.392%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   43.234	    6.600	    6.014	 11.739%	 96.131%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   49.249	    2.208	    1.949	  3.805%	 99.936%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   51.200	    0.038	    0.033	  0.064%	100.000%	     0.000	        1[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   58.713	   43.232	 84.392%	 84.392%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   43.234	    6.600	    6.014	 11.739%	 96.131%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   49.249	    2.208	    1.949	  3.805%	 99.936%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   51.200	    0.038	    0.033	  0.064%	100.000%	     0.000	        1[predictions/Softmax]
+
+Number of nodes executed: 4
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        3	    51.194	    99.938%	    99.938%	     0.000	        3
+	                 SOFTMAX	        1	     0.032	     0.062%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=67559 curr=50878 min=50697 max=67559 avg=51228 std=2350
+Memory (bytes): count=0
+4 nodes observed
+
+
+Average inference timings in us: Warmup: 827193, Init: 22981, no stats: 51235.5
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ adb shell taskset f0 /data/local/tmp/benchmark_model --graph=/data/local/tmp/VGG190.75.tflite --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG190.75.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG190.75.tflite
+resolved reporter
+Initialized session in 7.89ms
+Running benchmark for 1 iterations 
+count=1 curr=134264
+
+Running benchmark for 50 iterations 
+count=50 first=51318 curr=51355 min=51181 max=51453 avg=51286.5 std=63
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   43.126	   43.143	 84.134%	 84.134%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   43.145	    6.180	    6.120	 11.935%	 96.069%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   49.267	    1.971	    1.984	  3.868%	 99.938%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   51.252	    0.032	    0.032	  0.062%	100.000%	     0.000	        1[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   43.126	   43.143	 84.134%	 84.134%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   43.145	    6.180	    6.120	 11.935%	 96.069%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   49.267	    1.971	    1.984	  3.868%	 99.938%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   51.252	    0.032	    0.032	  0.062%	100.000%	     0.000	        1[predictions/Softmax]
+
+Number of nodes executed: 4
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        3	    51.246	    99.938%	    99.938%	     0.000	        3
+	                 SOFTMAX	        1	     0.032	     0.062%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=51309 curr=51348 min=51173 max=51445 avg=51279.2 std=63
+Memory (bytes): count=0
+4 nodes observed
+
+
+Average inference timings in us: Warmup: 134264, Init: 7890, no stats: 51286.5
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ 
+
+
+
+
+
+
+
+
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ adb shell taskset f0 /data/local/tmp/benchmark_model --graph=/data/local/tmp/VGG191.0.tflite --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG191.0.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG191.0.tflite
+resolved reporter
+Initialized session in 7.869ms
+Running benchmark for 1 iterations 
+count=1 curr=228681
+
+Running benchmark for 50 iterations 
+count=50 first=90114 curr=90126 min=89953 max=90232 avg=90082.6 std=55
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   75.982	   75.911	 84.276%	 84.276%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   75.913	   11.299	   11.377	 12.630%	 96.906%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   87.292	    2.793	    2.753	  3.056%	 99.963%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   90.046	    0.032	    0.034	  0.037%	100.000%	     0.000	        1[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   75.982	   75.911	 84.276%	 84.276%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   75.913	   11.299	   11.377	 12.630%	 96.906%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   87.292	    2.793	    2.753	  3.056%	 99.963%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   90.046	    0.032	    0.034	  0.037%	100.000%	     0.000	        1[predictions/Softmax]
+
+Number of nodes executed: 4
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        3	    90.040	    99.963%	    99.963%	     0.000	        3
+	                 SOFTMAX	        1	     0.033	     0.037%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=90106 curr=90117 min=89944 max=90224 avg=90075 std=55
+Memory (bytes): count=0
+4 nodes observed
+
+
+Average inference timings in us: Warmup: 228681, Init: 7869, no stats: 90082.6
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ adb shell taskset f0 /data/local/tmp/benchmark_model --graph=/data/local/tmp/VGG191.0.tflite --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG191.0.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG191.0.tflite
+resolved reporter
+Initialized session in 8.244ms
+Running benchmark for 1 iterations 
+count=1 curr=232093
+
+Running benchmark for 50 iterations 
+count=50 first=90927 curr=90777 min=90720 max=90990 avg=90841.5 std=65
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   76.874	   76.779	 84.527%	 84.527%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   76.780	   11.327	   11.282	 12.421%	 96.948%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   88.064	    2.683	    2.739	  3.015%	 99.963%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   90.805	    0.033	    0.034	  0.037%	100.000%	     0.000	        1[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   76.874	   76.779	 84.527%	 84.527%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   76.780	   11.327	   11.282	 12.421%	 96.948%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   88.064	    2.683	    2.739	  3.015%	 99.963%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   90.805	    0.033	    0.034	  0.037%	100.000%	     0.000	        1[predictions/Softmax]
+
+Number of nodes executed: 4
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        3	    90.798	    99.963%	    99.963%	     0.000	        3
+	                 SOFTMAX	        1	     0.034	     0.037%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=90917 curr=90768 min=90712 max=90982 avg=90833.7 std=65
+Memory (bytes): count=0
+4 nodes observed
+
+
+Average inference timings in us: Warmup: 232093, Init: 8244, no stats: 90841.5
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ 
+
+
+
+
+
+
+
+
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ adb shell taskset f0 /data/local/tmp/benchmark_model --graph=/data/local/tmp/VGG190.625.tflite --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG190.625.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG190.625.tflite
+resolved reporter
+Initialized session in 19.436ms
+Running benchmark for 1 iterations 
+count=1 curr=568404
+
+Running benchmark for 50 iterations 
+count=50 first=67848 curr=35572 min=35445 max=67848 avg=36326.9 std=4558
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   61.838	   30.681	 84.477%	 84.477%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   30.683	    4.349	    4.013	 11.051%	 95.528%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   34.699	    1.617	    1.590	  4.378%	 99.906%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   36.290	    0.034	    0.034	  0.094%	100.000%	     0.000	        1[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   61.838	   30.681	 84.477%	 84.477%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   30.683	    4.349	    4.013	 11.051%	 95.528%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   34.699	    1.617	    1.590	  4.378%	 99.906%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   36.290	    0.034	    0.034	  0.094%	100.000%	     0.000	        1[predictions/Softmax]
+
+Number of nodes executed: 4
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        3	    36.284	    99.906%	    99.906%	     0.000	        3
+	                 SOFTMAX	        1	     0.034	     0.094%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=67838 curr=35565 min=35439 max=67838 avg=36319.2 std=4558
+Memory (bytes): count=0
+4 nodes observed
+
+
+Average inference timings in us: Warmup: 568404, Init: 19436, no stats: 36326.9
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ adb shell taskset f0 /data/local/tmp/benchmark_model --graph=/data/local/tmp/VGG190.625.tflite --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG190.625.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG190.625.tflite
+resolved reporter
+Initialized session in 7.932ms
+Running benchmark for 1 iterations 
+count=1 curr=91635
+
+Running benchmark for 50 iterations 
+count=50 first=35464 curr=35576 min=35383 max=35655 avg=35513.2 std=63
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   29.913	   29.915	 84.255%	 84.255%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   29.917	    3.976	    3.992	 11.243%	 95.498%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   33.910	    1.536	    1.565	  4.408%	 99.906%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   35.477	    0.032	    0.033	  0.094%	100.000%	     0.000	        1[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   29.913	   29.915	 84.255%	 84.255%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   29.917	    3.976	    3.992	 11.243%	 95.498%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   33.910	    1.536	    1.565	  4.408%	 99.906%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   35.477	    0.032	    0.033	  0.094%	100.000%	     0.000	        1[predictions/Softmax]
+
+Number of nodes executed: 4
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        3	    35.470	    99.907%	    99.907%	     0.000	        3
+	                 SOFTMAX	        1	     0.033	     0.093%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=35457 curr=35570 min=35377 max=35646 avg=35505 std=63
+Memory (bytes): count=0
+4 nodes observed
+
+
+Average inference timings in us: Warmup: 91635, Init: 7932, no stats: 35513.2
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ 
+
+
+
+
+
+
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ adb shell taskset f0 /data/local/tmp/benchmark_model --graph=/data/local/tmp/VGG190.875.tflite --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG190.875.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG190.875.tflite
+resolved reporter
+Initialized session in 24.723ms
+Running benchmark for 1 iterations 
+count=1 curr=831098
+
+Running benchmark for 50 iterations 
+count=50 first=96194 curr=68443 min=68422 max=96194 avg=69114.9 std=3869
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   85.139	   58.364	 84.455%	 84.455%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   58.366	    8.659	    8.399	 12.153%	 96.608%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   66.766	    2.352	    2.310	  3.343%	 99.950%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   69.078	    0.034	    0.034	  0.050%	100.000%	     0.000	        1[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   85.139	   58.364	 84.455%	 84.455%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   58.366	    8.659	    8.399	 12.153%	 96.608%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   66.766	    2.352	    2.310	  3.343%	 99.950%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   69.078	    0.034	    0.034	  0.050%	100.000%	     0.000	        1[predictions/Softmax]
+
+Number of nodes executed: 4
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        3	    69.072	    99.951%	    99.951%	     0.000	        3
+	                 SOFTMAX	        1	     0.034	     0.049%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=96184 curr=68435 min=68413 max=96184 avg=69107.1 std=3869
+Memory (bytes): count=0
+4 nodes observed
+
+
+Average inference timings in us: Warmup: 831098, Init: 24723, no stats: 69114.9
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ adb shell taskset f0 /data/local/tmp/benchmark_model --graph=/data/local/tmp/VGG190.875.tflite --num_threads=1
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG190.875.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG190.875.tflite
+resolved reporter
+Initialized session in 33.141ms
+Running benchmark for 1 iterations 
+count=1 curr=180778
+
+Running benchmark for 50 iterations 
+count=50 first=68645 curr=68480 min=68277 max=68708 avg=68458.3 std=77
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   57.745	   57.647	 84.218%	 84.218%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   57.649	    8.553	    8.450	 12.344%	 96.562%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   66.101	    2.307	    2.320	  3.390%	 99.951%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   68.423	    0.032	    0.033	  0.049%	100.000%	     0.000	        1[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	         FULLY_CONNECTED	    0.000	   57.745	   57.647	 84.218%	 84.218%	     0.000	        1[fc1/Relu]
+	         FULLY_CONNECTED	   57.649	    8.553	    8.450	 12.344%	 96.562%	     0.000	        1[fc2/Relu]
+	         FULLY_CONNECTED	   66.101	    2.307	    2.320	  3.390%	 99.951%	     0.000	        1[predictions/BiasAdd]
+	                 SOFTMAX	   68.423	    0.032	    0.033	  0.049%	100.000%	     0.000	        1[predictions/Softmax]
+
+Number of nodes executed: 4
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	         FULLY_CONNECTED	        3	    68.416	    99.952%	    99.952%	     0.000	        3
+	                 SOFTMAX	        1	     0.033	     0.048%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=68637 curr=68471 min=68268 max=68699 avg=68450.2 std=78
+Memory (bytes): count=0
+4 nodes observed
+
+
+Average inference timings in us: Warmup: 180778, Init: 33141, no stats: 68458.3
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android$ 

@@ -11,6 +11,7 @@ from keras.utils import to_categorical
 import h5py
 
 
+# https://github.com/wichtounet/frameworks/blob/master/keras/experiment6.py
 base_folder = "/mnt/additional/nitthilan/data/ml_tutorial/imagenet/"
 
 val_true_pred_path = "caffe_ilsvrc12.tar/val.txt"

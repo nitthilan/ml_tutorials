@@ -1,0 +1,377 @@
+nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android/performance_esweek_journal$ sh esweek_journal_cmds_2.sh 
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG19_for_mobile0.5.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG19_for_mobile0.5.tflite
+resolved reporter
+Initialized session in 19.527ms
+Running benchmark for 1 iterations 
+count=1 curr=1395391
+
+Running benchmark for 50 iterations 
+count=50 first=1307110 curr=1311805 min=1307110 max=1329729 avg=1.31183e+06 std=2978
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	    0.000	   20.293	   20.390	  1.554%	  1.554%	     0.000	        1	[block1_conv1/Relu]
+	                 CONV_2D	   20.392	  140.227	  141.204	 10.764%	 12.319%	     0.000	        1	[block1_conv2/Relu]
+	             MAX_POOL_2D	  161.598	    4.361	    4.378	  0.334%	 12.652%	     0.000	        1	[block1_pool/MaxPool]
+	                 CONV_2D	  165.978	   64.411	   64.594	  4.924%	 17.577%	     0.000	        1	[block2_conv1/Relu]
+	                 CONV_2D	  230.576	  125.032	  125.306	  9.552%	 27.129%	     0.000	        1	[block2_conv2/Relu]
+	             MAX_POOL_2D	  355.884	    1.676	    1.684	  0.128%	 27.257%	     0.000	        1	[block2_pool/MaxPool]
+	                 CONV_2D	  357.570	   58.797	   58.942	  4.493%	 31.751%	     0.000	        1	[block3_conv1/Relu]
+	                 CONV_2D	  416.514	  116.422	  116.789	  8.903%	 40.654%	     0.000	        1	[block3_conv2/Relu]
+	                 CONV_2D	  533.305	  116.571	  117.087	  8.926%	 49.579%	     0.000	        1	[block3_conv3/Relu]
+	                 CONV_2D	  650.394	  116.894	  117.140	  8.930%	 58.509%	     0.000	        1	[block3_conv4/Relu]
+	             MAX_POOL_2D	  767.536	    0.613	    0.627	  0.048%	 58.557%	     0.000	        1	[block3_pool/MaxPool]
+	                 CONV_2D	  768.164	   58.311	   58.433	  4.454%	 63.012%	     0.000	        1	[block4_conv1/Relu]
+	                 CONV_2D	  826.598	  116.440	  116.578	  8.887%	 71.898%	     0.000	        1	[block4_conv2/Relu]
+	                 CONV_2D	  943.178	  116.358	  116.581	  8.887%	 80.786%	     0.000	        1	[block4_conv3/Relu]
+	                 CONV_2D	 1059.760	  115.549	  116.575	  8.887%	 89.672%	     0.000	        1	[block4_conv4/Relu]
+	             MAX_POOL_2D	 1176.337	    0.258	    0.257	  0.020%	 89.692%	     0.000	        1	[block4_pool/MaxPool]
+	                 CONV_2D	 1176.595	   28.915	   28.929	  2.205%	 91.897%	     0.000	        1	[block5_conv1/Relu]
+	                 CONV_2D	 1205.525	   28.981	   29.045	  2.214%	 94.112%	     0.000	        1	[block5_conv2/Relu]
+	                 CONV_2D	 1234.572	   28.883	   28.943	  2.206%	 96.318%	     0.000	        1	[block5_conv3/Relu]
+	                 CONV_2D	 1263.516	   29.087	   29.119	  2.220%	 98.538%	     0.000	        1	[block5_conv4/Relu]
+	             MAX_POOL_2D	 1292.636	    0.061	    0.062	  0.005%	 98.542%	     0.000	        1	[block5_pool/MaxPool]
+	         FULLY_CONNECTED	 1292.699	   15.005	   15.230	  1.161%	 99.703%	     0.000	        1	[fc1/Relu]
+	         FULLY_CONNECTED	 1307.931	    2.536	    2.593	  0.198%	 99.901%	     0.000	        1	[fc2/Relu]
+	         FULLY_CONNECTED	 1310.526	    1.243	    1.264	  0.096%	 99.997%	     0.000	        1	[predictions/BiasAdd]
+	                 SOFTMAX	 1311.791	    0.032	    0.033	  0.003%	100.000%	     0.000	        1	[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	   20.392	  140.227	  141.204	 10.764%	 10.764%	     0.000	        1	[block1_conv2/Relu]
+	                 CONV_2D	  230.576	  125.032	  125.306	  9.552%	 20.317%	     0.000	        1	[block2_conv2/Relu]
+	                 CONV_2D	  650.394	  116.894	  117.140	  8.930%	 29.247%	     0.000	        1	[block3_conv4/Relu]
+	                 CONV_2D	  533.305	  116.571	  117.087	  8.926%	 38.172%	     0.000	        1	[block3_conv3/Relu]
+	                 CONV_2D	  416.514	  116.422	  116.789	  8.903%	 47.075%	     0.000	        1	[block3_conv2/Relu]
+	                 CONV_2D	  943.178	  116.358	  116.581	  8.887%	 55.963%	     0.000	        1	[block4_conv3/Relu]
+	                 CONV_2D	  826.598	  116.440	  116.578	  8.887%	 64.850%	     0.000	        1	[block4_conv2/Relu]
+	                 CONV_2D	 1059.760	  115.549	  116.575	  8.887%	 73.736%	     0.000	        1	[block4_conv4/Relu]
+	                 CONV_2D	  165.978	   64.411	   64.594	  4.924%	 78.660%	     0.000	        1	[block2_conv1/Relu]
+	                 CONV_2D	  357.570	   58.797	   58.942	  4.493%	 83.154%	     0.000	        1	[block3_conv1/Relu]
+
+Number of nodes executed: 25
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       16	  1285.648	    98.009%	    98.009%	     0.000	       16
+	         FULLY_CONNECTED	        3	    19.086	     1.455%	    99.464%	     0.000	        3
+	             MAX_POOL_2D	        5	     7.004	     0.534%	    99.997%	     0.000	        5
+	                 SOFTMAX	        1	     0.033	     0.003%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=1306956 curr=1311760 min=1306956 max=1329686 avg=1.31178e+06 std=2981
+Memory (bytes): count=0
+25 nodes observed
+
+
+Average inference timings in us: Warmup: 1.39539e+06, Init: 19527, no stats: 1.31183e+06
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG19_for_mobile0.625.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG19_for_mobile0.625.tflite
+resolved reporter
+Initialized session in 9.274ms
+Running benchmark for 1 iterations 
+count=1 curr=2135985
+
+Running benchmark for 50 iterations 
+count=50 first=2029639 curr=2029999 min=2022591 max=2100872 avg=2.03255e+06 std=10582
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	    0.000	   24.221	   24.206	  1.191%	  1.191%	     0.000	        1	[block1_conv1/Relu]
+	                 CONV_2D	   24.208	  230.526	  231.696	 11.400%	 12.590%	     0.000	        1	[block1_conv2/Relu]
+	             MAX_POOL_2D	  255.906	    4.562	    4.602	  0.226%	 12.817%	     0.000	        1	[block1_pool/MaxPool]
+	                 CONV_2D	  260.510	   99.184	   99.377	  4.889%	 17.706%	     0.000	        1	[block2_conv1/Relu]
+	                 CONV_2D	  359.890	  189.751	  189.698	  9.333%	 27.039%	     0.000	        1	[block2_conv2/Relu]
+	             MAX_POOL_2D	  549.590	    1.870	    1.857	  0.091%	 27.131%	     0.000	        1	[block2_pool/MaxPool]
+	                 CONV_2D	  551.448	   91.897	   91.723	  4.513%	 31.644%	     0.000	        1	[block3_conv1/Relu]
+	                 CONV_2D	  643.173	  183.024	  183.084	  9.008%	 40.651%	     0.000	        1	[block3_conv2/Relu]
+	                 CONV_2D	  826.258	  183.501	  182.970	  9.002%	 49.654%	     0.000	        1	[block3_conv3/Relu]
+	                 CONV_2D	 1009.230	  182.951	  183.122	  9.010%	 58.663%	     0.000	        1	[block3_conv4/Relu]
+	             MAX_POOL_2D	 1192.354	    0.767	    0.782	  0.038%	 58.702%	     0.000	        1	[block3_pool/MaxPool]
+	                 CONV_2D	 1193.138	   90.268	   90.374	  4.446%	 63.148%	     0.000	        1	[block4_conv1/Relu]
+	                 CONV_2D	 1283.514	  178.741	  179.349	  8.824%	 71.972%	     0.000	        1	[block4_conv2/Relu]
+	                 CONV_2D	 1462.864	  179.479	  179.951	  8.854%	 80.826%	     0.000	        1	[block4_conv3/Relu]
+	                 CONV_2D	 1642.817	  179.102	  179.639	  8.838%	 89.664%	     0.000	        1	[block4_conv4/Relu]
+	             MAX_POOL_2D	 1822.457	    0.299	    0.315	  0.016%	 89.680%	     0.000	        1	[block4_pool/MaxPool]
+	                 CONV_2D	 1822.773	   44.905	   45.029	  2.215%	 91.895%	     0.000	        1	[block5_conv1/Relu]
+	                 CONV_2D	 1867.803	   45.021	   45.215	  2.225%	 94.120%	     0.000	        1	[block5_conv2/Relu]
+	                 CONV_2D	 1913.020	   45.224	   45.069	  2.217%	 96.337%	     0.000	        1	[block5_conv3/Relu]
+	                 CONV_2D	 1958.091	   44.894	   44.960	  2.212%	 98.549%	     0.000	        1	[block5_conv4/Relu]
+	             MAX_POOL_2D	 2003.052	    0.073	    0.073	  0.004%	 98.553%	     0.000	        1	[block5_pool/MaxPool]
+	         FULLY_CONNECTED	 2003.126	   23.508	   23.538	  1.158%	 99.711%	     0.000	        1	[fc1/Relu]
+	         FULLY_CONNECTED	 2026.666	    4.163	    4.191	  0.206%	 99.917%	     0.000	        1	[fc2/Relu]
+	         FULLY_CONNECTED	 2030.859	    1.629	    1.650	  0.081%	 99.998%	     0.000	        1	[predictions/BiasAdd]
+	                 SOFTMAX	 2032.510	    0.035	    0.034	  0.002%	100.000%	     0.000	        1	[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	   24.208	  230.526	  231.696	 11.400%	 11.400%	     0.000	        1	[block1_conv2/Relu]
+	                 CONV_2D	  359.890	  189.751	  189.698	  9.333%	 20.733%	     0.000	        1	[block2_conv2/Relu]
+	                 CONV_2D	 1009.230	  182.951	  183.122	  9.010%	 29.742%	     0.000	        1	[block3_conv4/Relu]
+	                 CONV_2D	  643.173	  183.024	  183.084	  9.008%	 38.750%	     0.000	        1	[block3_conv2/Relu]
+	                 CONV_2D	  826.258	  183.501	  182.970	  9.002%	 47.752%	     0.000	        1	[block3_conv3/Relu]
+	                 CONV_2D	 1462.864	  179.479	  179.951	  8.854%	 56.606%	     0.000	        1	[block4_conv3/Relu]
+	                 CONV_2D	 1642.817	  179.102	  179.639	  8.838%	 65.444%	     0.000	        1	[block4_conv4/Relu]
+	                 CONV_2D	 1283.514	  178.741	  179.349	  8.824%	 74.268%	     0.000	        1	[block4_conv2/Relu]
+	                 CONV_2D	  260.510	   99.184	   99.377	  4.889%	 79.158%	     0.000	        1	[block2_conv1/Relu]
+	                 CONV_2D	  551.448	   91.897	   91.723	  4.513%	 83.671%	     0.000	        1	[block3_conv1/Relu]
+
+Number of nodes executed: 25
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       16	  1995.452	    98.178%	    98.178%	     0.000	       16
+	         FULLY_CONNECTED	        3	    29.378	     1.445%	    99.623%	     0.000	        3
+	             MAX_POOL_2D	        5	     7.627	     0.375%	    99.998%	     0.000	        5
+	                 SOFTMAX	        1	     0.034	     0.002%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=2029595 curr=2029956 min=2022551 max=2100830 avg=2.0325e+06 std=10583
+Memory (bytes): count=0
+25 nodes observed
+
+
+Average inference timings in us: Warmup: 2.13598e+06, Init: 9274, no stats: 2.03255e+06
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG19_for_mobile0.75.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG19_for_mobile0.75.tflite
+resolved reporter
+Initialized session in 10.194ms
+Running benchmark for 1 iterations 
+count=1 curr=3005475
+
+Running benchmark for 50 iterations 
+count=50 first=2869918 curr=2868879 min=2856046 max=2914655 avg=2.8664e+06 std=10323
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	    0.000	   27.561	   27.431	  0.957%	  0.957%	     0.000	        1	[block1_conv1/Relu]
+	                 CONV_2D	   27.433	  295.575	  296.670	 10.350%	 11.307%	     0.000	        1	[block1_conv2/Relu]
+	             MAX_POOL_2D	  324.105	    5.349	    5.309	  0.185%	 11.492%	     0.000	        1	[block1_pool/MaxPool]
+	                 CONV_2D	  329.415	  137.263	  136.749	  4.771%	 16.263%	     0.000	        1	[block2_conv1/Relu]
+	                 CONV_2D	  466.166	  269.918	  269.325	  9.396%	 25.659%	     0.000	        1	[block2_conv2/Relu]
+	             MAX_POOL_2D	  735.493	    2.147	    2.139	  0.075%	 25.734%	     0.000	        1	[block2_pool/MaxPool]
+	                 CONV_2D	  737.634	  130.080	  130.218	  4.543%	 30.277%	     0.000	        1	[block3_conv1/Relu]
+	                 CONV_2D	  867.854	  262.005	  261.653	  9.128%	 39.405%	     0.000	        1	[block3_conv2/Relu]
+	                 CONV_2D	 1129.509	  261.970	  261.556	  9.125%	 48.530%	     0.000	        1	[block3_conv3/Relu]
+	                 CONV_2D	 1391.067	  260.671	  261.132	  9.110%	 57.640%	     0.000	        1	[block3_conv4/Relu]
+	             MAX_POOL_2D	 1652.201	    0.936	    0.933	  0.033%	 57.673%	     0.000	        1	[block3_pool/MaxPool]
+	                 CONV_2D	 1653.135	  130.457	  129.992	  4.535%	 62.208%	     0.000	        1	[block4_conv1/Relu]
+	                 CONV_2D	 1783.129	  262.129	  261.077	  9.108%	 71.316%	     0.000	        1	[block4_conv2/Relu]
+	                 CONV_2D	 2044.207	  259.508	  259.083	  9.039%	 80.355%	     0.000	        1	[block4_conv3/Relu]
+	                 CONV_2D	 2303.292	  262.018	  260.622	  9.092%	 89.447%	     0.000	        1	[block4_conv4/Relu]
+	             MAX_POOL_2D	 2563.915	    0.430	    0.430	  0.015%	 89.463%	     0.000	        1	[block4_pool/MaxPool]
+	                 CONV_2D	 2564.347	   64.954	   64.764	  2.259%	 91.722%	     0.000	        1	[block5_conv1/Relu]
+	                 CONV_2D	 2629.112	   65.241	   65.089	  2.271%	 93.993%	     0.000	        1	[block5_conv2/Relu]
+	                 CONV_2D	 2694.202	   65.018	   64.994	  2.267%	 96.260%	     0.000	        1	[block5_conv3/Relu]
+	                 CONV_2D	 2759.197	   65.113	   65.184	  2.274%	 98.534%	     0.000	        1	[block5_conv4/Relu]
+	             MAX_POOL_2D	 2824.383	    0.100	    0.101	  0.004%	 98.538%	     0.000	        1	[block5_pool/MaxPool]
+	         FULLY_CONNECTED	 2824.485	   33.301	   33.681	  1.175%	 99.713%	     0.000	        1	[fc1/Relu]
+	         FULLY_CONNECTED	 2858.168	    6.120	    6.220	  0.217%	 99.930%	     0.000	        1	[fc2/Relu]
+	         FULLY_CONNECTED	 2864.390	    1.976	    1.974	  0.069%	 99.999%	     0.000	        1	[predictions/BiasAdd]
+	                 SOFTMAX	 2866.366	    0.033	    0.035	  0.001%	100.000%	     0.000	        1	[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	   27.433	  295.575	  296.670	 10.350%	 10.350%	     0.000	        1	[block1_conv2/Relu]
+	                 CONV_2D	  466.166	  269.918	  269.325	  9.396%	 19.746%	     0.000	        1	[block2_conv2/Relu]
+	                 CONV_2D	  867.854	  262.005	  261.653	  9.128%	 28.875%	     0.000	        1	[block3_conv2/Relu]
+	                 CONV_2D	 1129.509	  261.970	  261.556	  9.125%	 38.000%	     0.000	        1	[block3_conv3/Relu]
+	                 CONV_2D	 1391.067	  260.671	  261.132	  9.110%	 47.110%	     0.000	        1	[block3_conv4/Relu]
+	                 CONV_2D	 1783.129	  262.129	  261.077	  9.108%	 56.218%	     0.000	        1	[block4_conv2/Relu]
+	                 CONV_2D	 2303.292	  262.018	  260.622	  9.092%	 65.310%	     0.000	        1	[block4_conv4/Relu]
+	                 CONV_2D	 2044.207	  259.508	  259.083	  9.039%	 74.349%	     0.000	        1	[block4_conv3/Relu]
+	                 CONV_2D	  329.415	  137.263	  136.749	  4.771%	 79.120%	     0.000	        1	[block2_conv1/Relu]
+	                 CONV_2D	  737.634	  130.080	  130.218	  4.543%	 83.663%	     0.000	        1	[block3_conv1/Relu]
+
+Number of nodes executed: 25
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       16	  2815.527	    98.227%	    98.227%	     0.000	       16
+	         FULLY_CONNECTED	        3	    41.874	     1.461%	    99.688%	     0.000	        3
+	             MAX_POOL_2D	        5	     8.910	     0.311%	    99.999%	     0.000	        5
+	                 SOFTMAX	        1	     0.035	     0.001%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=2869873 curr=2868834 min=2855999 max=2914614 avg=2.86636e+06 std=10324
+Memory (bytes): count=0
+25 nodes observed
+
+
+Average inference timings in us: Warmup: 3.00548e+06, Init: 10194, no stats: 2.8664e+06
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG19_for_mobile0.875.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG19_for_mobile0.875.tflite
+resolved reporter
+Initialized session in 10.635ms
+Running benchmark for 1 iterations 
+count=1 curr=4046074
+
+Running benchmark for 50 iterations 
+count=50 first=3870218 curr=3878055 min=3867956 max=3889894 avg=3.87377e+06 std=4049
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	    0.000	   31.798	   31.940	  0.825%	  0.825%	     0.000	        1	[block1_conv1/Relu]
+	                 CONV_2D	   31.942	  409.831	  409.343	 10.567%	 11.392%	     0.000	        1	[block1_conv2/Relu]
+	             MAX_POOL_2D	  441.287	    5.719	    5.591	  0.144%	 11.536%	     0.000	        1	[block1_pool/MaxPool]
+	                 CONV_2D	  446.880	  186.312	  186.394	  4.812%	 16.348%	     0.000	        1	[block2_conv1/Relu]
+	                 CONV_2D	  633.276	  366.579	  366.768	  9.468%	 25.816%	     0.000	        1	[block2_conv2/Relu]
+	             MAX_POOL_2D	 1000.046	    2.185	    2.201	  0.057%	 25.873%	     0.000	        1	[block2_pool/MaxPool]
+	                 CONV_2D	 1002.249	  176.262	  175.979	  4.543%	 30.416%	     0.000	        1	[block3_conv1/Relu]
+	                 CONV_2D	 1178.230	  352.203	  352.328	  9.095%	 39.511%	     0.000	        1	[block3_conv2/Relu]
+	                 CONV_2D	 1530.561	  352.188	  351.563	  9.076%	 48.587%	     0.000	        1	[block3_conv3/Relu]
+	                 CONV_2D	 1882.126	  351.158	  351.860	  9.083%	 57.670%	     0.000	        1	[block3_conv4/Relu]
+	             MAX_POOL_2D	 2233.989	    1.081	    1.050	  0.027%	 57.697%	     0.000	        1	[block3_pool/MaxPool]
+	                 CONV_2D	 2235.040	  175.414	  175.490	  4.530%	 62.227%	     0.000	        1	[block4_conv1/Relu]
+	                 CONV_2D	 2410.532	  348.935	  350.470	  9.047%	 71.275%	     0.000	        1	[block4_conv2/Relu]
+	                 CONV_2D	 2761.004	  350.885	  351.464	  9.073%	 80.348%	     0.000	        1	[block4_conv3/Relu]
+	                 CONV_2D	 3112.470	  349.130	  350.562	  9.050%	 89.397%	     0.000	        1	[block4_conv4/Relu]
+	             MAX_POOL_2D	 3463.034	    0.412	    0.413	  0.011%	 89.408%	     0.000	        1	[block4_pool/MaxPool]
+	                 CONV_2D	 3463.448	   88.334	   88.276	  2.279%	 91.687%	     0.000	        1	[block5_conv1/Relu]
+	                 CONV_2D	 3551.725	   88.453	   88.721	  2.290%	 93.977%	     0.000	        1	[block5_conv2/Relu]
+	                 CONV_2D	 3640.447	   88.045	   88.063	  2.273%	 96.251%	     0.000	        1	[block5_conv3/Relu]
+	                 CONV_2D	 3728.512	   88.560	   88.550	  2.286%	 98.536%	     0.000	        1	[block5_conv4/Relu]
+	             MAX_POOL_2D	 3817.062	    0.098	    0.097	  0.003%	 98.539%	     0.000	        1	[block5_pool/MaxPool]
+	         FULLY_CONNECTED	 3817.160	   45.397	   45.355	  1.171%	 99.710%	     0.000	        1	[fc1/Relu]
+	         FULLY_CONNECTED	 3862.518	    8.731	    8.764	  0.226%	 99.936%	     0.000	        1	[fc2/Relu]
+	         FULLY_CONNECTED	 3871.283	    2.431	    2.444	  0.063%	 99.999%	     0.000	        1	[predictions/BiasAdd]
+	                 SOFTMAX	 3873.729	    0.031	    0.032	  0.001%	100.000%	     0.000	        1	[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	   31.942	  409.831	  409.343	 10.567%	 10.567%	     0.000	        1	[block1_conv2/Relu]
+	                 CONV_2D	  633.276	  366.579	  366.768	  9.468%	 20.035%	     0.000	        1	[block2_conv2/Relu]
+	                 CONV_2D	 1178.230	  352.203	  352.328	  9.095%	 29.131%	     0.000	        1	[block3_conv2/Relu]
+	                 CONV_2D	 1882.126	  351.158	  351.860	  9.083%	 38.214%	     0.000	        1	[block3_conv4/Relu]
+	                 CONV_2D	 1530.561	  352.188	  351.563	  9.076%	 47.289%	     0.000	        1	[block3_conv3/Relu]
+	                 CONV_2D	 2761.004	  350.885	  351.464	  9.073%	 56.363%	     0.000	        1	[block4_conv3/Relu]
+	                 CONV_2D	 3112.470	  349.130	  350.562	  9.050%	 65.412%	     0.000	        1	[block4_conv4/Relu]
+	                 CONV_2D	 2410.532	  348.935	  350.470	  9.047%	 74.460%	     0.000	        1	[block4_conv2/Relu]
+	                 CONV_2D	  446.880	  186.312	  186.394	  4.812%	 79.271%	     0.000	        1	[block2_conv1/Relu]
+	                 CONV_2D	 1002.249	  176.262	  175.979	  4.543%	 83.814%	     0.000	        1	[block3_conv1/Relu]
+
+Number of nodes executed: 25
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       16	  3807.763	    98.298%	    98.298%	     0.000	       16
+	         FULLY_CONNECTED	        3	    56.562	     1.460%	    99.758%	     0.000	        3
+	             MAX_POOL_2D	        5	     9.350	     0.241%	    99.999%	     0.000	        5
+	                 SOFTMAX	        1	     0.032	     0.001%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=3870172 curr=3878010 min=3867905 max=3889848 avg=3.87372e+06 std=4049
+Memory (bytes): count=0
+25 nodes observed
+
+
+Average inference timings in us: Warmup: 4.04607e+06, Init: 10635, no stats: 3.87377e+06
+STARTING!
+Num runs: [50]
+Inter-run delay (seconds): [-1]
+Num threads: [1]
+Benchmark name: []
+Output prefix: []
+Warmup runs: [1]
+Graph: [/data/local/tmp/VGG19_for_mobile1.0.tflite]
+Input layers: []
+Input shapes: []
+Use nnapi : [0]
+Loaded model /data/local/tmp/VGG19_for_mobile1.0.tflite
+resolved reporter
+Initialized session in 9.488ms
+Running benchmark for 1 iterations 
+count=1 curr=5235291
+
+Running benchmark for 50 iterations 
+count=50 first=5002687 curr=5001372 min=4989850 max=5019108 avg=5.00429e+06 std=5054
+
+============================== Run Order ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	    0.000	   35.231	   35.342	  0.706%	  0.706%	     0.000	        1	[block1_conv1/Relu]
+	                 CONV_2D	   35.344	  503.264	  503.272	 10.057%	 10.763%	     0.000	        1	[block1_conv2/Relu]
+	             MAX_POOL_2D	  538.619	    6.005	    5.981	  0.120%	 10.883%	     0.000	        1	[block1_pool/MaxPool]
+	                 CONV_2D	  544.602	  236.160	  235.299	  4.702%	 15.585%	     0.000	        1	[block2_conv1/Relu]
+	                 CONV_2D	  779.903	  466.258	  467.067	  9.333%	 24.918%	     0.000	        1	[block2_conv2/Relu]
+	             MAX_POOL_2D	 1246.972	    2.459	    2.600	  0.052%	 24.970%	     0.000	        1	[block2_pool/MaxPool]
+	                 CONV_2D	 1249.574	  231.106	  230.781	  4.612%	 29.582%	     0.000	        1	[block3_conv1/Relu]
+	                 CONV_2D	 1480.358	  459.654	  460.078	  9.194%	 38.776%	     0.000	        1	[block3_conv2/Relu]
+	                 CONV_2D	 1940.438	  459.274	  459.586	  9.184%	 47.959%	     0.000	        1	[block3_conv3/Relu]
+	                 CONV_2D	 2400.026	  460.045	  459.843	  9.189%	 57.149%	     0.000	        1	[block3_conv4/Relu]
+	             MAX_POOL_2D	 2859.872	    1.181	    1.248	  0.025%	 57.174%	     0.000	        1	[block3_pool/MaxPool]
+	                 CONV_2D	 2861.122	  226.671	  226.857	  4.533%	 61.707%	     0.000	        1	[block4_conv1/Relu]
+	                 CONV_2D	 3087.981	  455.075	  456.764	  9.128%	 70.834%	     0.000	        1	[block4_conv2/Relu]
+	                 CONV_2D	 3544.747	  458.899	  459.066	  9.174%	 80.008%	     0.000	        1	[block4_conv3/Relu]
+	                 CONV_2D	 4003.814	  459.411	  458.936	  9.171%	 89.179%	     0.000	        1	[block4_conv4/Relu]
+	             MAX_POOL_2D	 4462.752	    0.586	    0.518	  0.010%	 89.189%	     0.000	        1	[block4_pool/MaxPool]
+	                 CONV_2D	 4463.272	  116.533	  116.460	  2.327%	 91.516%	     0.000	        1	[block5_conv1/Relu]
+	                 CONV_2D	 4579.733	  116.918	  117.019	  2.338%	 93.855%	     0.000	        1	[block5_conv2/Relu]
+	                 CONV_2D	 4696.754	  116.611	  116.564	  2.329%	 96.184%	     0.000	        1	[block5_conv3/Relu]
+	                 CONV_2D	 4813.319	  117.155	  116.983	  2.338%	 98.522%	     0.000	        1	[block5_conv4/Relu]
+	             MAX_POOL_2D	 4930.304	    0.114	    0.114	  0.002%	 98.524%	     0.000	        1	[block5_pool/MaxPool]
+	         FULLY_CONNECTED	 4930.419	   59.282	   59.195	  1.183%	 99.707%	     0.000	        1	[fc1/Relu]
+	         FULLY_CONNECTED	 4989.615	   11.846	   11.818	  0.236%	 99.943%	     0.000	        1	[fc2/Relu]
+	         FULLY_CONNECTED	 5001.435	    2.864	    2.813	  0.056%	 99.999%	     0.000	        1	[predictions/BiasAdd]
+	                 SOFTMAX	 5004.249	    0.031	    0.033	  0.001%	100.000%	     0.000	        1	[predictions/Softmax]
+
+============================== Top by Computation Time ==============================
+	             [node type]	  [start]	  [first]	 [avg ms]	     [%]	  [cdf%]	  [mem KB]	[times called]	[Name]
+	                 CONV_2D	   35.344	  503.264	  503.272	 10.057%	 10.057%	     0.000	        1	[block1_conv2/Relu]
+	                 CONV_2D	  779.903	  466.258	  467.067	  9.333%	 19.390%	     0.000	        1	[block2_conv2/Relu]
+	                 CONV_2D	 1480.358	  459.654	  460.078	  9.194%	 28.584%	     0.000	        1	[block3_conv2/Relu]
+	                 CONV_2D	 2400.026	  460.045	  459.843	  9.189%	 37.773%	     0.000	        1	[block3_conv4/Relu]
+	                 CONV_2D	 1940.438	  459.274	  459.586	  9.184%	 46.957%	     0.000	        1	[block3_conv3/Relu]
+	                 CONV_2D	 3544.747	  458.899	  459.066	  9.174%	 56.131%	     0.000	        1	[block4_conv3/Relu]
+	                 CONV_2D	 4003.814	  459.411	  458.936	  9.171%	 65.302%	     0.000	        1	[block4_conv4/Relu]
+	                 CONV_2D	 3087.981	  455.075	  456.764	  9.128%	 74.429%	     0.000	        1	[block4_conv2/Relu]
+	                 CONV_2D	  544.602	  236.160	  235.299	  4.702%	 79.131%	     0.000	        1	[block2_conv1/Relu]
+	                 CONV_2D	 1249.574	  231.106	  230.781	  4.612%	 83.743%	     0.000	        1	[block3_conv1/Relu]
+
+Number of nodes executed: 25
+============================== Summary by node type ==============================
+	             [Node type]	  [count]	  [avg ms]	    [avg %]	    [cdf %]	  [mem KB]	[times called]
+	                 CONV_2D	       16	  4919.908	    98.315%	    98.315%	     0.000	       16
+	         FULLY_CONNECTED	        3	    73.823	     1.475%	    99.790%	     0.000	        3
+	             MAX_POOL_2D	        5	    10.459	     0.209%	    99.999%	     0.000	        5
+	                 SOFTMAX	        1	     0.032	     0.001%	   100.000%	     0.000	        1
+
+Timings (microseconds): count=50 first=5002633 curr=5001322 min=4989804 max=5019058 avg=5.00424e+06 std=5053
+Memory (bytes): count=0
+25 nodes observed
+
+
+Average inference timings in us: Warmup: 5.23529e+06, Init: 9488, no stats: 5.00429e+06
+(venv) nitthilan@dana340-gpu:/mnt/additional/nitthilan/ml_tutorials/android/performance_esweek_journal$ 

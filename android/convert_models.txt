@@ -1,3 +1,10 @@
+
+python3 keras_to_tensorflow.py --input_model=/mnt/additional/nitthilan/data/ml_tutorial/imagenet/VGG190.5.h5 --output_model=/mnt/additional/nitthilan/data/ml_tutorial/imagenet/VGG190.5.pb
+
+
+
+
+
 Commands Used:
 python3 keras_to_tensorflow.py --input_model=/mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/conv_cifar10_false_4.h5 --output_model=/mnt/additional/nitthilan/ml_tutorials/conv/saved_keras_models/conv_cifar10_false_4.pb
 

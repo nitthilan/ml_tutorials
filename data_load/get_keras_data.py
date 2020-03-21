@@ -7,6 +7,8 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from PIL import Image
+import scipy.io as sio
+
 
 
 import os
@@ -55,8 +57,15 @@ def get_data(dataname):
 		(x_train, y_train), (x_test, y_test) = mnist.load_data()
 	elif(dataname == "cifar10"):
 		(x_train, y_train), (x_test, y_test) = cifar10.load_data()
-	else:
+	elif(dataname == "cifar100"):
 		(x_train, y_train), (x_test, y_test) = cifar100.load_data()
+	else:
+		train_data = sio.loadmat('./data_load/train_32x32.mat')
+		x_train, y_train = train_data['X'], train_data['y']-1
+		test_data = sio.loadmat('./data_load/test_32x32.mat')
+		x_test, y_test = test_data['X'], test_data['y']-1
+		x_train = np.transpose(x_train, (3, 0, 1, 2))
+		x_test = np.transpose(x_test, (3, 0, 1, 2))
 	num_classes = int(np.max(y_train)+1)
 
 	y_train = keras.utils.to_categorical(y_train, num_classes)
@@ -163,6 +172,13 @@ if __name__ == '__main__':
 	# dump_images(2, "../../data/conv/resize_08/")
 	# dump_images(1, "../../data/conv/resize_16_rgb")
 	# dump_images(1, "../../data/conv/resize_16_0312")
-	print(get_mean_std("cifar10"))
-	print (get_mean_std("cifar100"))
-	print (get_mean_std("mnist"))
+	# print(get_mean_std("cifar10"))
+	# print (get_mean_std("cifar100"))
+	# print (get_mean_std("mnist"))
+	# print(tfds.list_builders())
+	x_train, y_train, x_test, y_test = get_data("svhn")
+	print(x_train.shape, y_train.shape, x_test.shape, y_test.shape)
+
+	print(np.sum(y_test, axis=0))
+	x_train, y_train, x_test, y_test = get_data("cifar10")
+	print(x_train.shape, y_train.shape, x_test.shape, y_test.shape)

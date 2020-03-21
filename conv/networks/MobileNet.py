@@ -53,6 +53,10 @@ from keras_applications import get_submodules_from_kwargs
 from keras_applications import imagenet_utils
 from keras_applications.imagenet_utils import decode_predictions
 from keras_applications.imagenet_utils import _obtain_input_shape
+from keras.constraints import unit_norm
+import keras
+
+
 
 
 BASE_WEIGHT_PATH = ('https://github.com/fchollet/deep-learning-models/'
@@ -93,6 +97,7 @@ def MobileNet(input_shape=None,
               pooling=None,
               classes=1000,
               num_filter=4,
+              num_layers = 4,
               **kwargs):
     """Instantiates the MobileNet architecture.
     # Arguments
@@ -252,29 +257,41 @@ def MobileNet(input_shape=None,
                               strides=(2, 2), block_id=4)
     x = _depthwise_conv_block(x, N4, alpha, depth_multiplier, block_id=5)
 
-    x = _depthwise_conv_block(x, N5, alpha, depth_multiplier,
-                              strides=(2, 2), block_id=6)
-    x = _depthwise_conv_block(x, N5, alpha, depth_multiplier, block_id=7)
-    x = _depthwise_conv_block(x, N5, alpha, depth_multiplier, block_id=8)
-    x = _depthwise_conv_block(x, N5, alpha, depth_multiplier, block_id=9)
-    x = _depthwise_conv_block(x, N5, alpha, depth_multiplier, block_id=10)
-    x = _depthwise_conv_block(x, N5, alpha, depth_multiplier, block_id=11)
+    Nn = N4
+    if(num_layers == 4 or num_layers == 3 or num_layers == 2):
+        x = _depthwise_conv_block(x, N5, alpha, depth_multiplier,
+                                  strides=(2, 2), block_id=6)
+        x = _depthwise_conv_block(x, N5, alpha, depth_multiplier, block_id=7)
+        x = _depthwise_conv_block(x, N5, alpha, depth_multiplier, block_id=8)
+        Nn = N5
+    if(num_layers == 4 or num_layers == 3):
+        x = _depthwise_conv_block(x, N5, alpha, depth_multiplier, block_id=9)
+        x = _depthwise_conv_block(x, N5, alpha, depth_multiplier, block_id=10)
+        x = _depthwise_conv_block(x, N5, alpha, depth_multiplier, block_id=11)
+        Nn = N5
+    if(num_layers == 4):
+        x = _depthwise_conv_block(x, N6, alpha, depth_multiplier,
+                                  strides=(2, 2), block_id=12)
 
-    x = _depthwise_conv_block(x, N6, alpha, depth_multiplier,
-                              strides=(2, 2), block_id=12)
-    x = _depthwise_conv_block(x, N6, alpha, depth_multiplier, block_id=13)
+        x = _depthwise_conv_block(x, N6, alpha, depth_multiplier, block_id=13)
+        Nn = N6
 
     if include_top:
         if backend.image_data_format() == 'channels_first':
-            shape = (int(N6 * alpha), 1, 1)
+            shape = (int(Nn * alpha), 1, 1)
         else:
-            shape = (1, 1, int(N6 * alpha))
+            shape = (1, 1, int(Nn * alpha))
 
         x = layers.GlobalAveragePooling2D()(x)
         x = layers.Reshape(shape, name='reshape_1')(x)
         x = layers.Dropout(dropout, name='dropout')(x)
+        x = layers.Conv2D(100, (1, 1),
+                          padding='same',
+                          kernel_constraint=unit_norm(axis=[0, 1, 2]),
+                          name='conv_preds_1')(x)
         x = layers.Conv2D(classes, (1, 1),
                           padding='same',
+                          kernel_constraint=unit_norm(axis=[0, 1, 2]),
                           name='conv_preds')(x)
         x = layers.Activation('softmax', name='act_softmax')(x)
         x = layers.Reshape((classes,), name='reshape_2')(x)
@@ -317,7 +334,7 @@ def MobileNet(input_shape=None,
         else:
             model_name = 'mobilenet_%s_%d_tf_no_top.h5' % (alpha_text, rows)
             weight_path = BASE_WEIGHT_PATH + model_name
-            weights_path = keras_utils.get_file(model_name,
+            weights_path = keras.utils.get_file(model_name,
                                                 weight_path,
                                                 cache_subdir='models')
         model.load_weights(weights_path)
@@ -381,6 +398,7 @@ def _conv_block(inputs, filters, alpha, kernel=(3, 3), strides=(1, 1)):
                       padding='valid',
                       use_bias=False,
                       strides=strides,
+                      # kernel_constraint=unit_norm(axis=[0, 1, 2]),
                       name='conv1')(x)
     x = layers.BatchNormalization(axis=channel_axis, name='conv1_bn')(x, training=True)
     return layers.ReLU(6., name='conv1_relu')(x)
@@ -447,6 +465,7 @@ def _depthwise_conv_block(inputs, pointwise_conv_filters, alpha,
                                depth_multiplier=depth_multiplier,
                                strides=strides,
                                use_bias=False,
+                               kernel_constraint=unit_norm(axis=[0, 1]),
                                name='conv_dw_%d' % block_id)(x)
     x = layers.BatchNormalization(
         axis=channel_axis, name='conv_dw_%d_bn' % block_id)(x, training=True)
@@ -456,6 +475,7 @@ def _depthwise_conv_block(inputs, pointwise_conv_filters, alpha,
                       padding='same',
                       use_bias=False,
                       strides=(1, 1),
+                      kernel_constraint=unit_norm(axis=[0, 1, 2]),
                       name='conv_pw_%d' % block_id)(x)
     x = layers.BatchNormalization(axis=channel_axis,
                                   name='conv_pw_%d_bn' % block_id)(x, training=True)

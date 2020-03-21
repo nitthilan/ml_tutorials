@@ -37,3 +37,9 @@ Procedure:
 
 Vertical Filter Training:
 =========================
+Procedure:
+---------
+- Base path: conv/vert_filt_split
+- Models saved in : 
+	- ../vert_filt_saved_keras_models/ - This is full models
+	- ../vert_filt_saved_models/ - This is resized models

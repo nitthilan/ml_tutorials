@@ -11,6 +11,7 @@ import numpy as np
 from keras.layers.core import Lambda
 from keras import backend as K
 from keras import regularizers
+from keras.constraints import unit_norm
 
 def get_conv_net(x_shape, num_classes, num_extra_conv_layers,
     wgt_fname=None):
@@ -161,56 +162,77 @@ def get_conv_vert_net(x_shape, num_classes, num_vert_filters,
     model = Sequential()
     weight_decay = 0.0005
 
-    if(num_vert_filters == 4):
-        F1 = 64; F2 =128; F3 =256; F4 = 512; D1 = 512; D2 = 128;
-    elif(num_vert_filters == 3):
-        F1 = 48; F2 = 96; F3 = 192; F4 = 384; D1 = 384; D2 = 112;
-    elif(num_vert_filters == 2):
-        F1 = 40; F2 = 80; F3 = 160; F4 = 320; D1 = 320; D2 = 96;
-        # F1 = 32; F2 = 64; F3 = 128; F4 = 256; D1 = 256; D2 = 128;
-    else: # num_vert_filters == 1
-        F1 = 16; F2 = 32; F3 = 64; F4 = 128; D1 = 128; D2 = 64;
+    # if(num_vert_filters == 4):
+    #     F1 = 64; F2 =128; F3 =256; F4 = 512; D1 = 512; D2 = 128;
+    # elif(num_vert_filters == 3):
+    #     F1 = 48; F2 = 96; F3 = 192; F4 = 384; D1 = 384; D2 = 112;
+    # elif(num_vert_filters == 2):
+    #     F1 = 40; F2 = 80; F3 = 160; F4 = 320; D1 = 320; D2 = 96;
+    #     # F1 = 32; F2 = 64; F3 = 128; F4 = 256; D1 = 256; D2 = 64;
+    # else: # num_vert_filters == 1
+    #     F1 = 16; F2 = 32; F3 = 64; F4 = 128; D1 = 128; D2 = 32;
 
-    model.add(Conv2D(F1, (3, 3), padding='same', use_bias=use_bias,
-        input_shape=x_shape))
+    # temp_num_filter = num_vert_filters
+    # num_vert_filters = 4
+    F1 = int(16*num_vert_filters); F2 = int(32*num_vert_filters); 
+    F3 = int(64*num_vert_filters); F4 = int(128*num_vert_filters); 
+    D1 = int(128*num_vert_filters); D2 = int(32*num_vert_filters);
+
+    # F1 = int(16*num_vert_filters); F2 = int(32*num_vert_filters); 
+    # F3 = int(32*num_vert_filters); F4 = int(32*num_vert_filters); 
+    # D1 = int(128*num_vert_filters); D2 = int(32*num_vert_filters);
+
+    model.add(Conv2D(F1, (3, 3), use_bias=use_bias, padding='same', 
+        input_shape=x_shape)) 
         # kernel_regularizer=regularizers.l2(weight_decay)))
     model.add(Activation('relu'))
     # model.add(BatchNormalization())
     # model.add(Dropout(0.3))
 
-    model.add(Conv2D(F1, (3, 3), use_bias=use_bias, padding='same'))
+    model.add(Conv2D(F1, (3, 3), use_bias=use_bias, padding='same'
+        , kernel_constraint=unit_norm(axis=[0, 1, 2])))
         # , kernel_regularizer=regularizers.l2(weight_decay)))
     model.add(Activation('relu'))
     # model.add(BatchNormalization())
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
 
-    model.add(Conv2D(F2, (3, 3), padding='same',use_bias=use_bias))
+    # F2 = int(32*temp_num_filter); 
+    # F3 = int(64*temp_num_filter); F4 = int(128*temp_num_filter); 
+    # D1 = int(128*temp_num_filter); D2 = int(32*temp_num_filter);
+
+
+    model.add(Conv2D(F2, (3, 3), padding='same',use_bias=use_bias
+        , kernel_constraint=unit_norm(axis=[0, 1, 2])))
         # , kernel_regularizer=regularizers.l2(weight_decay)))
     model.add(Activation('relu'))
     # model.add(BatchNormalization())
     # model.add(Dropout(0.4))
 
-    model.add(Conv2D(F2, (3, 3), padding='same',use_bias=use_bias))
+    model.add(Conv2D(F2, (3, 3), padding='same',use_bias=use_bias
+        , kernel_constraint=unit_norm(axis=[0, 1, 2])))
         # , kernel_regularizer=regularizers.l2(weight_decay)))
     model.add(Activation('relu'))
     # model.add(BatchNormalization())
 
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
-    model.add(Conv2D(F3, (3, 3), padding='same',use_bias=use_bias))
+    model.add(Conv2D(F3, (3, 3), padding='same',use_bias=use_bias
+        , kernel_constraint=unit_norm(axis=[0, 1, 2])))
         # , kernel_regularizer=regularizers.l2(weight_decay)))
     model.add(Activation('relu'))
     # model.add(BatchNormalization())
     # model.add(Dropout(0.4))
 
-    model.add(Conv2D(F3, (3, 3), padding='same',use_bias=use_bias))
+    model.add(Conv2D(F3, (3, 3), padding='same',use_bias=use_bias
+        , kernel_constraint=unit_norm(axis=[0, 1, 2])))
         # , kernel_regularizer=regularizers.l2(weight_decay)))
     model.add(Activation('relu'))
     # model.add(BatchNormalization())
     # model.add(Dropout(0.4))
 
-    model.add(Conv2D(F3, (3, 3), padding='same',use_bias=use_bias))
+    model.add(Conv2D(F3, (3, 3), padding='same',use_bias=use_bias
+        , kernel_constraint=unit_norm(axis=[0, 1, 2])))
         # , kernel_regularizer=regularizers.l2(weight_decay)))
     model.add(Activation('relu'))
     # model.add(BatchNormalization())
@@ -218,19 +240,22 @@ def get_conv_vert_net(x_shape, num_classes, num_vert_filters,
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
 
-    model.add(Conv2D(F4, (3, 3), padding='same',use_bias=use_bias))
+    model.add(Conv2D(F4, (3, 3), padding='same',use_bias=use_bias
+        , kernel_constraint=unit_norm(axis=[0, 1, 2])))
         # , kernel_regularizer=regularizers.l2(weight_decay)))
     model.add(Activation('relu'))
     # model.add(BatchNormalization())
     # model.add(Dropout(0.4))
 
-    model.add(Conv2D(F4, (3, 3), padding='same',use_bias=use_bias))
+    model.add(Conv2D(F4, (3, 3), padding='same',use_bias=use_bias
+        , kernel_constraint=unit_norm(axis=[0, 1, 2])))
         # , kernel_regularizer=regularizers.l2(weight_decay)))
     model.add(Activation('relu'))
     # model.add(BatchNormalization())
     # model.add(Dropout(0.4))
 
-    model.add(Conv2D(F4, (3, 3), padding='same',use_bias=use_bias))
+    model.add(Conv2D(F4, (3, 3), padding='same',use_bias=use_bias
+        , kernel_constraint=unit_norm(axis=[0, 1, 2])))
         # , kernel_regularizer=regularizers.l2(weight_decay)))
     model.add(Activation('relu'))
     # model.add(BatchNormalization())
@@ -263,13 +288,13 @@ def get_conv_vert_net(x_shape, num_classes, num_vert_filters,
     # top_model.add(Activation('relu'))
     # top_model.add(BatchNormalization())
 
-    top_model.add(Dense(D2))
+    top_model.add(Dense(D2))#, kernel_constraint=unit_norm()))
         # ,use_bias=True, kernel_regularizer=regularizers.l2(weight_decay)))
     top_model.add(Activation('relu'))
     # top_model.add(BatchNormalization())
 
     top_model.add(Dropout(0.5))
-    top_model.add(Dense(num_classes,use_bias=True))
+    top_model.add(Dense(num_classes,use_bias=True))#, kernel_constraint=unit_norm()))
     top_model.add(Activation('softmax'))
 
     model.add(top_model)

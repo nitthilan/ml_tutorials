@@ -26,6 +26,7 @@ from keras.layers.core import Flatten
 from keras.layers.core import Dense
 
 from keras.models import load_model
+from numpy import linalg as LA
 
 # import SqueezeNet as sqn
 
@@ -33,9 +34,9 @@ from keras.models import load_model
 from keras import backend as K
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import data_load.get_keras_data as gkd
+# import data_load.get_keras_data as gkd
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 config = tf.ConfigProto(allow_soft_placement = True)
 config.gpu_options.allow_growth=True
 sess = tf.Session(config=config)
@@ -48,17 +49,17 @@ import pickle
 import numpy as np
 
 
-import gen_conv_net as gcn
-# import get_data as gd
-import get_vgg16_cifar10 as gvc
-import get_wide_res_networks as gwrn
-import get_lenet as gln
-import get_all_imagenet as gai
+# import gen_conv_net as gcn
+# # import get_data as gd
+# import get_vgg16_cifar10 as gvc
+# import get_wide_res_networks as gwrn
+# import get_lenet as gln
 
 
 import sys, os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 import data_load.get_keras_data as gkd
+import networks.get_all_imagenet as gai
 
 # Batch Normalisation
 # https://www.youtube.com/watch?v=gYpoJMlgyXA&t=3078
@@ -78,11 +79,14 @@ num_filter = float(sys.argv[3])
 use_bias = False # sys.argv[1].lower() == 'true' # 
 batch_size = 128 #32
 # num_classes = 100 # 10 for cifar10 # 100 for cifar100
-epochs = 1
+epochs = 200
 data_augmentation = True
 # num_predictions = 20
-save_dir = os.path.join(os.getcwd(), 'saved_keras_models')
-model_name = network+'_'+data_set+'_false_20112018_chk'
+save_dir = os.path.join(os.getcwd(), './conv/vert_filt_saved_keras_models_test/') # DAC SI-NET
+# model_name = network+'_'+data_set+'_false_20112018_chk'
+
+model_name = network+'_'+data_set+'_un_'
+
 
 # Save model and weights
 if not os.path.isdir(save_dir):
@@ -160,8 +164,19 @@ else:
 		monitor='val_acc', verbose=0, save_best_only=True, 
 		save_weights_only=False, mode='auto', period=1)
 
+
+	class LossHistory(keras.callbacks.Callback):
+		def on_batch_end(self, batch, logs={}):
+			weight_list = model.get_weights()
+			for i,weight in enumerate(weight_list):
+				if(len(weight.shape) == 4):
+					for j in range(weight.shape[3]):
+						# weight[:,:,:,j] = weight[:,:,:,j]/LA.norm(weight[:,:,:,j])
+						print(i, j, LA.norm(weight[:,:,:,j]))
+			
 	callbacks = [
-	          modelCheckpoint
+	          modelCheckpoint,
+	          # LossHistory()
 	          #   earlyStopping, 
 	          #   reduceonplateau,
 	          #   csv_logger
@@ -183,7 +198,7 @@ else:
 	                  callbacks = callbacks)
 	print('Saved trained model and weights at %s ' % weight_path)
 
-	output_tflite_model = weight_path[:-3]+".tflite"
-	converter = tf.contrib.lite.TocoConverter.from_keras_model_file(weight_path)
-	tflite_model = converter.convert()
-	open(output_tflite_model, "wb").write(tflite_model)
+	# output_tflite_model = weight_path[:-3]+".tflite"
+	# converter = tf.contrib.lite.TocoConverter.from_keras_model_file(weight_path)
+	# tflite_model = converter.convert()
+	# open(output_tflite_model, "wb").write(tflite_model)

@@ -89,7 +89,9 @@ for resize_factor in [0]:#,1,2]:
   # with tf.device('/cpu:0'):
   with tf.device('/gpu:0'):
     if(network == "vgg"):
-      model = gvc.get_conv_net_v1(x_train.shape[1:], \
+      # model = gvc.get_conv_net_v1(x_train.shape[1:], \
+      #   num_classes, 3-resize_factor)
+      model = gvc.get_conv_net_cifar100(x_train.shape[1:], \
         num_classes, 3-resize_factor)
     elif(network == "wrn"):
       model = gwrn.create_wide_residual_network(x_train.shape[1:], 

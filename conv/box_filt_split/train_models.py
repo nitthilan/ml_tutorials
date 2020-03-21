@@ -18,11 +18,21 @@ from keras.callbacks import ModelCheckpoint
 from keras import optimizers
 import tensorflow as tf
 from keras.utils import multi_gpu_model
-from numpy import linalg as LA
-
 
 from keras import backend as K
 # import get_wide_res_networks as gwrn
+
+# python3 conv/box_filt_split/train_models.py MobileNet cifar10 3 3
+# 1562/1562 [==============================] - 16s 10ms/step - loss: 1.2681 - acc: 0.5665 - val_loss: 1.2758 - val_acc: 0.5637
+# python3 conv/box_filt_split/train_models.py SqueezeNet cifar10 2 2
+# 1562/1562 [==============================] - 18s 11ms/step - loss: 2.2836 - acc: 0.1262 - val_loss: 2.2834 - val_acc: 0.1192
+# python3 conv/box_filt_split/train_models.py SqueezeNet cifar10 3 3
+# 1562/1562 [==============================] - 19s 12ms/step - loss: 2.2047 - acc: 0.1583 - val_loss: 2.2052 - val_acc: 0.1694
+# python3 conv/box_filt_split/train_models.py SqueezeNet cifar10 4 4
+# 1562/1562 [==============================] - 25s 16ms/step - loss: 0.4584 - acc: 0.8586 - val_loss: 0.6820 - val_acc: 0.8134
+# python3 conv/box_filt_split/train_models.py SqueezeNet cifar10 2 2
+# 1562/1562 [==============================] - 18s 11ms/step - loss: 2.2963 - acc: 0.1005 - val_loss: 2.2944 - val_acc: 0.1000
+
 
 
 
@@ -43,16 +53,13 @@ import conv.networks.get_all_imagenet as gai
 # import get_vgg16_cifar10 as gvc
 
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 config = tf.ConfigProto(allow_soft_placement = True)
 config.gpu_options.allow_growth=True
 sess = tf.Session(config=config)
 K.set_session(sess)
 
 from keras.models import load_model
-
-# python3 conv/vert_filt_split/vertical_cut_vgg.py conv svhn 3
-# python3 conv/vert_filt_split/evaluate_model.py
 
 # List of experiments done:
 # Train nets independently with different values
@@ -91,15 +98,6 @@ from keras.models import load_model
 # python3 vertical_cut_vgg.py MobileNet mnist 3 - 95.6%
 # python3 vertical_cut_vgg.py MobileNet mnist 3.5 - 97.2%
 
-# vgg 3 88.44,  2.25 64, 2.0 0.3875, 2.5 71.94, 3.5 0.9110, 
-# MobileNet 3 80.80, 2 41.61, 2.25 0.5621, 2.5 69.08, 3.5  0.8838
-# conv 4 0.9535, 2 (15), 2.5 (18) 
-# MobileNet_cifar10_un_4.0 MobileNet cifar10 4 0.8580, 2 0.2540, 2.25 0.3202, 2.5 42.63%, 3 0.6254, 3.5 0.7608
-# MobileNet_mnist_un_4.0 mnist 4 0.98, 2 0.7063, 3 0.9549, 2.5 .8633, 3.5 0.9716 
-# vgg cifar10 4 0.8273, 2 0.4500, 3 0.7488, 2.25 0.5549, 3.5 0.8130, 2.5 0.6370
-# vgg mnist 4 0.9813, 2 0.7088, 3 0.9630, 2.5 0.9352, 3.5 0.9866
-# conv cifar10 4 0.8864, 2 0.3876, 3 0.7182, 2.25 0.5156, 2.5 0.5948, 3.5 0.8226
-# conv mnist 4 0.9904, 2 0.9122, 3 0.9775, 2.5 0.9642, 3.5 0.9881
 batch_size = 32
 # num_classes = 100 # 10 for cifar10 # 100 for cifar100
 epochs = 200
@@ -111,58 +109,48 @@ save_dir = os.path.join(os.getcwd(), './conv/saved_models')
 model_name = sys.argv[1] # "vgg" # "conv" # "SqueezeNet" # "MobileNet" #
 dataset = sys.argv[2] # "mnist" #"cifar10" #
 num_filter = float(sys.argv[3]) #2
+num_layer = int(sys.argv[4]) #2
 
 scale = 1.0
 
 base_weight_path = "./conv/vert_filt_saved_keras_models/"
 if(model_name == "conv" and dataset == "cifar10"):
-  # load_weight_path = "conv_cifar10_false_4.h5"
-  load_weight_path = "conv_cifar10_un_4.0.h5"
+  load_weight_path = "conv_cifar10_false_4.h5"
+  # load_weight_path = "../../data/ml_tutorial/conv/cifar10_conv_v0/keras_cifar10_weight_0.h5"
 elif(model_name == "conv" and dataset == "mnist"):
-  # load_weight_path = "conv_mnist_false_4.h5"
-  load_weight_path = "conv_mnist_un_4.0.h5"
+  load_weight_path = "conv_mnist_false_4.h5"
+  # load_weight_path = "../../data/ml_tutorial/conv/mnist_conv_v1/keras_cifar10_weight_0.h5"
 elif(model_name == "conv" and dataset == "cifar100"):
   load_weight_path = "conv_cifar100_false_4.h5"
+  # load_weight_path = "../../data/ml_tutorial/conv/mnist_conv_v1/keras_cifar10_weight_0.h5"
 elif(model_name == "vgg" and dataset == "cifar10"):
-  # load_weight_path = "vgg_cifar10_false_4.h5"
-  load_weight_path = "vgg_cifar10_un_4.0.h5"
-elif(model_name == "vgg" and dataset == "mnist"):
-  # load_weight_path = "vgg_cifar10_false_4.h5"
-  load_weight_path = "vgg_mnist_un_4.0.h5"
+  load_weight_path = "vgg_cifar10_false_4.h5"
+  # load_weight_path = "../../data/ml_tutorial/conv/saved_model_vgg_v3/keras_cifar10_weight_0.h5"
 elif(model_name == "SqueezeNet" and dataset == "cifar10"):
+  # load_weight_path = "./saved_keras_models/SqueezeNet_cifar10_1.h5"
+  # load_weight_path = "./saved_keras_models/SqueezeNet_cifar10_false_1.h5"
   load_weight_path = "SqueezeNet_cifar10_false_20112018_1.h5"
 elif(model_name == "SqueezeNet" and dataset == "mnist"):
+  # load_weight_path = "./saved_keras_models/SqueezeNet_mnist_1.h5"
   load_weight_path = "SqueezeNet_mnist_false_1.h5"
 elif(model_name == "MobileNet" and dataset == "cifar10"):
-  # load_weight_path = "MobileNet_cifar10_false_4.h5"
-  load_weight_path = "MobileNet_cifar10_un_4.0.h5"
-elif(model_name == "MobileNet" and dataset == "mnist"):
-  # load_weight_path = "MobileNet_mnist_false_20112018_4.h5"
-  load_weight_path = "MobileNet_mnist_un_4.0.h5"
-elif(model_name == "MobileNet" and dataset == "svhn"):
-  # load_weight_path = "MobileNet_svhn_44.0.h5"
-  load_weight_path = "MobileNet_svhn_un_4.0.h5"
-elif(model_name == "SqueezeNet" and dataset == "svhn"):
-  # load_weight_path = "SqueezeNet_svhn_44.0.h5"
-  # load_weight_path = "SqueezeNet_svhn_wbn_4.0.h5"
-  load_weight_path = "SqueezeNet_svhn_sqn_4.0.h5"
-elif(model_name == "ResNet50" and dataset == "svhn"):
-  # load_weight_path = "ResNet50_svhn_sqn_4.0.h5"
-  load_weight_path = "ResNet50_svhn_un_1.0.h5"
-elif(model_name == "vgg" and dataset == "svhn"):
-  # load_weight_path = "vgg_svhn_44.0.h5"
-  load_weight_path = "vgg_svhn_un_4.0.h5"
-  # load_weight_path = "vgg_svhn_wbn_0.5.h5"
-elif(model_name == "conv" and dataset == "svhn"):
-  load_weight_path = "conv_svhn_un_4.0.h5"
+  load_weight_path = "MobileNet_cifar10_false_4.h5"
 
+  # load_weight_path = "../../data/ml_tutorial/conv/cifar10_conv_v0/keras_cifar10_weight_0.h5"
+elif(model_name == "MobileNet" and dataset == "mnist"):
+  load_weight_path = "MobileNet_mnist_false_20112018_4.h5"
+  # load_weight_path = "./saved_keras_models/MobileNet_mnist_false_4.h5"
+
+  # load_weight_path = "../../data/ml_tutorial/conv/mnist_conv_v1/keras_cifar10_weight_0.h5"
+elif(model_name == "DenseNet121" and dataset == "cifar10"):
+  load_weight_path = "DenseNet121_cifar10_44.0.h5"
 # elif(model_name == "vgg" and dataset == "mnist"):
 #   load_weight_path = "../../data/ml_tutorial/conv/saved_model_vgg_v3/keras_cifar10_weight_0.h5"
 
 load_weight_path = base_weight_path + load_weight_path
 
 save_weight_path = os.path.join(save_dir, \
-  "vert_filt_wbn_"+model_name+"_"+dataset+"_"+str(num_filter)+".h5")
+  "box_filt_"+model_name+"_"+dataset+"_"+str(num_filter)+"_"+str(num_layer)+".h5")
 
 print("Configuration")
 print("=============")
@@ -180,6 +168,7 @@ x_train, y_train, x_test, y_test = gkd.get_data(dataset)
 if(model_name == "conv"):
   num_layer_to_ignore = 5
   num_weights_to_ignore = 4
+  # num_weights_list = 2
 elif(model_name == "vgg"):
   # x_train, x_test = gkd.scale_image(x_train, x_test)
   # num_layer_to_ignore = 1
@@ -194,14 +183,16 @@ elif(model_name == "SqueezeNet"):
   x_test_48[:, 8:40, 8:40, :] = x_test
   x_train = x_train_48
   x_test = x_test_48
-  num_layer_to_ignore = 4#12#4
+  num_layer_to_ignore = 4#12#
   num_weights_to_ignore = 1#1#3
 elif(model_name == "MobileNet"):
-  num_layer_to_ignore = 4#3#12#9
-  num_weights_to_ignore = 2#1#11#5
-elif(model_name == "ResNet50"):
-  num_layer_to_ignore = 1#3#12#9
-  num_weights_to_ignore = 1#1#11#5
+  num_layer_to_ignore = 3#12#9
+  num_weights_to_ignore = 2#11#5
+  # num_weights_list = 2
+elif(model_name == "DenseNet121"):
+  num_layer_to_ignore = 3#12#9
+  num_weights_to_ignore = 2#11#5
+  # num_weights_list = 2
 
 # if(model_name == "MobileNet"):
 #   x_train /= 256
@@ -227,7 +218,7 @@ with tf.device('/gpu:0'):
 
 evaluation = trained_model.evaluate(x_test, y_test)
 print("Evaluation Test Set ", evaluation)
-trained_model.summary()
+# trained_model.summary()
 
 # exit()
 
@@ -244,19 +235,55 @@ trained_model.summary()
 #       include_top=True, weights=None, num_filter=num_filter, 
 #       use_bias=False, classes=num_classes)
 
-model = gai.get_nets_wo_weights(model_name, num_classes, 
-  input_shape=x_train.shape[1:], num_filter=num_filter, include_top=True)
+model = gai.get_box_nets(model_name, num_classes, 
+  input_shape=x_train.shape[1:], num_filter=num_filter, num_layer=num_layer, 
+  include_top=True)
 new_weight_list = model.get_weights()
-model.summary()
+# model.summary()
 
-# for i, weight in enumerate(weight_list[:-1*num_weights_to_ignore]):
-#   new_weight_list[i] = scale*weight[:,:,:new_weight_list[i].shape[2],:new_weight_list[i].shape[3]]
-#   print("Weight info ", i, weight.shape, new_weight_list[i].shape)
-#   for j in range(new_weight_list[i].shape[3]):
-#     print(np.sum(new_weight_list[i][:,:,:,j]), np.sum(weight[:,:,:,j]))
 
-for i, weight in enumerate(weight_list[:-1*num_weights_to_ignore]):
 # for i, weight in enumerate(weight_list):
+# 	print("Weight info ", i, weight.shape, new_weight_list[i].shape)
+
+num_weights_list = len(new_weight_list)-num_weights_to_ignore
+print("The weights are respectively ",len(weight_list), len(new_weight_list), num_weights_list)
+
+num_weights_to_ignore = 0;
+# for i, weight in enumerate(weight_list[:-1*num_weights_to_ignore]):
+for i, weight in enumerate(weight_list[:num_weights_list]):
+  if(num_weights_to_ignore):
+  	num_weights_to_ignore-=1
+  	continue
+
+  if(model_name == "DenseNet121" and i>=15 and i<=590 and len(weight_list[i-1].shape) == 4 and 
+  	weight.shape[0] == weight_list[i-10].shape[0] + weight_list[i-1].shape[3]):
+  	print(i)
+  	print(weight_list[i].shape, weight_list[i+1].shape,
+  		weight_list[i+2].shape, weight_list[i+3].shape)
+  	print(weight_list[i+4].shape)
+  	width_mid = weight_list[i-10].shape[0]
+  	width_left = new_weight_list[i-10].shape[0]
+  	width_right = new_weight_list[i-1].shape[3]
+  	for j in range(4):
+  		new_weight_list[i+j][:width_left] = weight_list[i+j][:width_left]
+  		new_weight_list[i+j][width_left:] = weight_list[i+j][width_mid:width_mid+width_right:]
+  	new_weight_list[i+4][:,:,:width_left,:] = weight_list[i+4][:,:,:width_left,:new_weight_list[i+4].shape[3]]
+  	new_weight_list[i+4][:,:,width_left:,:] = weight_list[i+4][:,:,width_mid:width_mid+width_right:,:new_weight_list[i+4].shape[3]]
+  	num_weights_to_ignore = 4;
+  else:
+  	if(len(weight.shape)==1):
+  		new_weight_list[i] = weight[:new_weight_list[i].shape[0]]
+  	if(len(weight.shape)==2):
+  		new_weight_list[i] = weight[:new_weight_list[i].shape[0], :new_weight_list[i].shape[1]]
+  	if(len(weight.shape)==4):
+  		new_weight_list[i] = weight[:,:,:new_weight_list[i].shape[2],:new_weight_list[i].shape[3]]
+
+
+
+  # if(model_name == "DenseNet121" and i>=15 and len(weight_list[i-1].shape) == 4):
+  # 	print("DenseNet", weight.shape[0], weight_list[i-11].shape[0], weight_list[i-1].shape[3])
+
+# for i, weight in enumerate(weight_list): 
   print("Weight info ", i, weight.shape, new_weight_list[i].shape)
   # if(i <= 54): 65% for 75%
   # if(i >= 36): 64% for 75%
@@ -265,46 +292,32 @@ for i, weight in enumerate(weight_list[:-1*num_weights_to_ignore]):
   #   continue
   # else:
   #   scale = 1.0
-  scale = 4.0/num_filter
-  if(len(weight.shape)==4):
-    if(model_name != "SqueezeNet"):
-      new_weight_list[i] = scale*weight[:,:,:new_weight_list[i].shape[2],:new_weight_list[i].shape[3]]
-      # if(len(weight.shape) == 4):
-      #     for j in range(weight.shape[3]):
-      #       print("Before ", LA.norm(weight[:,:,:,j]))
-      #       weight[:,:,:,j] = weight[:,:,:,j]/LA.norm(weight[:,:,:,j])
-      #       print("After ", LA.norm(weight[:,:,:,j]))
 
-      # if(i==8):
-      #   new_weight_list[i] *= 1.5
-      # for j in range(new_weight_list[i].shape[3]):
-      #   new_weight_list[i] *= (np.sum(weight[:,:,:,j]) / np.sum(new_weight_list[i][:,:,:,j]))
-      #   # print(np.sum(new_weight_list[i][:,:,:,j]), np.sum(weight[:,:,:,j]))
-    else:
-      if(i in [4,7,10,13,16,19,22,25,28]):
-        new_shape = new_weight_list[i].shape
-        old_shape = weight.shape
-        off_2 = int(new_shape[2]/2)
-        # off_3 = int(new_shape[3]/2)
-        off_old_2 = int(old_shape[2]/2)
-        # off_old_3 = int(old_shape[3]/2)
-        off_new_old_2 = int((old_shape[2]+new_shape[2])/2)
-        # off_new_old_3 = int((old_shape[3]+new_shape[3])/2)
-        print("Offsets 2 ", off_2, off_old_2, off_new_old_2, scale)
-        # print("Offsets 3 ", off_3, off_old_3, off_new_old_3)
-        new_weight_list[i][:,:,:off_2,:] = scale*weight[:,:,:off_2,:new_shape[3]]
-        new_weight_list[i][:,:,off_2:,:] = \
-          scale*weight[:,:,off_old_2:off_new_old_2,:new_shape[3]]
-        if(len(weight.shape) == 4):
-          for j in range(weight.shape[3]):
-            # print("Before ", LA.norm(weight[:,:,:,j]))
-            weight[:,:,:,j] = weight[:,:,:,j]/LA.norm(weight[:,:,:,j])
-            # print("After ", LA.norm(weight[:,:,:,j]))
-      else:
-        # new_weight_list[i] = scale*weight[:,:,-new_weight_list[i].shape[2]:,-new_weight_list[i].shape[3]:]
-        new_weight_list[i] = scale*weight[:,:,:new_weight_list[i].shape[2],:new_weight_list[i].shape[3]]
-        # scale = np.sum(np.absolute(weight)) / np.sum(np.absolute(new_weight_list[i]))
-        # new_weight_list[i] *= scale
+
+  # scale = 1.0
+  # if(len(weight.shape)==4):
+  #   if(model_name != "SqueezeNet"):
+  #     new_weight_list[i] = scale*weight[:,:,:new_weight_list[i].shape[2],:new_weight_list[i].shape[3]]
+  #   else:
+  #     if(i in [4,7,10,13,16,19,22]):
+  #       new_shape = new_weight_list[i].shape
+  #       old_shape = weight.shape
+  #       off_2 = int(new_shape[2]/2)
+  #       # off_3 = int(new_shape[3]/2)
+  #       off_old_2 = int(old_shape[2]/2)
+  #       # off_old_3 = int(old_shape[3]/2)
+  #       off_new_old_2 = int((old_shape[2]+new_shape[2])/2)
+  #       # off_new_old_3 = int((old_shape[3]+new_shape[3])/2)
+  #       print("Offsets 2 ", off_2, off_old_2, off_new_old_2)
+  #       # print("Offsets 3 ", off_3, off_old_3, off_new_old_3)
+  #       new_weight_list[i][:,:,:off_2,:] = scale*weight[:,:,:off_2,:new_shape[3]]
+  #       new_weight_list[i][:,:,off_2:,:] = \
+  #         scale*weight[:,:,off_old_2:off_new_old_2,:new_shape[3]]
+  #     else:
+  #       # new_weight_list[i] = scale*weight[:,:,-new_weight_list[i].shape[2]:,-new_weight_list[i].shape[3]:]
+  #       new_weight_list[i] = scale*weight[:,:,:new_weight_list[i].shape[2],:new_weight_list[i].shape[3]]
+  #       # scale = np.sum(np.absolute(weight)) / np.sum(np.absolute(new_weight_list[i]))
+  #       # new_weight_list[i] *= scale
 
 
   if(len(weight.shape)==1):
@@ -315,6 +328,13 @@ for i, weight in enumerate(weight_list[:-1*num_weights_to_ignore]):
     new_weight_list[i] = scale*weight[:new_weight_list[i].shape[0], :new_weight_list[i].shape[1]]
   # print("The before sum ", np.sum(new_weight_list[i]), np.sum(weight),
   #     np.sum(np.absolute(new_weight_list[i])), np.sum(np.absolute(weight)))
+
+
+
+
+
+
+
 
   # scale = np.sum(np.absolute(weight)) / np.sum(np.absolute(new_weight_list[i]))
   # new_weight_list[i] *= scale
@@ -347,7 +367,7 @@ optimizers = keras.optimizers.rmsprop(lr=0.0001, decay=1e-6)
 parallel_model.compile(loss='categorical_crossentropy', \
   optimizer=optimizers, metrics=['accuracy'])
 
-parallel_model.summary()
+# parallel_model.summary()
 
 if not data_augmentation:
   print('Not using data augmentation.')

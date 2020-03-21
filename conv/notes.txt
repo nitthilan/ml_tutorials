@@ -48,3 +48,5 @@ BatchNormalisation:
 - Artificial General Intelligence: https://agi.mit.edu/?wppb_cpm_redirect=yes
 - file:///Users/kannappanjayakodinitthilan/Downloads/lecture_2018_01_22.pdf
 - Pathnets: https://arxiv.org/pdf/1701.08734.pdf
+
+- http://ufldl.stanford.edu/housenumbers/ - housenumbers

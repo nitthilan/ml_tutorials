@@ -1,14 +1,18 @@
 from keras.applications import resnet50
 from keras.applications import mobilenetv2
-# from keras.applications import mobilenet
+from keras.applications import mobilenet
 from keras.applications import vgg19
 
 # from keras_squeezenet import SqueezeNet
-import SqueezeNet as sqn
-import get_vgg16_cifar10 as gvc
-import gen_conv_net as gcn
-import MobileNet as mobilenet
-import MobileNet_for_mobile as mobilenet_for_mobile
+import conv.networks.get_vgg16_cifar10 as gvc
+import conv.networks.gen_conv_net as gcn
+# import conv.networks.MobileNet as mobilenet
+import conv.networks.MobileNet_for_mobile as mobilenet_for_mobile
+import conv.networks.VGG19_for_mobile as vgg19_for_mobile
+
+import conv.networks.SqueezeNet as sqn
+import conv.networks.DenseNet as dn
+import conv.networks.ResNet50 as rn50
 
 
 from keras_applications.imagenet_utils import decode_predictions
@@ -39,9 +43,9 @@ import time
 # SqueezeNet: https://github.com/rcmalli/keras-squeezenet/blob/master/examples/example_keras_squeezenet.ipynb
 # https://keras.io/applications/
 
-def get_all_nets(network_name, include_top=True):
+def get_all_nets(network_name, include_top=True, num_filter=4):
 	if(network_name=="ResNet50"):
-		model = resnet50.ResNet50(weights='imagenet',
+		model = resnet50.ResNet101(weights='imagenet',
 			include_top=include_top, input_shape=(224, 224, 3))
 		# if(include_top==False):
 		# 	model.pop()
@@ -50,13 +54,22 @@ def get_all_nets(network_name, include_top=True):
 			include_top=include_top, input_shape=(224, 224, 3))
 	elif(network_name=="MobileNet"):
 		model = mobilenet.MobileNet(weights='imagenet',
-			include_top=include_top, input_shape=(224, 224, 3))
+			include_top=include_top,# pooling='avg', 
+			input_shape=(224, 224, 3))
+	elif(network_name=="MobileNet_for_mobile"):
+		model = mobilenet_for_mobile.MobileNet(
+			include_top=include_top, weights='imagenet',
+			input_shape=(224, 224, 3), num_filter=num_filter)
 	elif(network_name=="VGG19"):
 		model = vgg19.VGG19(weights='imagenet',
-			include_top=include_top)
+			include_top=include_top, input_shape=(224, 224, 3))
+	elif(network_name=="VGG19_for_mobile"):
+		model = vgg19_for_mobile.VGG19(
+			include_top=include_top, weights='imagenet',
+			input_shape=(224, 224, 3), num_filter=num_filter)
 	elif(network_name=="SqueezeNet"):
 		model = SqueezeNet(weights='imagenet',
-		include_top=include_top)
+		include_top=include_top, input_shape=(224, 224, 3))
 		# if(include_top==False):
 		# 	model.pop()
 		# 	model.pop()
@@ -73,12 +86,15 @@ def get_all_nets(network_name, include_top=True):
 	return model
 
 def get_nets_wo_weights(network_name, num_classes, include_top=False,
-	input_shape=(32, 32, 3), num_filter=1, use_bias=False):
+	input_shape=(32, 32, 3), num_filter=4, use_bias=False):
 	if(network_name=="ResNet50"):
-		model = resnet50.ResNet50(include_top=include_top, 
-			input_shape=input_shape, weights=None)
-		# if(include_top==False):
-		# 	model.pop()
+		model = rn50.ResNet50(include_top=include_top, 
+			input_shape=input_shape, weights=None,
+			classes=num_classes,  num_vert_filters=num_filter)
+	elif(network_name=="DenseNet121"):
+		model = dn.DenseNet121(include_top=include_top, 
+			input_shape=input_shape, weights=None,
+			classes=num_classes, num_filter=num_filter)
 	elif(network_name=="MobileNetV2"):
 		model = mobilenetv2.MobileNetV2(include_top=include_top, 
 			input_shape=input_shape, weights=None,
@@ -134,6 +150,58 @@ def get_nets_wo_weights(network_name, num_classes, include_top=False,
 
 
 
+def get_box_nets(network_name, num_classes, include_top=False,
+	input_shape=(32, 32, 3), num_filter=4, num_layer=4, use_bias=False):
+	if(network_name=="ResNet50"):
+		model = resnet50.ResNet50(include_top=include_top, 
+			input_shape=input_shape, weights=None)
+		# if(include_top==False):
+		# 	model.pop()
+	elif(network_name=="DenseNet121"):
+		model = dn.DenseNet121(include_top=include_top, 
+			input_shape=input_shape, weights=None,
+			classes=num_classes, num_filter=num_filter,
+			num_layer=num_layer)
+	elif(network_name=="MobileNetV2"):
+		model = mobilenetv2.MobileNetV2(include_top=include_top, 
+			input_shape=input_shape, weights=None,
+			classes=num_classes)
+	elif(network_name=="MobileNet"):
+		model = mobilenet.MobileNet(
+			include_top=include_top, input_shape=input_shape, weights=None,
+			classes=num_classes, num_filter=num_filter, num_layers=num_layer)
+	elif(network_name=="MobileNet_for_mobile"):
+		model = mobilenet_for_mobile.MobileNet(
+			include_top=include_top, input_shape=input_shape, weights=None,
+			classes=num_classes, num_filter=num_filter)
+	elif(network_name=="VGG19"):
+		model = vgg19.VGG19(input_shape=input_shape,
+			include_top=include_top, weights=None,
+			classes=num_classes)
+	elif(network_name=="SqueezeNet"):
+		model = sqn.SqueezeNet(input_shape=input_shape,
+			include_top=include_top, weights=None, num_filter=num_filter, 
+			use_bias=use_bias, classes=num_classes,
+			num_layers=num_layer)
+	elif(network_name=="vgg"):
+		model = gvc.get_conv_vert_net(x_shape=input_shape, 
+			num_classes=num_classes, num_vert_filters=num_filter,
+    		use_bias=use_bias)
+	elif(network_name=="conv"):
+		model = gcn.get_conv_vert_net(input_shape=input_shape, 
+			num_classes=num_classes, 
+			num_extra_conv_layers=num_layers, num_ver_filter=num_filter, 
+			use_bias=use_bias)
+
+	opt = optimizers.rmsprop(lr=0.0001, decay=1e-6)
+
+	# Let's train the model using RMSprop
+	model.compile(loss='categorical_crossentropy',
+	      optimizer=opt,
+	      metrics=['accuracy'])
+	return model
+
+
 def preprocess_image(network_name, x):
 	if(network_name=="ResNet50"):
 		x = resnet50.preprocess_input(x)
@@ -145,6 +213,19 @@ def preprocess_image(network_name, x):
 		x = vgg19.preprocess_input(x)
 	elif(network_name=="SqueezeNet"):
 		x = imagenet_utils.preprocess_input(x)
+	return x
+
+def preprocess_image_fn(network_name):
+	if(network_name=="ResNet50"):
+		x = resnet50.preprocess_input
+	elif(network_name=="MobileNetV2"):
+		x = mobilenetv2.preprocess_input
+	elif(network_name=="MobileNet"):
+		x = mobilenet.preprocess_input
+	elif(network_name=="VGG19"):
+		x = vgg19.preprocess_input
+	elif(network_name=="SqueezeNet"):
+		x = imagenet_utils.preprocess_input
 	return x
 
 def decodepred(network_name, preds):

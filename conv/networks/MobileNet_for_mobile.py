@@ -53,6 +53,7 @@ from keras_applications import get_submodules_from_kwargs
 from keras_applications import imagenet_utils
 from keras_applications.imagenet_utils import decode_predictions
 from keras_applications.imagenet_utils import _obtain_input_shape
+import keras.utils as keras_utils
 
 
 # https://github.com/tensorflow/tensorflow/issues/20042 
@@ -255,7 +256,7 @@ def MobileNet(input_shape=None,
     x = _depthwise_conv_block(x, N4, alpha, depth_multiplier, block_id=5)
 
     x = _depthwise_conv_block(x, N5, alpha, depth_multiplier,
-                              strides=(2, 2), block_id=6)
+                              strides=(2, 2), block_id=6) 
     x = _depthwise_conv_block(x, N5, alpha, depth_multiplier, block_id=7)
     x = _depthwise_conv_block(x, N5, alpha, depth_multiplier, block_id=8)
     x = _depthwise_conv_block(x, N5, alpha, depth_multiplier, block_id=9)
@@ -275,6 +276,14 @@ def MobileNet(input_shape=None,
         x = layers.GlobalAveragePooling2D()(x)
         x = layers.Reshape(shape, name='reshape_1')(x)
         x = layers.Dropout(dropout, name='dropout')(x)
+        if weights == 'imagenet':
+            x = layers.Conv2D(1000, (1, 1),
+                              padding='same',
+                              name='conv_preds_1')(x)
+        else:
+            x = layers.Conv2D(100, (1, 1),
+                              padding='same',
+                              name='conv_preds_1')(x)
         x = layers.Conv2D(classes, (1, 1),
                           padding='same',
                           name='conv_preds')(x)
@@ -323,7 +332,7 @@ def MobileNet(input_shape=None,
             weights_path = keras_utils.get_file(model_name,
                                                 weight_path,
                                                 cache_subdir='models')
-        model.load_weights(weights_path)
+        # model.load_weights(weights_path)
     elif weights is not None:
         model.load_weights(weights)
 
@@ -389,7 +398,7 @@ def _conv_block(inputs, filters, alpha, kernel=(3, 3), strides=(1, 1)):
 
     return layers.Activation('relu', name='conv1_relu')(x)
     # return layers.ReLU(6., name='conv1_relu')(x)
-
+ 
 
 def _depthwise_conv_block(inputs, pointwise_conv_filters, alpha,
                           depth_multiplier=1, strides=(1, 1), block_id=1):

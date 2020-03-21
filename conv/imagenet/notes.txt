@@ -1,0 +1,19 @@
+https://medium.com/@vijayabhaskar96/tutorial-on-keras-imagedatagenerator-with-flow-from-dataframe-8bd5776e45c1
+https://keras.io/preprocessing/image/
+
+
+Task list Jana:
+- Reading about various implementation details of ImageNet experiments?
+       - checking out code base of open source implementations.
+- How to reduce the file reads while doing ImageNet experiment?
+- What parameters in a neural network would control the speed up of ImageNet experiments?
+- Run the current architecture to check how long it takes to learn?
+- MultiGPU run of ImageNet to parallelize learning? 
+
+List of things to do:
+- Do image resizer and store the resized images
+- Pass the resized images and store the output from the network
+- from keras.utils import multi_gpu_model
+	- https://datascience.stackexchange.com/questions/23895/multi-gpu-in-keras/25737#25737
+	- https://keras.io/getting-started/faq/#how-can-i-run-keras-on-gpu
+
